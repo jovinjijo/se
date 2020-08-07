@@ -164,13 +164,7 @@ export class Order implements IOrder {
      * @param sell Sell order
      */
     static settlementPossible(buy: Order, sell: Order): boolean {
-        const buyLimitPrice = buy.getPrice();
-        const sellLimitPrice = sell.getPrice();
-        const settlementQuantity = Math.min(buy.getQuantityToSettle(), sell.getQuantityToSettle());
-        if (
-            buy.getAmountSettled() + settlementQuantity * sellLimitPrice <= buyLimitPrice * buy.getQuantity() &&
-            sell.getAmountSettled() + settlementQuantity * buyLimitPrice <= sellLimitPrice * sell.getQuantity()
-        ) {
+        if (buy.getAmountSettled() + buy.getQuantityToSettle() * sell.getPrice() <= buy.getPrice() * buy.getQuantity()) {
             return true;
         }
         return false;
