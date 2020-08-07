@@ -61,8 +61,8 @@ export class User implements IUser {
 
     /**
      * When an order is updated(fully/partially filled), update Holdings, Wallet and User's OrderStore.
-     * //call confirmorder so that the user can see that order has been updated in their orderstore.
-     * //for settled order, update user's wallet and holding.
+     * Call confirmorder so that the user can see that order has been updated in their orderstore.
+     * Update user's wallet and holding.
      * @param order Order which has been updated.
      */
     notifyOrderUpdate(order: Order): void {
