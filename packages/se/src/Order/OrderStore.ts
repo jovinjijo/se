@@ -1,5 +1,5 @@
 import { Order, OrderType, OrderStatus } from "./Order";
-import { OperationResponse } from "../util/Datatypes";
+import { OperationResponse, Stock, Quantity } from "../util/Datatypes";
 
 export interface OrderStoreResponse extends OperationResponse {
     order?: Order;
@@ -59,5 +59,9 @@ export class OrderStore implements IOrderStore {
         } else {
             this.placedSellOrders.push(order);
         }
+    }
+
+    getSellOrdersQuantityToSettle(stock: Stock): Quantity {
+        return this.placedSellOrders.filter((item) => item.getSymbol() === stock).reduce((acc, item) => acc + item.getQuantityToSettle(), 0);
     }
 }

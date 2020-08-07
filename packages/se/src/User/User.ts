@@ -47,7 +47,7 @@ export class User implements IUser {
         } else {
             // For Sell Orders
             const currentHolding = this.holdings.getHolding(symbol);
-            if (currentHolding && currentHolding >= quantity) {
+            if (currentHolding && currentHolding >= quantity + this.orders.getSellOrdersQuantityToSettle(symbol)) {
                 return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
             } else {
                 return { status: OperationResponseStatus.Error, messages: [{ message: "Not enough holdings to do this operation." }] };
@@ -69,14 +69,17 @@ export class User implements IUser {
         if (order.user !== this) {
             throw new Error("Order is not placed by this user.");
         }
+        const orderType = order.getOrderType();
         if (order.getStatus() === OrderStatus.Confirmed) {
             this.orders.confirmOrder(order);
+            if (orderType === OrderType.Buy) {
+                this.wallet.updateMargin(order.getQuantity() * order.getPrice() - order.getAmountSettled());
+            }
         }
         const settlement = order.getLatestSettlement();
-        if (order.getOrderType() === OrderType.Buy) {
+        if (orderType === OrderType.Buy) {
             this.holdings.addHolding({ stock: order.getSymbol(), quantity: settlement.quantity });
-            this.wallet.updateMargin(-settlement.quantity * settlement.price);
-        } else if (order.getOrderType() === OrderType.Sell) {
+        } else if (orderType === OrderType.Sell) {
             this.holdings.releaseHolding({ stock: order.getSymbol(), quantity: settlement.quantity });
             this.wallet.updateMargin(settlement.quantity * settlement.price);
         }
@@ -84,5 +87,8 @@ export class User implements IUser {
 
     notifyOrderAdd(order: Order): void {
         this.orders.addOrder(order);
+        if (order.getOrderType() === OrderType.Buy) {
+            this.wallet.updateMargin(-order.getQuantity() * order.getPrice());
+        }
     }
 }
