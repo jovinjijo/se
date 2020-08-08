@@ -85,13 +85,17 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
          * Atleast one order would get fully settled.
          * Which order gets fully settled, depends on the quantity left to be filled for each order.
          * Once an order is fully settled, call confirmOrder for the settled order so that the buffers are updated.
+         * Also, there might be a possibility that the other order could be filled with another order in the queue.
+         * So call findMatchingOrdersAndSettle on the other order.
          */
         if (buyQuantity > sellQuantity) {
             sell.settleWithOrder(buy);
             this.confirmOrder(sell);
+            this.findMatchingOrdersAndSettle(buy);
         } else if (sellQuantity > buyQuantity) {
             buy.settleWithOrder(sell);
             this.confirmOrder(buy);
+            this.findMatchingOrdersAndSettle(sell);
         } else {
             //If the quantities are the same, both orders will get settled.
             buy.settleWithOrder(sell);

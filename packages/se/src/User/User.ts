@@ -39,7 +39,7 @@ export class User implements IUser {
     placeOrder(symbol: Stock, type: OrderType, quantity: Quantity, price: Amount): OrderStoreResponse {
         if (type === OrderType.Buy) {
             // For Buy Orders
-            if (this.wallet.getMargin() > price * quantity) {
+            if (this.wallet.getMargin() >= price * quantity) {
                 return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
             } else {
                 return { status: OperationResponseStatus.Error, messages: [{ message: "Not enough margin to do this operation." }] };
