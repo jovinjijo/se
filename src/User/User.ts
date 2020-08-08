@@ -85,6 +85,10 @@ export class User implements IUser {
         }
     }
 
+    /**
+     * When an order is added to the queue, this function is called.
+     * @param order Order which is added.
+     */
     notifyOrderAdd(order: Order): void {
         this.orders.addOrder(order);
         if (order.getOrderType() === OrderType.Buy) {
