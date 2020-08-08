@@ -91,11 +91,9 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
         if (buyQuantity > sellQuantity) {
             sell.settleWithOrder(buy);
             this.confirmOrder(sell);
-            this.findMatchingOrdersAndSettle(buy);
         } else if (sellQuantity > buyQuantity) {
             buy.settleWithOrder(sell);
             this.confirmOrder(buy);
-            this.findMatchingOrdersAndSettle(sell);
         } else {
             //If the quantities are the same, both orders will get settled.
             buy.settleWithOrder(sell);
@@ -103,5 +101,11 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
             this.confirmOrder(sell);
         }
         this.lastTradePrice = sell.getLatestSettlement().price;
+
+        if (buyQuantity > sellQuantity) {
+            this.findMatchingOrdersAndSettle(buy);
+        } else if (sellQuantity > buyQuantity) {
+            this.findMatchingOrdersAndSettle(sell);
+        }
     }
 }
