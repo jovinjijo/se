@@ -1,6 +1,7 @@
 {
   "name": "se",
   "version": "1.0.0",
+  "description": "ACME Stock Exchange",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
@@ -8,18 +9,15 @@
     "@commitlint/config-conventional": "^9.1.1",
     "cross-env": "^7.0.2",
     "husky": "^4.2.5",
-    "lerna": "^3.22.1",
-    "lint-staged": "^10.2.11"
+    "lerna": "^3.22.1"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "private": true,
   "scripts": {
-    "bootstrap": "yarn install",
+    "install": "lerna bootstrap",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream",
     "start": "lerna run start --stream",
+    "test": "lerna run test --stream",
     "release": "cross-env HUSKY_BYPASS=true lerna publish"
   },
   "husky": {
@@ -32,5 +30,13 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "keywords": [
+    "stockexchange",
+    "stocks",
+    "equity",
+    "sharemarket",
+    "stockmarket"
+  ],
+  "author": "Jovin Jijo (jovin96@gmail.com)"
 }
