@@ -1,8 +1,8 @@
-import { OrderStoreResponse } from "../Order/OrderStore";
-import { Stock, OperationResponse, ID, OperationResponseStatus, Quantity, Amount } from "../util/Datatypes";
-import { OrderType } from "../Order/Order";
-import { User } from "../User/User";
-import { StockOrderStore } from "../Order/StockOrderStore";
+import { OrderStoreResponse } from '../Order/OrderStore';
+import { Stock, OperationResponse, ID, OperationResponseStatus, Quantity, Amount } from '../util/Datatypes';
+import { OrderType } from '../Order/Order';
+import { User } from '../User/User';
+import { StockOrderStore } from '../Order/StockOrderStore';
 
 export interface MarketResponse extends OperationResponse {
     orderStore: StockOrderStore;
@@ -35,7 +35,7 @@ export class Market {
             return {
                 orderStore: orderStore,
                 status: OperationResponseStatus.Error,
-                messages: [{ message: "OrderStore already exists for stock." }],
+                messages: [{ message: 'OrderStore already exists for stock.' }],
             };
         } else {
             const orderStore = new StockOrderStore();
@@ -63,9 +63,19 @@ export class Market {
         const orderStore = this.getOrderStoreForStock(symbol);
         return orderStore
             ? {
-                  order: orderStore.createOrder({ id: this.nextOrderId++, price: price, quantity: quantity, type: type, user: user, symbol: symbol }),
+                  order: orderStore.createOrder({
+                      id: this.nextOrderId++,
+                      price: price,
+                      quantity: quantity,
+                      type: type,
+                      user: user,
+                      symbol: symbol,
+                  }),
                   status: OperationResponseStatus.Success,
               }
-            : { status: OperationResponseStatus.Error, messages: [{ message: "Order Store for Symbol doesn't exist" }] };
+            : {
+                  status: OperationResponseStatus.Error,
+                  messages: [{ message: "Order Store for Symbol doesn't exist" }],
+              };
     }
 }

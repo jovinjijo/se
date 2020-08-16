@@ -1,9 +1,9 @@
-import { ID, Amount, Stock, Quantity, OperationResponseStatus } from "../util/Datatypes";
-import { Wallet } from "./Wallet";
-import { HoldingItem, Holding } from "./Holding/Holding";
-import { OrderType, Order, OrderStatus } from "../Order/Order";
-import { Market } from "../Market/Market";
-import { OrderStoreResponse, OrderStore } from "../Order/OrderStore";
+import { ID, Amount, Stock, Quantity, OperationResponseStatus } from '../util/Datatypes';
+import { Wallet } from './Wallet';
+import { HoldingItem, Holding } from './Holding/Holding';
+import { OrderType, Order, OrderStatus } from '../Order/Order';
+import { Market } from '../Market/Market';
+import { OrderStoreResponse, OrderStore } from '../Order/OrderStore';
 
 export interface IUser {
     id: ID;
@@ -42,7 +42,10 @@ export class User implements IUser {
             if (this.wallet.getMargin() >= price * quantity) {
                 return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
             } else {
-                return { status: OperationResponseStatus.Error, messages: [{ message: "Not enough margin to do this operation." }] };
+                return {
+                    status: OperationResponseStatus.Error,
+                    messages: [{ message: 'Not enough margin to do this operation.' }],
+                };
             }
         } else {
             // For Sell Orders
@@ -50,7 +53,10 @@ export class User implements IUser {
             if (currentHolding && currentHolding >= quantity + this.orders.getSellOrdersQuantityToSettle(symbol)) {
                 return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
             } else {
-                return { status: OperationResponseStatus.Error, messages: [{ message: "Not enough holdings to do this operation." }] };
+                return {
+                    status: OperationResponseStatus.Error,
+                    messages: [{ message: 'Not enough holdings to do this operation.' }],
+                };
             }
         }
     }
@@ -67,7 +73,7 @@ export class User implements IUser {
      */
     notifyOrderUpdate(order: Order): void {
         if (order.user !== this) {
-            throw new Error("Order is not placed by this user.");
+            throw new Error('Order is not placed by this user.');
         }
         const orderType = order.getOrderType();
         if (order.getStatus() === OrderStatus.Confirmed) {

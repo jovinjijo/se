@@ -1,5 +1,5 @@
-import { Order, OrderType, OrderStatus } from "./Order";
-import { OperationResponse, Stock, Quantity } from "../util/Datatypes";
+import { Order, OrderType, OrderStatus } from './Order';
+import { OperationResponse, Stock, Quantity } from '../util/Datatypes';
 
 export interface OrderStoreResponse extends OperationResponse {
     order?: Order;
@@ -31,7 +31,7 @@ export class OrderStore implements IOrderStore {
             throw new Error("Order doesn't exist in the store");
         }
         if (this.confirmedOrders.includes(order)) {
-            throw new Error("Order is already confirmed.");
+            throw new Error('Order is already confirmed.');
         }
         let index: number;
         if (order.getOrderType() === OrderType.Buy && (index = this.placedBuyOrders.indexOf(order)) !== -1) {
@@ -40,7 +40,7 @@ export class OrderStore implements IOrderStore {
         } else if (order.getOrderType() === OrderType.Sell && (index = this.placedSellOrders.indexOf(order)) !== -1) {
             this.placedSellOrders.splice(index, 1);
             this.confirmedOrders.push(order);
-        } else throw new Error("Order not found in corresponding buffer.");
+        } else throw new Error('Order not found in corresponding buffer.');
     }
 
     /**
@@ -48,8 +48,12 @@ export class OrderStore implements IOrderStore {
      * @param order Order to be added
      */
     addOrder(order: Order): void {
-        if (this.placedBuyOrders.includes(order) || this.placedSellOrders.includes(order) || this.confirmedOrders.includes(order)) {
-            throw new Error("Order already exists in store");
+        if (
+            this.placedBuyOrders.includes(order) ||
+            this.placedSellOrders.includes(order) ||
+            this.confirmedOrders.includes(order)
+        ) {
+            throw new Error('Order already exists in store');
         }
         if (order.status === OrderStatus.Confirmed) {
             // For confirmed orders, move to confirmedOrders buffer.
@@ -62,6 +66,8 @@ export class OrderStore implements IOrderStore {
     }
 
     getSellOrdersQuantityToSettle(stock: Stock): Quantity {
-        return this.placedSellOrders.filter((item) => item.getSymbol() === stock).reduce((acc, item) => acc + item.getQuantityToSettle(), 0);
+        return this.placedSellOrders
+            .filter((item) => item.getSymbol() === stock)
+            .reduce((acc, item) => acc + item.getQuantityToSettle(), 0);
     }
 }

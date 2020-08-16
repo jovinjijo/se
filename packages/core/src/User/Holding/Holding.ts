@@ -1,4 +1,4 @@
-import { Stock, Quantity } from "../../util/Datatypes";
+import { Stock, Quantity } from '../../util/Datatypes';
 
 export interface HoldingItem {
     stock: Stock;
@@ -45,7 +45,9 @@ export class Holding {
         }
         const currentQuantity: Quantity = this.holdings.get(item.stock) || 0;
         if (currentQuantity < item.quantity) {
-            throw new Error("For the given stock, holdings not available or available holdings less than the quantity requested to be released.");
+            throw new Error(
+                'For the given stock, holdings not available or available holdings less than the quantity requested to be released.',
+            );
         }
         this.holdings.set(item.stock, currentQuantity - item.quantity);
     }

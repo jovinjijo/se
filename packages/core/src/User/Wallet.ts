@@ -1,4 +1,4 @@
-import { Amount } from "../util/Datatypes";
+import { Amount } from '../util/Datatypes';
 
 export class Wallet {
     margin: Amount;
@@ -13,7 +13,7 @@ export class Wallet {
 
     updateMargin(delta: Amount): Amount {
         if (this.margin + delta < 0) {
-            throw new Error("Not enough margin to do this operation.");
+            throw new Error('Not enough margin to do this operation.');
         } else {
             return (this.margin = this.margin + delta);
         }

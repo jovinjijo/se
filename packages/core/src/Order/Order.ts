@@ -1,14 +1,14 @@
-import { Quantity, ID, Amount, Stock } from "../util/Datatypes";
-import { User } from "../User/User";
+import { Quantity, ID, Amount, Stock } from '../util/Datatypes';
+import { User } from '../User/User';
 
 export enum OrderType {
-    "Buy",
-    "Sell",
+    'Buy',
+    'Sell',
 }
 
 export enum OrderStatus {
-    "Placed",
-    "Confirmed",
+    'Placed',
+    'Confirmed',
 }
 
 export interface IOrder {
@@ -53,7 +53,7 @@ export class Order implements IOrder {
             throw new Error("Quantity can't be less than 1.");
         }
         if (price <= 0) {
-            throw new Error("Price should be more than 0.");
+            throw new Error('Price should be more than 0.');
         }
         this.id = id;
         this.quantity = quantity;
@@ -115,7 +115,7 @@ export class Order implements IOrder {
     getLatestSettlement(): SettlementDetails {
         const settledBy = this.settledBy;
         if (settledBy.length === 0) {
-            throw new Error("No settlement deetails available");
+            throw new Error('No settlement deetails available');
         }
         return settledBy[settledBy.length - 1];
     }
@@ -124,7 +124,9 @@ export class Order implements IOrder {
      * Settled time of a confirmed order would be the time of the last order in the settledBy array.
      */
     getSettledTime(): Date | undefined {
-        return this.settledBy.length > 0 && this.status === OrderStatus.Confirmed ? this.settledBy[this.settledBy.length - 1].time : undefined;
+        return this.settledBy.length > 0 && this.status === OrderStatus.Confirmed
+            ? this.settledBy[this.settledBy.length - 1].time
+            : undefined;
     }
 
     /**
@@ -164,7 +166,10 @@ export class Order implements IOrder {
      * @param sell Sell order
      */
     static settlementPossible(buy: Order, sell: Order): boolean {
-        if (buy.getAmountSettled() + buy.getQuantityToSettle() * sell.getPrice() <= buy.getPrice() * buy.getQuantity()) {
+        if (
+            buy.getAmountSettled() + buy.getQuantityToSettle() * sell.getPrice() <=
+            buy.getPrice() * buy.getQuantity()
+        ) {
             return true;
         }
         return false;
@@ -210,6 +215,6 @@ export class Order implements IOrder {
                 order.setStatus(OrderStatus.Confirmed);
             }
             order.user.notifyOrderUpdate(order);
-        } else throw new Error("Preconditions not met to settle order.");
+        } else throw new Error('Preconditions not met to settle order.');
     }
 }

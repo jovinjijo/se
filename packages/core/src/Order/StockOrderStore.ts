@@ -1,6 +1,6 @@
-import { Order, OrderType, OrderStatus, IOrder } from "./Order";
-import { Amount, SortOrder } from "../util/Datatypes";
-import { OrderStore, IOrderStore } from "./OrderStore";
+import { Order, OrderType, OrderStatus, IOrder } from './Order';
+import { Amount, SortOrder } from '../util/Datatypes';
+import { OrderStore, IOrderStore } from './OrderStore';
 
 export interface IStockOrderStore extends IOrderStore {
     lastTradePrice: Amount;
@@ -33,13 +33,21 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
     private findMatchingOrdersAndSettle(order: Order): void {
         if (order.getOrderType() === OrderType.Buy) {
             //Find matching Sell orders
-            while (this.placedSellOrders[0] && Order.settlementPossible(order, this.placedSellOrders[0]) && order.getStatus() !== OrderStatus.Confirmed) {
+            while (
+                this.placedSellOrders[0] &&
+                Order.settlementPossible(order, this.placedSellOrders[0]) &&
+                order.getStatus() !== OrderStatus.Confirmed
+            ) {
                 //Repeat as long as the Sell order buffer has an order which can be settled with the current Buy order.
                 this.settleOrders(order, this.placedSellOrders[0]);
             }
         } else {
             //Find matching Buy orders
-            while (this.placedBuyOrders[0] && Order.settlementPossible(this.placedBuyOrders[0], order) && order.getStatus() !== OrderStatus.Confirmed) {
+            while (
+                this.placedBuyOrders[0] &&
+                Order.settlementPossible(this.placedBuyOrders[0], order) &&
+                order.getStatus() !== OrderStatus.Confirmed
+            ) {
                 //Repeat as long as the Buy order buffer has an order which can be settled with the current Sell order.
                 this.settleOrders(this.placedBuyOrders[0], order);
             }

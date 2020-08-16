@@ -2,14 +2,14 @@
  * Hardcoded list of symbols
  */
 export enum Stock {
-    "RIL",
-    "TSLA",
-    "AMZN",
+    'RIL',
+    'TSLA',
+    'AMZN',
 }
 
 export enum OperationResponseStatus {
-    "Success",
-    "Error",
+    'Success',
+    'Error',
 }
 
 export interface Message {
@@ -22,8 +22,8 @@ export interface OperationResponse {
 }
 
 export enum SortOrder {
-    "Ascending",
-    "Descending",
+    'Ascending',
+    'Descending',
 }
 
 export type Quantity = number;
