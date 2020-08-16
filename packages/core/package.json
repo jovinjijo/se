@@ -6,8 +6,9 @@
   "private": true,
   "scripts": {
     "build": "tsc",
+    "tscw": "tsc --watch",
     "test": "jest",
-    "lint": "eslint '*/**/*.{ts}' --fix",
+    "lint": "eslint '**/*.{js,ts}' --fix",
     "precommit": "lint-staged && yarn test"
   },
   "keywords": [

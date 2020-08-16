@@ -1,10 +1,10 @@
 # ACME Stock Exchange
-This is a very dumbed down implementation of how a stock exchange works. I have no financial background, so I'm open to suggestions on logic used, variable/class names. Feel free to point out any mistakes.
+This is a very simplified implementation of how a stock exchange works. I have no financial background, so I'm open to suggestions on logic used, variable/class names. Feel free to point out any mistakes.
 ## Get Started
 ```
-npm install
-npm run build
-npm run test
+yarn install
+yarn run build-watch
+yarn start
 ```
 ## To-do
  - UI

@@ -15,8 +15,10 @@
   "scripts": {
     "install": "lerna bootstrap",
     "build": "lerna run build --stream",
+    "tscw": "lerna run tscw --stream",
     "lint": "lerna run lint --stream",
-    "start": "lerna run start --stream",
+    "start": "lerna run start",
+    "build-watch": "yarn run build && yarn run tscw",
     "test": "lerna run test --stream",
     "release": "cross-env HUSKY_BYPASS=true lerna publish"
   },

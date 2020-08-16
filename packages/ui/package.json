@@ -28,9 +28,9 @@
     "lint-staged": "^10.2.11"
   },
   "scripts": {
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
+    "lint": "eslint '**/*.{js,ts}' --fix",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-prod": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "precommit": "lint-staged && yarn test"
@@ -51,5 +51,6 @@
     "*.{js,ts,tsx}": [
       "eslint --fix"
     ]
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
