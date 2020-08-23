@@ -2,13 +2,13 @@
   "name": "@se/api",
   "version": "1.0.0",
   "description": "Stock Exchange API",
-  "main": "server.js",
+  "main": "build/server.js",
   "private": true,
   "scripts": {
     "build": "tsc",
     "tscw": "tsc --watch",
     "test": "echo 'test not created'",
-	"lint": "eslint '**/*.{js,ts}' --fix",
+    "lint": "eslint '**/*.{js,ts}' --fix",
     "precommit": "lint-staged && yarn test",
     "start": "nodemon build/server.js"
   },
@@ -22,10 +22,12 @@
   "author": "Jovin Jijo (jovin96@gmail.com)",
   "license": "ISC",
   "dependencies": {
+    "@se/core": "^1.0.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "socket.io": "^2.3.0"

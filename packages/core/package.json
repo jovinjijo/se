@@ -2,7 +2,7 @@
   "name": "@se/core",
   "version": "1.0.0",
   "description": "Stock Exchange Core",
-  "main": "index.js",
+  "main": "build/index.js",
   "private": true,
   "scripts": {
     "build": "tsc",
