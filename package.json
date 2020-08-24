@@ -15,7 +15,7 @@
   "scripts": {
     "install": "lerna bootstrap",
     "build": "lerna run build --stream",
-    "tscw": "lerna run tscw --stream",
+    "tscw": "lerna run --parallel tscw",
     "lint": "lerna run lint --stream",
     "start": "lerna run start",
     "build-watch": "yarn run build && yarn run tscw",
