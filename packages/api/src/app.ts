@@ -3,10 +3,13 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import path from 'path';
-import passport from 'passport';
+import methodOverride from 'method-override';
 
 // Controllers (route handlers)
 import routes from './routes';
+
+import { errorHandler } from './middlewares/errorHandler';
+import { fillUserData } from './middlewares/authenticator';
 
 // Create Express server
 const app = express();
@@ -16,16 +19,17 @@ app.set('port', process.env.PORT || 3001);
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
     session({
-        resave: false,
-        saveUninitialized: false,
+        resave: true,
+        saveUninitialized: true,
         secret: process.env['SESSION_SECRET'] || '12345678',
     }),
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// If a user is logged in, fill up req.user with user details
+app.use(fillUserData);
 
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
@@ -40,5 +44,11 @@ if (isProd) {
 }
 
 app.use('/v1/', routes);
+
+/**
+ * Error Handler to respond in JSON
+ */
+app.use(methodOverride());
+app.use(errorHandler);
 
 export default app;

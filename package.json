@@ -14,7 +14,7 @@
   "private": true,
   "scripts": {
     "install": "lerna bootstrap",
-    "build": "lerna run build --stream",
+    "build": "lerna run build --parallel",
     "tscw": "lerna run --parallel tscw",
     "lint": "lerna run lint --stream",
     "start": "lerna run start",
