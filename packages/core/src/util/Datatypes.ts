@@ -2,9 +2,9 @@
  * Hardcoded list of symbols
  */
 export enum Stock {
-    'RIL',
-    'TSLA',
-    'AMZN',
+    'RIL' = 'RIL',
+    'TSLA' = 'TSLA',
+    'AMZN' = 'AMZN',
 }
 
 export enum OperationResponseStatus {

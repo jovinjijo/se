@@ -2,13 +2,13 @@ import { Quantity, ID, Amount, Stock } from '../util/Datatypes';
 import { User } from '../User/User';
 
 export enum OrderType {
-    'Buy',
-    'Sell',
+    'Buy' = 'Buy',
+    'Sell' = 'Sell',
 }
 
 export enum OrderStatus {
-    'Placed',
-    'Confirmed',
+    'Placed' = 'Placed',
+    'Confirmed' = 'Confirmed',
 }
 
 export interface IOrder {
@@ -66,20 +66,6 @@ export class Order implements IOrder {
         this.settledBy = [];
     }
 
-    getOrderDetails(): IOrder {
-        return {
-            id: this.id,
-            price: this.price,
-            quantity: this.quantity,
-            time: this.time,
-            type: this.type,
-            status: this.status,
-            settledBy: this.settledBy,
-            user: this.user,
-            symbol: this.symbol,
-        };
-    }
-
     getTime(): Date {
         return this.time;
     }
@@ -115,7 +101,7 @@ export class Order implements IOrder {
     getLatestSettlement(): SettlementDetails {
         const settledBy = this.settledBy;
         if (settledBy.length === 0) {
-            throw new Error('No settlement deetails available');
+            throw new Error('No settlement details available');
         }
         return settledBy[settledBy.length - 1];
     }
