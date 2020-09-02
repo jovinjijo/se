@@ -4,9 +4,7 @@ import { OrderType } from '../Order/Order';
 import { User } from '../User/User';
 import { StockOrderStore } from '../Order/StockOrderStore';
 
-export interface MarketResponse extends OperationResponse {
-    orderStore: StockOrderStore;
-}
+export type MarketResponse = OperationResponse<StockOrderStore>;
 
 export class Market {
     nextOrderId: ID;
@@ -33,7 +31,6 @@ export class Market {
         const orderStore = this.orderStore.get(stock);
         if (orderStore) {
             return {
-                orderStore: orderStore,
                 status: OperationResponseStatus.Error,
                 messages: [{ message: 'OrderStore already exists for stock.' }],
             };
@@ -41,7 +38,7 @@ export class Market {
             const orderStore = new StockOrderStore();
             this.orderStore.set(stock, orderStore);
             return {
-                orderStore: orderStore,
+                data: orderStore,
                 status: OperationResponseStatus.Success,
             };
         }
@@ -63,7 +60,7 @@ export class Market {
         const orderStore = this.getOrderStoreForStock(symbol);
         return orderStore
             ? {
-                  order: orderStore.createOrder({
+                  data: orderStore.createOrder({
                       id: this.nextOrderId++,
                       price: price,
                       quantity: quantity,

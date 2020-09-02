@@ -1,9 +1,7 @@
 import { Order, OrderType, OrderStatus } from './Order';
 import { OperationResponse, Stock, Quantity } from '../util/Datatypes';
 
-export interface OrderStoreResponse extends OperationResponse {
-    order?: Order;
-}
+export type OrderStoreResponse = OperationResponse<Order>;
 
 export interface IOrderStore {
     placedBuyOrders: Order[];

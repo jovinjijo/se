@@ -16,10 +16,18 @@ export interface Message {
     message: string;
 }
 
-export interface OperationResponse {
-    status: OperationResponseStatus;
+interface OperationSuccessResponse<T> {
+    status: OperationResponseStatus.Success;
     messages?: Message[];
+    data: T;
 }
+
+interface OperationErrorResponse {
+    status: OperationResponseStatus.Error;
+    messages: Message[];
+}
+
+export type OperationResponse<T> = OperationErrorResponse | OperationSuccessResponse<T>;
 
 export enum SortOrder {
     'Ascending',
