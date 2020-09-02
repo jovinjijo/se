@@ -1,6 +1,6 @@
 import { ID, Amount, Stock, Quantity, OperationResponseStatus } from '../util/Datatypes';
 import { Wallet } from './Wallet';
-import { HoldingItem, Holding } from './Holding/Holding';
+import { Holding, HoldingsData } from './Holding/Holding';
 import { OrderType, Order, OrderStatus } from '../Order/Order';
 import { Market } from '../Market/Market';
 import { OrderStoreResponse, OrderStore } from '../Order/OrderStore';
@@ -21,11 +21,11 @@ export class User implements IUser {
     orders: OrderStore;
     static nextId: ID = 1;
 
-    constructor(name: string, balance: Amount, holdings?: HoldingItem[]) {
+    constructor(name: string, balance: Amount, holdings?: HoldingsData) {
         this.id = User.nextId++;
         this.name = name;
         this.wallet = new Wallet(balance);
-        this.holdings = new Holding(holdings || []);
+        this.holdings = new Holding(holdings || {});
         this.orders = new OrderStore();
     }
 
