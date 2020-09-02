@@ -7,6 +7,43 @@
 	"item": [
 		{
 			"name": "Signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b07d4f1-1d31-43c8-b6e8-f615be060560",
+						"exec": [
+							"pm.test(\"Signup test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"data\": {\r",
+							"        \"user\": {\r",
+							"            \"id\": 1,\r",
+							"            \"name\": \"foo\",\r",
+							"            \"wallet\": {\r",
+							"                \"margin\": 10000\r",
+							"            },\r",
+							"            \"holdings\": {\r",
+							"                \"holdings\": {\r",
+							"                    \"TSLA\": \"100\",\r",
+							"                    \"AMZN\": \"1000\"\r",
+							"                }\r",
+							"            },\r",
+							"            \"orders\": {\r",
+							"                \"placedBuyOrders\": [],\r",
+							"                \"placedSellOrders\": [],\r",
+							"                \"confirmedOrders\": []\r",
+							"            }\r",
+							"        },\r",
+							"        \"username\": \"foo\"\r",
+							"    }\r",
+							"});\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -40,6 +77,53 @@
 		},
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6804e782-96af-4621-9eeb-6fcb786a4681",
+						"exec": [
+							"pm.test(\"Login test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"data\": {\r",
+							"        \"user\": {\r",
+							"            \"id\": 1,\r",
+							"            \"name\": \"foo\",\r",
+							"            \"wallet\": {\r",
+							"                \"margin\": 10000\r",
+							"            },\r",
+							"            \"holdings\": {\r",
+							"                \"holdings\": {\r",
+							"                    \"TSLA\": \"100\",\r",
+							"                    \"AMZN\": \"1000\"\r",
+							"                }\r",
+							"            },\r",
+							"            \"orders\": {\r",
+							"                \"placedBuyOrders\": [],\r",
+							"                \"placedSellOrders\": [],\r",
+							"                \"confirmedOrders\": []\r",
+							"            }\r",
+							"        },\r",
+							"        \"username\": \"foo\"\r",
+							"    }\r",
+							"});\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "69065f17-0666-4745-bcc0-e31ac58f88f9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -72,6 +156,43 @@
 		},
 		{
 			"name": "Check login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55f2d65d-c3b7-44bb-ae9e-8ec5ae1802fc",
+						"exec": [
+							"pm.test(\"Check login test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"data\": {\r",
+							"        \"user\": {\r",
+							"            \"id\": 1,\r",
+							"            \"name\": \"foo\",\r",
+							"            \"wallet\": {\r",
+							"                \"margin\": 10000\r",
+							"            },\r",
+							"            \"holdings\": {\r",
+							"                \"holdings\": {\r",
+							"                    \"TSLA\": \"100\",\r",
+							"                    \"AMZN\": \"1000\"\r",
+							"                }\r",
+							"            },\r",
+							"            \"orders\": {\r",
+							"                \"placedBuyOrders\": [],\r",
+							"                \"placedSellOrders\": [],\r",
+							"                \"confirmedOrders\": []\r",
+							"            }\r",
+							"        },\r",
+							"        \"username\": \"foo\"\r",
+							"    }\r",
+							"});\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -95,12 +216,31 @@
 		},
 		{
 			"name": "Place Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ded3f2c-39ac-41c2-8c7a-380e1263bc2c",
+						"exec": [
+							"pm.test(\"Place Order test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.price).to.eql(10);\r",
+							"    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
+							"    pm.expect(jsonData.data.type).to.eql(\"Buy\");\r",
+							"    pm.expect(jsonData.data.status).to.eql(\"Placed\");\r",
+							"    pm.expect(jsonData.data.quantity).to.eql(100);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"price\": 10,\r\n    \"quantity\": 10\r\n}",
+					"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"price\": 10,\r\n    \"quantity\": 100\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
