@@ -1,4 +1,7 @@
 import app from './src/app';
+import { initMarket } from './src/util/Methods';
+
+initMarket();
 
 /**
  * Start Express server.
