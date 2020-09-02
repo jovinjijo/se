@@ -1,16 +1,24 @@
 import { Request, Response } from 'express';
-import { UserStoreItem } from '../models/User';
+import { UserStoreItem, UserStoreItemDetails } from '../models/User';
 import { ValidationError } from 'express-validator';
+import { OrderDetails } from '../models/Order';
 
-export interface ResponseObject {
-    errors?: string[] | ValidationError[];
-    data?: UserStoreItem;
+export interface ErrorResponseObject {
+    errors: string[] | ValidationError[];
 }
+
+export interface SuccessResponseObject<T> {
+    data: T;
+}
+
+export type UserResponse = SuccessResponseObject<UserStoreItemDetails>;
+
+export type OrderResponse = SuccessResponseObject<OrderDetails>;
 
 export interface Req extends Request {
     user?: UserStoreItem;
 }
 
-export type Res = Response<ResponseObject>;
+export type Res = Response<ErrorResponseObject | UserResponse | OrderResponse>;
 
 export type Errors = string[] | ValidationError[];

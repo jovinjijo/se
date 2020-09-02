@@ -1,11 +1,20 @@
-import { User, Amount, HoldingItem } from '@se/core';
+import { User, Amount, HoldingsData, IUser } from '@se/core';
 import * as bcrypt from 'bcrypt';
+import { OrderRepository, OrderStoreDetails } from './Order';
 
 const saltRounds = 10;
+
+export interface UserDetails extends Omit<IUser, 'orders'> {
+    orders: OrderStoreDetails;
+}
 
 export interface UserStoreItem {
     user: User;
     username: string;
+}
+
+export interface UserStoreItemDetails extends Omit<UserStoreItem, 'user'> {
+    user: UserDetails;
 }
 
 export interface UserStoreItemSensitive extends UserStoreItem {
@@ -18,7 +27,7 @@ export class UserStore {
         username: string,
         password: string,
         balance: Amount,
-        holdings: HoldingItem[],
+        holdings: HoldingsData,
     ): Promise<UserStoreItem> {
         if (this.users.get(username)) {
             throw new Error('Username already exists');
@@ -29,13 +38,10 @@ export class UserStore {
             username: username,
         };
         this.users.set(username, userStoreItem);
-        return {
-            user: userStoreItem.user,
-            username: username,
-        };
+        return this.findUserByUsername(username);
     }
 
-    public static findUserByUsername(username: string): UserStoreItem | undefined {
+    public static findUserByUsername(username: string): UserStoreItem {
         const user = this.users.get(username);
         if (user) {
             return {
@@ -43,6 +49,7 @@ export class UserStore {
                 username: user.username,
             };
         }
+        throw new Error('User not found');
     }
 
     public static async findUserByUsernameAndAuthenticate(username: string, password: string): Promise<UserStoreItem> {
@@ -50,12 +57,27 @@ export class UserStore {
         if (!user) {
             throw new Error('User not found');
         } else if (await bcrypt.compare(password, user.password)) {
-            return {
-                user: user.user,
-                username: user.username,
-            };
+            return this.findUserByUsername(username);
         } else {
             throw new Error('Wrong password');
         }
+    }
+
+    public static getUserDetails(user: User): UserDetails {
+        return {
+            ...user,
+            orders: {
+                placedBuyOrders: user.orders.placedBuyOrders.map((order) => OrderRepository.getOrderDetails(order)),
+                placedSellOrders: user.orders.placedSellOrders.map((order) => OrderRepository.getOrderDetails(order)),
+                confirmedOrders: user.orders.confirmedOrders.map((order) => OrderRepository.getOrderDetails(order)),
+            },
+        };
+    }
+
+    public static getUserStoreItemDetails(user: UserStoreItem): UserStoreItemDetails {
+        return {
+            user: this.getUserDetails(user.user),
+            username: user.username,
+        };
     }
 }

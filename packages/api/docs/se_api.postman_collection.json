@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 100,\r\n    \"password\": \"foobarfoo\",\r\n    \"holdings\": [\r\n        {\r\n            \"stock\": \"TSLA\",\r\n            \"quantity\": 100\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 10000,\r\n    \"password\": \"foobarfoo\",\r\n    \"holdings\": {\r\n        \"TSLA\": \"100\",\r\n        \"AMZN\": \"1000\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,6 +90,39 @@
 						"check"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"price\": 10,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:3001/v1/order/place",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3001",
+					"path": [
+						"v1",
+						"order",
+						"place"
+					]
+				},
+				"description": "Signup"
 			},
 			"response": []
 		}

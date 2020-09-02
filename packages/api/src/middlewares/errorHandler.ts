@@ -5,4 +5,5 @@ export function errorHandler(err: Errors, req: Req, res: Res, next: NextFunction
     res.status(403).json({
         errors: err,
     });
+    next();
 }
