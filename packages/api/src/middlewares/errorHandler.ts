@@ -1,9 +1,10 @@
-import { NextFunction } from 'express';
-import { Req, Res, Errors } from '../util/Datatypes';
+import { Req, Res, ErrorResponse, NextFn } from '../util/Datatypes';
 
-export function errorHandler(err: Errors, req: Req, res: Res, next: NextFunction): void {
+export function errorHandler(err: ErrorResponse, req: Req, res: Res, next: NextFn): void {
     res.status(403).json({
-        errors: err,
+        name: err.name,
+        message: err.message,
+        errors: err.errors,
     });
     next();
 }

@@ -1,11 +1,11 @@
-import { NextFunction, Response } from 'express';
+import { Response } from 'express';
 import { UserStore } from '../models/User';
-import { Req, Res } from '../util/Datatypes';
+import { Req, Res, NextFn } from '../util/Datatypes';
 
 /**
  * Used to fill req.user filled everytime a request is made.
  */
-function fillUserData(req: Req, res: Response, next: NextFunction): void {
+function fillUserData(req: Req, res: Response, next: NextFn): void {
     if (req.session?.userId) {
         const user = UserStore.findUserByUsername(req.session.userId);
         if (user) {
@@ -18,9 +18,9 @@ function fillUserData(req: Req, res: Response, next: NextFunction): void {
 /**
  * Used to check if user is logged in, otherwise send error message as response.
  */
-function isAuthenticated(req: Req, res: Res, next: NextFunction): void {
+function isAuthenticated(req: Req, res: Res, next: NextFn): void {
     if (!req.user) {
-        return next(['Not logged in']);
+        return next(new Error('Not logged in'));
     }
     return next();
 }
@@ -28,7 +28,7 @@ function isAuthenticated(req: Req, res: Res, next: NextFunction): void {
 /**
  * Login user. 'username' and 'password' has to be passed in the request body.
  */
-async function authenticate(req: Req, res: Res, next: NextFunction): Promise<void> {
+async function authenticate(req: Req, res: Res, next: NextFn): Promise<void> {
     const username = req.body.username;
     const password = req.body.password;
     try {
@@ -38,7 +38,7 @@ async function authenticate(req: Req, res: Res, next: NextFunction): Promise<voi
         }
         return next();
     } catch (ex) {
-        return next([ex.message]);
+        return next(ex);
     }
 }
 

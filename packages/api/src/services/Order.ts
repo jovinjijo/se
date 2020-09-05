@@ -1,5 +1,5 @@
-import { Req, Res } from '../util/Datatypes';
-import { NextFunction, RequestHandler } from 'express';
+import { Req, Res, NextFn, ErrorResponse } from '../util/Datatypes';
+import { RequestHandler } from 'express';
 import { handleValidationErrors } from './Common';
 import { Stock, Quantity, Amount, OrderType, OperationResponseStatus } from '@se/core';
 import { body, ValidationChain } from 'express-validator';
@@ -22,7 +22,7 @@ const placeOrderValidations: ValidationChain[] = [
     body('price').isFloat({ gt: 0 }).toFloat(),
 ];
 
-function placeOrder(req: Req, res: Res, next: NextFunction): void {
+function placeOrder(req: Req, res: Res, next: NextFn): void {
     const symbol = req.body.symbol as Stock;
     const orderType = req.body.orderType as OrderType;
     const quantity = req.body.quantity as Quantity;
@@ -30,11 +30,16 @@ function placeOrder(req: Req, res: Res, next: NextFunction): void {
 
     const user = req.user?.user;
     if (!user) {
-        return next(['User not logged in']);
+        return next(new Error('User not logged in'));
     }
     const response = OrderRepository.placeOrder(user, symbol, orderType, quantity, price);
     if (response.status === OperationResponseStatus.Error) {
-        return next(response.messages?.map((message) => message.message));
+        return next(
+            new ErrorResponse(
+                'Error while placing order',
+                response.messages?.map((message) => message.message),
+            ),
+        );
     }
     res.json({
         data: response.data,
