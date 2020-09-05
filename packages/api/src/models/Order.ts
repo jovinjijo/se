@@ -4,13 +4,32 @@ import {
     Quantity,
     Amount,
     User,
+    Order,
     IOrder,
     OperationResponse,
     IOrderStore,
+    OrderStatus,
     OperationResponseStatus,
 } from '@se/core';
 
-export type OrderDetails = Omit<IOrder, 'settledBy' | 'user'>;
+type IOrderTruncated = Omit<IOrder, 'settledBy' | 'user'>;
+
+interface ConfirmedOrderDetails extends IOrderTruncated {
+    status: OrderStatus.Confirmed;
+    avgSettledPrice: Amount;
+    settledTime: Date;
+}
+
+interface PlacedOrderDetails extends IOrderTruncated {
+    status: OrderStatus.Placed;
+}
+
+interface PartiallyFilledOrderDetails extends IOrderTruncated {
+    status: OrderStatus.PartiallyFilled;
+    quantityFilled: Quantity;
+}
+
+export type OrderDetails = ConfirmedOrderDetails | PlacedOrderDetails | PartiallyFilledOrderDetails;
 
 export interface OrderStoreDetails
     extends Omit<IOrderStore, 'placedBuyOrders' | 'placedSellOrders' | 'confirmedOrders'> {
@@ -44,15 +63,41 @@ export class OrderRepository {
         }
     }
 
-    public static getOrderDetails(order: IOrder): OrderDetails {
-        return {
+    public static getOrderDetails(order: Order): OrderDetails {
+        const orderDetails: IOrderTruncated = {
             id: order.id,
             price: order.price,
             quantity: order.quantity,
             symbol: order.symbol,
             type: order.type,
-            status: order.status,
             time: order.time,
+        };
+        if (order.status === OrderStatus.Confirmed) {
+            return {
+                ...orderDetails,
+                status: order.status,
+                avgSettledPrice: order.getAvgSettledPrice(),
+                settledTime: order.getSettledTime(),
+            };
+        } else if (order.status === OrderStatus.PartiallyFilled) {
+            return {
+                ...orderDetails,
+                status: order.status,
+                quantityFilled: order.getQuantitySettled(),
+            };
+        } else {
+            return {
+                ...orderDetails,
+                status: order.status,
+            };
+        }
+    }
+
+    public static getOrderStoreDetails(orderStore: IOrderStore): OrderStoreDetails {
+        return {
+            placedBuyOrders: orderStore.placedBuyOrders.map((order) => this.getOrderDetails(order)),
+            placedSellOrders: orderStore.placedSellOrders.map((order) => this.getOrderDetails(order)),
+            confirmedOrders: orderStore.confirmedOrders.map((order) => this.getOrderDetails(order)),
         };
     }
 }

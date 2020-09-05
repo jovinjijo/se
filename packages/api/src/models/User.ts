@@ -66,11 +66,7 @@ export class UserStore {
     public static getUserDetails(user: User): UserDetails {
         return {
             ...user,
-            orders: {
-                placedBuyOrders: user.orders.placedBuyOrders.map((order) => OrderRepository.getOrderDetails(order)),
-                placedSellOrders: user.orders.placedSellOrders.map((order) => OrderRepository.getOrderDetails(order)),
-                confirmedOrders: user.orders.confirmedOrders.map((order) => OrderRepository.getOrderDetails(order)),
-            },
+            orders: OrderRepository.getOrderStoreDetails(user.orders),
         };
     }
 

@@ -3,11 +3,11 @@ import { UserStoreItem, UserStoreItemDetails } from '../models/User';
 import { ValidationError } from 'express-validator';
 import { OrderDetails } from '../models/Order';
 
-export interface ErrorResponseObject {
+interface ErrorResponseObject {
     errors: string[] | ValidationError[];
 }
 
-export interface SuccessResponseObject<T> {
+interface SuccessResponseObject<T> {
     data: T;
 }
 

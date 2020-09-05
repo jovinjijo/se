@@ -8,6 +8,7 @@ export enum OrderType {
 
 export enum OrderStatus {
     'Placed' = 'Placed',
+    'PartiallyFilled' = 'PartiallyFilled',
     'Confirmed' = 'Confirmed',
 }
 
@@ -19,8 +20,6 @@ export interface IOrder {
     price: Amount;
     user: User;
     symbol: Stock;
-    status?: OrderStatus;
-    settledBy?: SettlementDetails[];
 }
 
 export interface SettlementDetails {
@@ -109,18 +108,21 @@ export class Order implements IOrder {
     /**
      * Settled time of a confirmed order would be the time of the last order in the settledBy array.
      */
-    getSettledTime(): Date | undefined {
-        return this.settledBy.length > 0 && this.status === OrderStatus.Confirmed
-            ? this.settledBy[this.settledBy.length - 1].time
-            : undefined;
+    getSettledTime(): Date {
+        if (this.status === OrderStatus.Confirmed && this.settledBy.length > 0) {
+            return this.settledBy[this.settledBy.length - 1].time;
+        }
+        throw new Error('Order not confirmed');
     }
 
     /**
      * If an order is confirmed, return the average settled price of the order by checking the settledBy array.
-     * Return undefined if order is not confirmed.
      */
-    getAvgSettledPrice(): Amount | undefined {
-        return this.status === OrderStatus.Confirmed ? this.settledBy.reduce((a, b) => a + b.price, 0) : undefined;
+    getAvgSettledPrice(): Amount {
+        if (this.status === OrderStatus.Confirmed) {
+            return this.getAmountSettled() / this.quantity;
+        }
+        throw new Error('Order not confirmed');
     }
 
     getAmountSettled(): Amount {
@@ -136,11 +138,16 @@ export class Order implements IOrder {
     }
 
     /**
-     * Allow Order Status change from Placed -> Confirmed
+     * Allow Order Status change from Placed -> PartiallyFilled or Confirmed
+     *                                PartiallyFilled -> Confirmed
      * @param status New status
      */
     setStatus(status: OrderStatus): void {
-        if (this.status === OrderStatus.Placed && status === OrderStatus.Confirmed) {
+        if (
+            (this.status === OrderStatus.Placed &&
+                (status === OrderStatus.Confirmed || status === OrderStatus.PartiallyFilled)) ||
+            (this.status === OrderStatus.PartiallyFilled && status === OrderStatus.Confirmed)
+        ) {
             this.status = status;
         } else throw new Error(`Status Change from ${this.status} to ${status} not allowed.`);
     }
@@ -199,6 +206,8 @@ export class Order implements IOrder {
             });
             if (givenQuantity === thisQuantity) {
                 order.setStatus(OrderStatus.Confirmed);
+            } else {
+                order.setStatus(OrderStatus.PartiallyFilled);
             }
             order.user.notifyOrderUpdate(order);
         } else throw new Error('Preconditions not met to settle order.');
