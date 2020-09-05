@@ -1,6 +1,7 @@
 import { Order, OrderType, OrderStatus, IOrder } from './Order';
 import { Amount, SortOrder } from '../util/Datatypes';
 import { OrderStore, IOrderStore } from './OrderStore';
+import { OrderMatcher } from './OrderMatcher';
 
 export interface IStockOrderStore extends IOrderStore {
     lastTradePrice: Amount;
@@ -35,7 +36,7 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
             //Find matching Sell orders
             while (
                 this.placedSellOrders[0] &&
-                Order.settlementPossible(order, this.placedSellOrders[0]) &&
+                OrderMatcher.settlementPossible(order, this.placedSellOrders[0]) &&
                 order.getStatus() !== OrderStatus.Confirmed
             ) {
                 //Repeat as long as the Sell order buffer has an order which can be settled with the current Buy order.
@@ -45,7 +46,7 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
             //Find matching Buy orders
             while (
                 this.placedBuyOrders[0] &&
-                Order.settlementPossible(this.placedBuyOrders[0], order) &&
+                OrderMatcher.settlementPossible(this.placedBuyOrders[0], order) &&
                 order.getStatus() !== OrderStatus.Confirmed
             ) {
                 //Repeat as long as the Buy order buffer has an order which can be settled with the current Sell order.
@@ -97,14 +98,14 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
          * So call findMatchingOrdersAndSettle on the other order.
          */
         if (buyQuantity > sellQuantity) {
-            sell.settleWithOrder(buy);
+            OrderMatcher.settleWithOrder(sell, buy);
             this.confirmOrder(sell);
         } else if (sellQuantity > buyQuantity) {
-            buy.settleWithOrder(sell);
+            OrderMatcher.settleWithOrder(buy, sell);
             this.confirmOrder(buy);
         } else {
             //If the quantities are the same, both orders will get settled.
-            buy.settleWithOrder(sell);
+            OrderMatcher.settleWithOrder(buy, sell);
             this.confirmOrder(buy);
             this.confirmOrder(sell);
         }
