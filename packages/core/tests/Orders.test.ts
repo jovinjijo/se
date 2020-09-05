@@ -42,7 +42,9 @@ it('Simple Sell, Buy - Partially Settled', () => {
 
     const order1 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 10);
     expect(order1.status === OperationResponseStatus.Success && order1.data.getStatus()).toBe(OrderStatus.Confirmed);
-    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(OrderStatus.Placed);
+    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(
+        OrderStatus.PartiallyFilled,
+    );
     expect(order2.status === OperationResponseStatus.Success && order2.data.getQuantitySettled()).toBe(5);
 });
 
@@ -54,7 +56,9 @@ it('Buy order settled by 2 sell orders', () => {
 
     const order1 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 10);
     expect(order1.status === OperationResponseStatus.Success && order1.data.getStatus()).toBe(OrderStatus.Confirmed);
-    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(OrderStatus.Placed);
+    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(
+        OrderStatus.PartiallyFilled,
+    );
     expect(order2.status === OperationResponseStatus.Success && order2.data.getQuantitySettled()).toBe(5);
 
     const order3 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 10);
@@ -70,7 +74,9 @@ it('Sell order settled by 2 buy orders', () => {
 
     const order2 = user2.placeOrder(Stock.TSLA, OrderType.Buy, 5, 10);
     expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(OrderStatus.Confirmed);
-    expect(order1.status === OperationResponseStatus.Success && order1.data.getStatus()).toBe(OrderStatus.Placed);
+    expect(order1.status === OperationResponseStatus.Success && order1.data.getStatus()).toBe(
+        OrderStatus.PartiallyFilled,
+    );
     expect(order1.status === OperationResponseStatus.Success && order1.data.getQuantitySettled()).toBe(5);
 
     const order3 = user2.placeOrder(Stock.TSLA, OrderType.Buy, 5, 10);
@@ -86,7 +92,9 @@ it('Buy order settled by 2 sell orders(with different avg. prices)', () => {
 
     const order3 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 5);
     expect(order3.status === OperationResponseStatus.Success && order3.data.getStatus()).toBe(OrderStatus.Confirmed);
-    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(OrderStatus.Placed);
+    expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(
+        OrderStatus.PartiallyFilled,
+    );
 
     const order1 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 12);
     expect(order2.status === OperationResponseStatus.Success && order2.data.getStatus()).toBe(OrderStatus.Confirmed);
