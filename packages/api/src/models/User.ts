@@ -4,8 +4,9 @@ import { OrderRepository, OrderStoreDetails } from './Order';
 
 const saltRounds = 10;
 
-export interface UserDetails extends Omit<IUser, 'orders'> {
+export interface UserDetails extends Omit<IUser, 'orders' | 'holdings' | 'name'> {
     orders: OrderStoreDetails;
+    holdings: HoldingsData;
 }
 
 export interface UserStoreItem {
@@ -13,8 +14,8 @@ export interface UserStoreItem {
     username: string;
 }
 
-export interface UserStoreItemDetails extends Omit<UserStoreItem, 'user'> {
-    user: UserDetails;
+export interface UserStoreItemDetails extends UserDetails {
+    username: string;
 }
 
 export interface UserStoreItemSensitive extends UserStoreItem {
@@ -65,14 +66,16 @@ export class UserStore {
 
     public static getUserDetails(user: User): UserDetails {
         return {
-            ...user,
+            id: user.id,
+            wallet: user.wallet,
             orders: OrderRepository.getOrderStoreDetails(user.orders),
+            holdings: user.holdings.getHoldings(),
         };
     }
 
     public static getUserStoreItemDetails(user: UserStoreItem): UserStoreItemDetails {
         return {
-            user: this.getUserDetails(user.user),
+            ...this.getUserDetails(user.user),
             username: user.username,
         };
     }
