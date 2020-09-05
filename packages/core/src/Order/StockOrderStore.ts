@@ -1,13 +1,9 @@
 import { Order, OrderType, OrderStatus, IOrder } from './Order';
 import { Amount, SortOrder } from '../util/Datatypes';
-import { OrderStore, IOrderStore } from './OrderStore';
+import { OrderStore } from './OrderStore';
 import { OrderMatcher } from './OrderMatcher';
 
-export interface IStockOrderStore extends IOrderStore {
-    lastTradePrice: Amount;
-}
-
-export class StockOrderStore extends OrderStore implements IStockOrderStore {
+export class StockOrderStore extends OrderStore {
     lastTradePrice: Amount;
 
     constructor() {
@@ -60,7 +56,7 @@ export class StockOrderStore extends OrderStore implements IStockOrderStore {
      * @param orders Array of orders to sort
      * @param priceSortOrder Sorting order of price
      */
-    static sortOrders(orders: Order[], priceSortOrder: SortOrder): Order[] {
+    private static sortOrders(orders: Order[], priceSortOrder: SortOrder): Order[] {
         if (priceSortOrder === SortOrder.Ascending) {
             return orders.sort((a, b) => a.getPrice() - b.getPrice());
         } else {
