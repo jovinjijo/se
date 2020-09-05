@@ -10,6 +10,21 @@ beforeEach(() => {
     Market.getInstance().addOrderStore(Stock.TSLA);
 });
 
+it('Quantity, Price validation', () => {
+    const user1 = new User('John Doe', 0, { TSLA: 5 });
+    try {
+        user1.placeOrder(Stock.TSLA, OrderType.Sell, 0, 20);
+    } catch (ex) {
+        expect(ex).toBeDefined();
+    }
+
+    try {
+        user1.placeOrder(Stock.TSLA, OrderType.Sell, 5, 0);
+    } catch (ex) {
+        expect(ex).toBeDefined();
+    }
+});
+
 it('Simple Buy, Sell - Settled', () => {
     const user1 = new User('John Doe', 0, { TSLA: 5 });
     const user2 = new User('Mary Jane', 100);

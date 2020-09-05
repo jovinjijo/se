@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "tscw": "tsc --watch",
-    "test": "jest",
+    "test": "jest --collectCoverage",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "precommit": "lint-staged && yarn test"
   },
