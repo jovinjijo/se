@@ -16,10 +16,10 @@
     "install": "lerna bootstrap",
     "build": "lerna run build --parallel",
     "tscw": "lerna run --parallel tscw",
-    "lint": "lerna run lint --stream",
+    "lint": "lerna run lint --parallel",
     "start": "lerna run start",
     "build-watch": "yarn run build && yarn run tscw",
-    "test": "lerna run test --stream",
+    "test": "lerna run test --parallel",
     "release": "cross-env HUSKY_BYPASS=true lerna publish"
   },
   "husky": {
