@@ -9,13 +9,22 @@ import { authenticate, fillUserData } from '../middlewares/authenticator';
 const signupValidations: ValidationChain[] = [
     body('username').isAlphanumeric().isLength({ min: 3 }).trim(),
     body('password').isLength({ min: 8 }),
-    body('balance').isFloat({ gt: 0 }),
+    body('balance').isFloat({ gt: 0 }).toFloat(),
     body('holdings')
         .optional()
-        .custom((holdings: HoldingsData) => {
+        .custom((holdings) => {
             if (typeof holdings !== 'object') {
                 throw new Error('Object expected');
             }
+            return true;
+        })
+        .customSanitizer((holdings) => {
+            Object.entries(holdings).forEach(([stock, quantity]) => {
+                holdings[stock] = parseInt(quantity as string);
+            });
+            return holdings;
+        })
+        .custom((holdings: HoldingsData) => {
             Object.entries(holdings).forEach(([stock, quantity]) => {
                 if (!quantity || (quantity && quantity <= 0)) {
                     throw new Error('Quantity has to be greater than 0');

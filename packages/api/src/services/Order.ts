@@ -18,8 +18,8 @@ const placeOrderValidations: ValidationChain[] = [
         }
         return true;
     }),
-    body('quantity').isInt({ gt: 0 }),
-    body('price').isFloat({ gt: 0 }),
+    body('quantity').isInt({ gt: 0 }).toInt(),
+    body('price').isFloat({ gt: 0 }).toFloat(),
 ];
 
 function placeOrder(req: Req, res: Res, next: NextFunction): void {
