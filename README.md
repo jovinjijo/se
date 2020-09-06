@@ -1,9 +1,14 @@
-# ACME Stock Exchange
+# Stock Exchange
 This is a very simplified implementation of how a stock exchange works. I have no financial background, so I'm open to suggestions on logic used, variable/class names. Feel free to point out any mistakes.
-I started out just to try out a TypeScript project and implemented the core logic which is now contained in the @se/core package(yes, this is a monorepo).
-@se/core has the logic for order matching, placing orders, orders getting confirmed, keping track of orders of users, orderbook of a symbol and so on.
-> Check the tests folder for usage instructions.
 
+I started out just to try out a TypeScript project and implemented the core logic which is now contained in the @se/core package (yes, this is a monorepo).
+
+### @se/core
+@se/core has the logic for order matching, placing orders, orders getting confirmed, keping track of orders of users, orderbook of a symbol and so on.
+
+> Check the [tests folder](packages/core/tests/Orders.test.ts) for usage instructions.
+
+### @se/api
 After that I started making the API(@se/api), which is still WIP. I'm using Express.js for the API and Socket.io for live updates for users.
 
 ## What's in Scope
