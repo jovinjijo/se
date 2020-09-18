@@ -1,4 +1,4 @@
-import { Order, OrderType, OrderStatus, IOrder } from './Order';
+import { Order, OrderType, OrderStatus, OrderInput, AdditionalOrderType } from './Order';
 import { Amount, SortOrder } from '../util/Datatypes';
 import { OrderStore } from './OrderStore';
 import { OrderMatcher } from './OrderMatcher';
@@ -15,8 +15,8 @@ export class StockOrderStore extends OrderStore {
      * Place a new order to the individual stock's store.
      * @param order Details for order to be placed
      */
-    createOrder(order: IOrder): Order {
-        const newOrder = new Order(order.id, order.type, order.quantity, order.price, order.user, order.symbol);
+    createOrder(order: OrderInput): Order {
+        const newOrder = new Order(order);
         this.addOrder(newOrder);
         newOrder.user.notifyOrderAdd(newOrder);
         this.findMatchingOrdersAndSettle(newOrder);
@@ -111,6 +111,21 @@ export class StockOrderStore extends OrderStore {
             this.findMatchingOrdersAndSettle(buy);
         } else if (sellQuantity > buyQuantity) {
             this.findMatchingOrdersAndSettle(sell);
+        }
+    }
+
+    getMarginRequired(order: OrderInput): Amount {
+        // As of now, short selling is not allowed
+        if (order.type === OrderType.Sell) {
+            return 0;
+        }
+        if (order.additionalType === AdditionalOrderType.Limit) {
+            // For Limit Orders
+            return order.price * order.quantity;
+        } else {
+            // For Market Orders
+            // TODO : Better algorithm return the price required to settle order.quantity quantity using this.placedSellOrders
+            return this.lastTradePrice * order.quantity;
         }
     }
 }

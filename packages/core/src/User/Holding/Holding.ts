@@ -18,8 +18,12 @@ export class Holding {
         return this.holdings;
     }
 
-    getHolding(stock: Stock): Quantity | undefined {
-        return this.holdings[stock];
+    getHolding(stock: Stock): Quantity {
+        const holding = this.holdings[stock];
+        if (holding) {
+            return holding;
+        }
+        throw new Error('Holding not available');
     }
 
     addHolding(item: HoldingItem): void {

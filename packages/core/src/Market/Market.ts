@@ -1,18 +1,15 @@
-import { OrderStoreResponse } from '../Order/OrderStore';
-import { Stock, OperationResponse, ID, OperationResponseStatus, Quantity, Amount } from '../util/Datatypes';
-import { OrderType } from '../Order/Order';
-import { User } from '../User/User';
+import { Stock, OperationResponse, ID, OperationResponseStatus, Amount } from '../util/Datatypes';
 import { StockOrderStore } from '../Order/StockOrderStore';
+import { OrderInput, Order } from '../Order/Order';
 
 export type MarketResponse = OperationResponse<StockOrderStore>;
 
 export class Market {
-    nextOrderId: ID;
+    static nextOrderId: ID = 1;
     orderStore: Map<Stock, StockOrderStore>;
     static instance: Market;
 
     private constructor() {
-        this.nextOrderId = 1;
         this.orderStore = new Map<Stock, StockOrderStore>();
     }
 
@@ -44,35 +41,27 @@ export class Market {
         }
     }
 
-    getOrderStoreForStock(stock: Stock): StockOrderStore | undefined {
-        return this.orderStore.get(stock);
+    getOrderStoreForStock(stock: Stock): StockOrderStore {
+        const orderStore = this.orderStore.get(stock);
+        if (orderStore) {
+            return orderStore;
+        }
+        throw new Error("Order Store for Symbol doesn't exist");
     }
 
     /**
      * Place a new order in the exchange
-     * @param user Reference of user who is placing the order
-     * @param symbol Symbol for which order is placed
-     * @param type Order Type - Buy / Sell
-     * @param quantity Quantity of order
-     * @param price Limit Price
+     * @param order Details of order
      */
-    placeOrder(user: User, symbol: Stock, type: OrderType, quantity: Quantity, price: Amount): OrderStoreResponse {
-        const orderStore = this.getOrderStoreForStock(symbol);
-        return orderStore
-            ? {
-                  data: orderStore.createOrder({
-                      id: this.nextOrderId++,
-                      price: price,
-                      quantity: quantity,
-                      type: type,
-                      user: user,
-                      symbol: symbol,
-                  }),
-                  status: OperationResponseStatus.Success,
-              }
-            : {
-                  status: OperationResponseStatus.Error,
-                  messages: [{ message: "Order Store for Symbol doesn't exist" }],
-              };
+    placeOrder(order: OrderInput): Order {
+        return this.getOrderStoreForStock(order.symbol).createOrder(order);
+    }
+
+    getMarginRequired(order: OrderInput): Amount {
+        return this.getOrderStoreForStock(order.symbol).getMarginRequired(order);
+    }
+
+    static getNextOrderId(): ID {
+        return this.nextOrderId++;
     }
 }

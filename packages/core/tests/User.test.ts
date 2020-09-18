@@ -1,6 +1,6 @@
 import { User } from '../src/User/User';
 import { Stock, OperationResponseStatus } from '../src/util/Datatypes';
-import { OrderType } from '../src/Order/Order';
+import { OrderType, AdditionalOrderType } from '../src/Order/Order';
 
 it('Adding User', () => {
     const user = new User('John Doe', 0);
@@ -26,9 +26,9 @@ it('Adding User with holdings', () => {
 it('Check for enough Holdings, Margin', () => {
     const user1 = new User('John Doe', 100, { TSLA: 5 });
 
-    const order1 = user1.placeOrder(Stock.TSLA, OrderType.Sell, 10, 20);
+    const order1 = user1.placeOrder(Stock.TSLA, OrderType.Sell, AdditionalOrderType.Limit, 10, 20);
     expect(order1.status).toBe(OperationResponseStatus.Error);
 
-    const order2 = user1.placeOrder(Stock.TSLA, OrderType.Buy, 10, 1000);
+    const order2 = user1.placeOrder(Stock.TSLA, OrderType.Buy, AdditionalOrderType.Limit, 10, 1000);
     expect(order2.status).toBe(OperationResponseStatus.Error);
 });

@@ -5,29 +5,42 @@ import {
     Amount,
     User,
     Order,
-    IOrder,
+    OrderInput,
     OperationResponse,
     IOrderStore,
     OrderStatus,
     OperationResponseStatus,
+    AdditionalOrderType,
+    ID,
 } from '@se/core';
 
-type IOrderTruncated = Omit<IOrder, 'settledBy' | 'user'>;
+type TruncatedOrderDetails =
+    | OrderInput
+    | {
+          id: ID;
+          time: Date;
+      };
 
-interface ConfirmedOrderDetails extends IOrderTruncated {
-    status: OrderStatus.Confirmed;
-    avgSettledPrice: Amount;
-    settledTime: Date;
-}
+type ConfirmedOrderDetails =
+    | TruncatedOrderDetails
+    | {
+          status: OrderStatus.Confirmed;
+          avgSettledPrice: Amount;
+          settledTime: Date;
+      };
 
-interface PlacedOrderDetails extends IOrderTruncated {
-    status: OrderStatus.Placed;
-}
+type PlacedOrderDetails =
+    | TruncatedOrderDetails
+    | {
+          status: OrderStatus.Placed;
+      };
 
-interface PartiallyFilledOrderDetails extends IOrderTruncated {
-    status: OrderStatus.PartiallyFilled;
-    quantityFilled: Quantity;
-}
+type PartiallyFilledOrderDetails =
+    | TruncatedOrderDetails
+    | {
+          status: OrderStatus.PartiallyFilled;
+          quantityFilled: Quantity;
+      };
 
 export type OrderDetails = ConfirmedOrderDetails | PlacedOrderDetails | PartiallyFilledOrderDetails;
 
@@ -45,10 +58,14 @@ export class OrderRepository {
         user: User,
         symbol: Stock,
         type: OrderType,
+        additionalOrderType: AdditionalOrderType,
         quantity: Quantity,
         price: Amount,
     ): OrderRepositoryResponse {
-        const response = user.placeOrder(symbol, type, quantity, price);
+        const response =
+            additionalOrderType === AdditionalOrderType.Limit
+                ? user.placeOrder(symbol, type, AdditionalOrderType.Limit, quantity, price)
+                : user.placeOrder(symbol, type, AdditionalOrderType.Market, quantity);
         if (response.status === OperationResponseStatus.Success) {
             return {
                 status: response.status,
@@ -64,7 +81,7 @@ export class OrderRepository {
     }
 
     public static getOrderDetails(order: Order): OrderDetails {
-        const orderDetails: IOrderTruncated = {
+        const orderDetails: TruncatedOrderDetails = {
             id: order.id,
             price: order.price,
             quantity: order.quantity,

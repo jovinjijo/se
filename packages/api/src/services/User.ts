@@ -12,7 +12,7 @@ const signupValidations: ValidationChain[] = [
         .isLength({ min: 3 })
         .trim(),
     body('password', 'Password has to be atleast 3 characters').isString().isLength({ min: 8 }),
-    body('balance', 'Balance has to be a valid amount.').isFloat({ gt: 0 }).toFloat(),
+    body('balance', 'Balance has to be a valid amount.').isFloat({ min: 0 }).toFloat(),
     body('holdings', 'Holdings has to be of format { "TSLA": "100", "AMZN": "123" }')
         .optional()
         .custom((holdings) => {

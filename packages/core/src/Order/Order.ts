@@ -1,9 +1,15 @@
 import { Quantity, ID, Amount, Stock } from '../util/Datatypes';
 import { User } from '../User/User';
+import { Market } from '../Market/Market';
 
 export enum OrderType {
     'Buy' = 'Buy',
     'Sell' = 'Sell',
+}
+
+export enum AdditionalOrderType {
+    'Market' = 'Market',
+    'Limit' = 'Limit',
 }
 
 export enum OrderStatus {
@@ -12,15 +18,23 @@ export enum OrderStatus {
     'Confirmed' = 'Confirmed',
 }
 
-export interface IOrder {
-    id: ID;
-    time?: Date;
+interface OrderInputTruncated {
     type: OrderType;
     quantity: Quantity;
-    price: Amount;
     user: User;
     symbol: Stock;
 }
+
+interface MarketOrderInput extends OrderInputTruncated {
+    additionalType: AdditionalOrderType.Market;
+}
+
+interface LimitOrderInput extends OrderInputTruncated {
+    additionalType: AdditionalOrderType.Limit;
+    price: Amount;
+}
+
+export type OrderInput = MarketOrderInput | LimitOrderInput;
 
 export interface SettlementDetails {
     order: Order;
@@ -29,40 +43,39 @@ export interface SettlementDetails {
     price: Amount;
 }
 
-// export enum orderType {
-//     "Market",
-//     "Limit",
-//     "SL",
-//     "SL-M"
-// }
-
-export class Order implements IOrder {
+export class Order {
     id: ID;
     time: Date;
     type: OrderType;
     quantity: Quantity;
+    additionalType: AdditionalOrderType;
     price: Amount;
     status: OrderStatus;
     symbol: Stock;
     user: User;
     settledBy: SettlementDetails[];
 
-    constructor(id: ID, type: OrderType, quantity: Quantity, price: Amount, user: User, symbol: Stock) {
-        if (quantity <= 0) {
+    constructor(order: OrderInput) {
+        if (order.quantity <= 0) {
             throw new Error("Quantity can't be less than 1.");
         }
-        if (price <= 0) {
-            throw new Error('Price should be more than 0.');
-        }
-        this.id = id;
-        this.quantity = quantity;
-        this.price = price;
-        this.type = type;
-        this.user = user;
-        this.symbol = symbol;
+        this.id = Market.getNextOrderId();
+        this.quantity = order.quantity;
+        this.type = order.type;
+        this.user = order.user;
+        this.symbol = order.symbol;
         this.time = new Date();
         this.status = OrderStatus.Placed;
         this.settledBy = [];
+        this.additionalType = order.additionalType;
+        if (order.additionalType === AdditionalOrderType.Limit) {
+            if (order.price <= 0) {
+                throw new Error('Price should be more than 0.');
+            }
+            this.price = order.price;
+        } else {
+            this.price = 0;
+        }
     }
 
     getTime(): Date {

@@ -1,7 +1,7 @@
-import { ID, Amount, Stock, Quantity, OperationResponseStatus } from '../util/Datatypes';
+import { ID, Amount, Stock, Quantity, OperationResponseStatus, OperationResponse } from '../util/Datatypes';
 import { Wallet } from './Wallet';
 import { Holding, HoldingsData } from './Holding/Holding';
-import { OrderType, Order, OrderStatus } from '../Order/Order';
+import { OrderType, Order, OrderStatus, AdditionalOrderType, OrderInput } from '../Order/Order';
 import { Market } from '../Market/Market';
 import { OrderStoreResponse, OrderStore } from '../Order/OrderStore';
 
@@ -28,37 +28,72 @@ export class User implements IUser {
         this.holdings = new Holding(holdings || {});
         this.orders = new OrderStore();
     }
+    public placeOrder(
+        symbol: Stock,
+        type: OrderType,
+        additionalType: AdditionalOrderType.Limit,
+        quantity: Quantity,
+        price: Amount,
+    ): OrderStoreResponse;
 
-    /**
-     * Entry point to place an order
-     * @param symbol Symbol to place order on
-     * @param type Type of order - Buy / Sell
-     * @param quantity Quantity of order
-     * @param price Limit price
-     */
-    placeOrder(symbol: Stock, type: OrderType, quantity: Quantity, price: Amount): OrderStoreResponse {
-        if (type === OrderType.Buy) {
+    public placeOrder(
+        symbol: Stock,
+        type: OrderType,
+        additionalType: AdditionalOrderType.Market,
+        quantity: Quantity,
+    ): OrderStoreResponse;
+
+    public placeOrder(
+        symbol: Stock,
+        type: OrderType,
+        additionalType: AdditionalOrderType,
+        quantity: Quantity,
+        price?: Amount,
+    ): OrderStoreResponse {
+        let order: OrderInput;
+        if (additionalType === AdditionalOrderType.Market) {
+            order = {
+                quantity: quantity,
+                symbol: symbol,
+                type: type,
+                additionalType: AdditionalOrderType.Market,
+                user: this,
+            };
+        } else {
+            order = {
+                quantity: quantity,
+                symbol: symbol,
+                type: type,
+                additionalType: AdditionalOrderType.Limit,
+                user: this,
+                price: price || 0,
+            };
+        }
+        try {
+            this.simulatePlaceOrder(order);
+            return { data: Market.getInstance().placeOrder(order), status: OperationResponseStatus.Success };
+        } catch (err) {
+            return { status: OperationResponseStatus.Error, messages: [{ message: err.message }] };
+        }
+    }
+
+    private simulatePlaceOrder(order: OrderInput): boolean {
+        if (order.type === OrderType.Buy) {
             // For Buy Orders
-            if (this.wallet.getMargin() >= price * quantity) {
-                return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
-            } else {
-                return {
-                    status: OperationResponseStatus.Error,
-                    messages: [{ message: 'Not enough margin to do this operation.' }],
-                };
+            const marginRequired = Market.getInstance().getMarginRequired(order);
+            if (this.wallet.getMargin() < marginRequired) {
+                throw new Error('Not enough margin to do this operation');
             }
         } else {
             // For Sell Orders
-            const currentHolding = this.holdings.getHolding(symbol);
-            if (currentHolding && currentHolding >= quantity + this.orders.getSellOrdersQuantityToSettle(symbol)) {
-                return Market.getInstance().placeOrder(this, symbol, type, quantity, price);
-            } else {
-                return {
-                    status: OperationResponseStatus.Error,
-                    messages: [{ message: 'Not enough holdings to do this operation.' }],
-                };
+            if (
+                this.holdings.getHolding(order.symbol) <
+                order.quantity + this.orders.getSellOrdersQuantityToSettle(order.symbol)
+            ) {
+                throw new Error('Not enough holdings to do this operation');
             }
         }
+        return true;
     }
 
     getOrders(): OrderStore {
