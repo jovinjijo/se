@@ -6,9 +6,9 @@ import { OrderMatcher } from './OrderMatcher';
 export class StockOrderStore extends OrderStore {
     lastTradePrice: Amount;
 
-    constructor() {
+    constructor(lastTradePrice?: Amount) {
         super();
-        this.lastTradePrice = 0;
+        this.lastTradePrice = lastTradePrice || 0;
     }
 
     /**
@@ -32,7 +32,7 @@ export class StockOrderStore extends OrderStore {
             //Find matching Sell orders
             while (
                 this.placedSellOrders[0] &&
-                OrderMatcher.settlementPossible(order, this.placedSellOrders[0]) &&
+                OrderMatcher.buySettlesSell(order, this.placedSellOrders[0]) &&
                 order.getStatus() !== OrderStatus.Confirmed
             ) {
                 //Repeat as long as the Sell order buffer has an order which can be settled with the current Buy order.
@@ -42,7 +42,7 @@ export class StockOrderStore extends OrderStore {
             //Find matching Buy orders
             while (
                 this.placedBuyOrders[0] &&
-                OrderMatcher.settlementPossible(this.placedBuyOrders[0], order) &&
+                OrderMatcher.buySettlesSell(this.placedBuyOrders[0], order) &&
                 order.getStatus() !== OrderStatus.Confirmed
             ) {
                 //Repeat as long as the Buy order buffer has an order which can be settled with the current Sell order.
@@ -52,11 +52,21 @@ export class StockOrderStore extends OrderStore {
     }
 
     /**
-     * Sort according to descending order of price.
+     * Sort according to price for limit orders. Keep Market orders at the front of the queue.
+     * Individual groups(Market orders, Limit orders with same limit price) in ascending order according to time.
      * @param orders Array of orders to sort
      * @param priceSortOrder Sorting order of price
      */
     private static sortOrders(orders: Order[], priceSortOrder: SortOrder): Order[] {
+        orders.sort((a, b) => {
+            if (a.additionalType === AdditionalOrderType.Market && b.additionalType === AdditionalOrderType.Limit) {
+                return -1;
+            }
+            if (a.additionalType === AdditionalOrderType.Limit && b.additionalType === AdditionalOrderType.Market) {
+                return 1;
+            }
+            return 0;
+        });
         if (priceSortOrder === SortOrder.Ascending) {
             return orders.sort((a, b) => a.getPrice() - b.getPrice());
         } else {
@@ -94,14 +104,14 @@ export class StockOrderStore extends OrderStore {
          * So call findMatchingOrdersAndSettle on the other order.
          */
         if (buyQuantity > sellQuantity) {
-            OrderMatcher.settleWithOrder(sell, buy);
+            OrderMatcher.settleOrders(sell, buy, this.lastTradePrice);
             this.confirmOrder(sell);
         } else if (sellQuantity > buyQuantity) {
-            OrderMatcher.settleWithOrder(buy, sell);
+            OrderMatcher.settleOrders(buy, sell, this.lastTradePrice);
             this.confirmOrder(buy);
         } else {
             //If the quantities are the same, both orders will get settled.
-            OrderMatcher.settleWithOrder(buy, sell);
+            OrderMatcher.settleOrders(buy, sell, this.lastTradePrice);
             this.confirmOrder(buy);
             this.confirmOrder(sell);
         }

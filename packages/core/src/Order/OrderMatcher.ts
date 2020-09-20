@@ -1,4 +1,5 @@
-import { OrderStatus, OrderType, Order } from './Order';
+import { OrderStatus, OrderType, Order, AdditionalOrderType } from './Order';
+import { Amount } from '../util/Datatypes';
 
 class OrderMatcher {
     /**
@@ -7,7 +8,10 @@ class OrderMatcher {
      * @param buy Buy order
      * @param sell Sell order
      */
-    static settlementPossible(buy: Order, sell: Order): boolean {
+    static buySettlesSell(buy: Order, sell: Order): boolean {
+        if (buy.additionalType === AdditionalOrderType.Market || sell.additionalType === AdditionalOrderType.Market) {
+            return true;
+        }
         if (
             buy.getAmountSettled() + buy.getQuantityToSettle() * sell.getPrice() <=
             buy.getPrice() * buy.getQuantity()
@@ -15,6 +19,42 @@ class OrderMatcher {
             return true;
         }
         return false;
+    }
+
+    static settlementPossible(order1: Order, order2: Order): boolean {
+        const order1Quantity = order1.getQuantityToSettle();
+        const order2Quantity = order2.getQuantityToSettle();
+        if (
+            order2Quantity >= order1Quantity &&
+            (order1.getOrderType() === OrderType.Buy
+                ? order2.getOrderType() === OrderType.Sell && this.buySettlesSell(order1, order2)
+                : order2.getOrderType() === OrderType.Buy && this.buySettlesSell(order2, order1))
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static getSettlementPrice(order1: Order, order2: Order, lastTradePrice: Amount): Amount {
+        if (
+            order1.additionalType === AdditionalOrderType.Market &&
+            order2.additionalType === AdditionalOrderType.Market
+        ) {
+            return lastTradePrice;
+        } else if (
+            order1.additionalType === AdditionalOrderType.Market &&
+            order2.additionalType === AdditionalOrderType.Limit
+        ) {
+            return order2.getPrice();
+        } else if (
+            order1.additionalType === AdditionalOrderType.Limit &&
+            order2.additionalType === AdditionalOrderType.Market
+        ) {
+            return order1.getPrice();
+        } else {
+            return (order1.getPrice() + order2.getPrice()) / 2;
+        }
     }
 
     /**
@@ -26,19 +66,12 @@ class OrderMatcher {
      *  - order1 and order2 should be a Buy, Sell pair which can be settled according to OrderMatcher::settlementPossible.
      * @param order Order with higher quantity
      */
-    static settleWithOrder(order1: Order, order2: Order): void {
+    static settleOrders(order1: Order, order2: Order, lastTradePrice: Amount): void {
         const order1Quantity = order1.getQuantityToSettle();
         const order2Quantity = order2.getQuantityToSettle();
-        const order1Price = order1.getPrice();
-        const order2Price = order2.getPrice();
-        if (
-            order2Quantity >= order1Quantity &&
-            (order1.getOrderType() === OrderType.Buy
-                ? order2.getOrderType() === OrderType.Sell && this.settlementPossible(order1, order2)
-                : order2.getOrderType() === OrderType.Buy && this.settlementPossible(order2, order1))
-        ) {
+        if (this.settlementPossible(order1, order2)) {
             const time = new Date();
-            const price = (order1Price + order2Price) / 2;
+            const price = this.getSettlementPrice(order1, order2, lastTradePrice);
             order1.settledBy.push({
                 order: order2,
                 quantity: order1Quantity,

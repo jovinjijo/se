@@ -24,7 +24,7 @@ export class Market {
      * Creates an order store for a given Symbol.
      * @param stock Symbol for which a store should be added
      */
-    addOrderStore(stock: Stock): MarketResponse {
+    addOrderStore(stock: Stock, lastTradePrice?: Amount): MarketResponse {
         const orderStore = this.orderStore.get(stock);
         if (orderStore) {
             return {
@@ -32,7 +32,7 @@ export class Market {
                 messages: [{ message: 'OrderStore already exists for stock.' }],
             };
         } else {
-            const orderStore = new StockOrderStore();
+            const orderStore = new StockOrderStore(lastTradePrice);
             this.orderStore.set(stock, orderStore);
             return {
                 data: orderStore,
