@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "tscw": "tsc --watch",
-    "test": "jest --collectCoverage",
+    "test": "jest --collectCoverage --testTimeout 20000",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "precommit": "lint-staged && yarn test",
     "start": "nodemon build/server.js"
