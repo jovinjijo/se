@@ -37,7 +37,7 @@ yarn start
 ## To-do
  - UI
  - Persistence
- - Different types of orders (only limit orders are supported as of now)
+ - Different types of orders (Limit and Market are supported as of now; support for Stop loss, Cover Orders, Bracket Orders)
  - Cancelling orders
  - Roles (Traders, Admins)
  - Leverage

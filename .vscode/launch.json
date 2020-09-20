@@ -10,6 +10,13 @@
       "request": "launch",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["start"]
+    },
+    {
+      "name": "Run Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "test"]
     }
   ]
 }
