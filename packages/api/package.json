@@ -2,7 +2,7 @@
   "name": "@se/api",
   "version": "1.0.0",
   "description": "Stock Exchange API",
-  "main": "build/server.js",
+  "main": "build/index.js",
   "private": true,
   "scripts": {
     "build": "tsc",
