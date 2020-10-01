@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Box, Typography, TextField, Button, withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
+import { LandingProps } from '../Landing/Landing';
+import { apiCall, getErrorMessage } from '../utils/Util';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -11,7 +13,7 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Props extends WithStyles<typeof styles> {
+interface Props extends WithStyles<typeof styles>, LandingProps {
   toggleView: () => void;
 }
 
@@ -29,8 +31,25 @@ class Login extends Component<Props, State> {
     };
   }
 
-  handleLogin = () => {
-    console.log(this.state.username);
+  handleLogin = async () => {
+    this.props.showBusyIndicator(true);
+    const payload = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    try {
+      const response = await apiCall('/v1/user/login', 'POST', payload);
+      const error = getErrorMessage(response);
+      if (error) {
+        this.props.showMessagePopup('error', error);
+      } else {
+        this.props.navigateToHome();
+      }
+    } catch (ex) {
+      this.props.showMessagePopup('error', ex.message);
+    } finally {
+      this.props.showBusyIndicator(false);
+    }
   };
 
   handleNavigateSignup = () => {
@@ -44,7 +63,6 @@ class Login extends Component<Props, State> {
           Login
         </Typography>
         <TextField
-          id="username"
           label="Username"
           variant="outlined"
           onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -53,7 +71,6 @@ class Login extends Component<Props, State> {
         />
         <br />
         <TextField
-          id="password"
           label="Password"
           variant="outlined"
           type="password"
@@ -66,7 +83,7 @@ class Login extends Component<Props, State> {
           Login
         </Button>
         <br />
-        <Button variant="contained" color="secondary" onClick={this.handleNavigateSignup}>
+        <Button variant="contained" color="default" onClick={this.handleNavigateSignup}>
           New user? Signup
         </Button>
       </Box>
