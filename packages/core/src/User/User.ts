@@ -1,4 +1,4 @@
-import { ID, Amount, Stock, Quantity, OperationResponseStatus, OperationResponse } from '../util/Datatypes';
+import { ID, Amount, Stock, Quantity, OperationResponseStatus } from '../util/Datatypes';
 import { Wallet } from './Wallet';
 import { Holding, HoldingsData } from './Holding/Holding';
 import { OrderType, Order, OrderStatus, AdditionalOrderType, OrderInput } from '../Order/Order';

@@ -2,7 +2,7 @@ import { HoldingsData } from '@se/core';
 
 export function getErrorMessage(response: any): string | null {
   if (response.errors && response.errors.length > 0) {
-    return `${response.message}: ${response.errors[0]}`;
+    return `${response.errors[0]}`;
   }
   if (response.message) {
     return response.message;

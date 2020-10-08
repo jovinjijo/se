@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Box, Typography, TextField, Button, withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
-import { apiCall, getErrorMessage, sampleHoldings } from '../utils/Util';
+import { apiCall, getErrorMessage, sampleHoldings } from '../../utils/Util';
 import { Amount, HoldingsData } from '@se/core';
-import { LandingProps } from '../Landing/Landing';
+import { LandingProps } from '../Landing';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -15,7 +15,7 @@ const styles = (theme: Theme) =>
   });
 
 interface Props extends WithStyles<typeof styles>, LandingProps {
-  toggleView: () => void;
+  toggleLoginSignup: () => void;
 }
 
 interface State {
@@ -50,17 +50,13 @@ class Signup extends Component<Props, State> {
       if (error) {
         this.props.showMessagePopup('error', error);
       } else {
-        this.props.navigateToHome();
+        this.props.login(true);
       }
     } catch (ex) {
       this.props.showMessagePopup('error', ex.message);
     } finally {
       this.props.showBusyIndicator(false);
     }
-  };
-
-  handleNavigateLogin = () => {
-    this.props.toggleView();
   };
 
   render() {
@@ -98,7 +94,7 @@ class Signup extends Component<Props, State> {
           Signup
         </Button>
         <br />
-        <Button variant="contained" color="default" onClick={this.handleNavigateLogin}>
+        <Button variant="contained" color="default" onClick={this.props.toggleLoginSignup}>
           Already a user? Login
         </Button>
       </Box>

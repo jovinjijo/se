@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
-import Login from '../Login/Login';
-import Signup from '../Signup/Signup';
+import { Grid, Zoom } from '@material-ui/core';
+import Login from './Login/Login';
+import Signup from './Signup/Signup';
 import { AppProps } from '../App';
+import { apiCall, getErrorMessage } from '../utils/Util';
 
 export interface LandingProps extends AppProps {
-  navigateToHome: () => void;
+  hidden: boolean;
 }
 
 interface State {
@@ -18,7 +19,23 @@ class Landing extends Component<LandingProps, State> {
     this.state = {
       loginVisible: true,
     };
+    this.checkLogin();
   }
+
+  checkLogin = async () => {
+    this.props.showBusyIndicator(true);
+    try {
+      const response = await apiCall('/v1/user/check', 'GET');
+      const error = getErrorMessage(response);
+      if (!error) {
+        this.props.login(true);
+      }
+    } catch (ex) {
+      this.props.showMessagePopup('error', ex.message);
+    } finally {
+      this.props.showBusyIndicator(false);
+    }
+  };
 
   toggleLoginSignup = () => {
     this.setState({
@@ -28,15 +45,28 @@ class Landing extends Component<LandingProps, State> {
 
   render() {
     const { loginVisible } = this.state;
+    const { toggleLoginSignup } = this;
+    const { hidden } = this.props;
     return (
-      <Grid container spacing={2} direction="row" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
-        <Grid item hidden={!loginVisible}>
-          <Login toggleView={this.toggleLoginSignup} {...this.props} />
-        </Grid>
-        <Grid item hidden={loginVisible}>
-          <Signup toggleView={this.toggleLoginSignup} {...this.props} />
-        </Grid>
-      </Grid>
+      <Zoom in={!hidden}>
+        <div style={{ height: hidden ? '0px' : '100vh', overflow: 'hidden' }}>
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '100vh' }}
+          >
+            <Grid item hidden={!loginVisible}>
+              <Login {...{ toggleLoginSignup, ...this.props }} />
+            </Grid>
+            <Grid item hidden={loginVisible}>
+              <Signup {...{ toggleLoginSignup, ...this.props }} />
+            </Grid>
+          </Grid>
+        </div>
+      </Zoom>
     );
   }
 }

@@ -1,0 +1,33 @@
+import React, { Component } from 'react';
+import { createStyles, Divider, Grid, Theme, WithStyles, withStyles } from '@material-ui/core';
+import BuySell from './BuySell/BuySell';
+import AdditionalDetails from './AdditionalDetails/AdditionalDetails';
+import { DetailViewProps } from '../DetailView';
+
+const styles = (theme: Theme) => createStyles({});
+
+interface Props extends WithStyles<typeof styles>, Pick<DetailViewProps, 'user'> {}
+
+interface State {
+  buySellVisible: boolean;
+}
+
+class ActionsDetails extends Component<Props, State> {
+  render() {
+    return (
+      <Grid container direction="row" style={{ justifyContent: 'space-around', height: '100%' }}>
+        <Grid item style={{ width: '40%' }}>
+          <BuySell {...this.props} />
+        </Grid>
+        <Grid item>
+          <Divider orientation="vertical" />
+        </Grid>
+        <Grid item style={{ width: '59%' }}>
+          <AdditionalDetails {...this.props} />
+        </Grid>
+      </Grid>
+    );
+  }
+}
+
+export default withStyles(styles)(ActionsDetails);

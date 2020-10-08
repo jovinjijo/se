@@ -12,3 +12,5 @@ const server = app.listen(app.get('port'), () => {
 });
 
 export { server };
+export { UserStoreItemDetails } from './src/models/User';
+export { OrderStoreDetails } from './src/models/Order';

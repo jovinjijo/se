@@ -4,9 +4,10 @@ import { OrderRepository, OrderStoreDetails } from './Order';
 
 const saltRounds = 10;
 
-export interface UserDetails extends Omit<IUser, 'orders' | 'holdings' | 'name'> {
+export interface UserDetails extends Omit<IUser, 'orders' | 'holdings' | 'name' | 'wallet'> {
     orders: OrderStoreDetails;
     holdings: HoldingsData;
+    wallet: { margin: Amount };
 }
 
 export interface UserStoreItem {

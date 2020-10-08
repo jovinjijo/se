@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Box, Typography, TextField, Button, withStyles, Theme, createStyles, WithStyles } from '@material-ui/core';
-import { LandingProps } from '../Landing/Landing';
-import { apiCall, getErrorMessage } from '../utils/Util';
+import { LandingProps } from '../Landing';
+import { apiCall, getErrorMessage } from '../../utils/Util';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   });
 
 interface Props extends WithStyles<typeof styles>, LandingProps {
-  toggleView: () => void;
+  toggleLoginSignup: () => void;
 }
 
 interface State {
@@ -43,17 +43,13 @@ class Login extends Component<Props, State> {
       if (error) {
         this.props.showMessagePopup('error', error);
       } else {
-        this.props.navigateToHome();
+        this.props.login(true);
       }
     } catch (ex) {
       this.props.showMessagePopup('error', ex.message);
     } finally {
       this.props.showBusyIndicator(false);
     }
-  };
-
-  handleNavigateSignup = () => {
-    this.props.toggleView();
   };
 
   render() {
@@ -83,7 +79,7 @@ class Login extends Component<Props, State> {
           Login
         </Button>
         <br />
-        <Button variant="contained" color="default" onClick={this.handleNavigateSignup}>
+        <Button variant="contained" color="default" onClick={this.props.toggleLoginSignup}>
           New user? Signup
         </Button>
       </Box>
