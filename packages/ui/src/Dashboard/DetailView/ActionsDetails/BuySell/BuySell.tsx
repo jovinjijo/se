@@ -3,6 +3,7 @@ import { Typography, Button, ButtonGroup, TextField, Box } from '@material-ui/co
 import { createStyles, Grid, Theme, withStyles, WithStyles, Divider } from '@material-ui/core';
 import { AdditionalOrderType, Amount, OrderType, Quantity, Stock } from '@se/core';
 import { apiCall, getErrorMessage } from '../../../../utils/Util';
+import { DetailViewProps } from '../../DetailView';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -15,10 +16,7 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Props extends WithStyles<typeof styles> {
-  stock: Stock;
-  orderType: OrderType;
-}
+interface Props extends WithStyles<typeof styles>, Omit<DetailViewProps, 'classes'> {}
 
 interface State {
   quantity: Quantity;
@@ -36,14 +34,20 @@ class BuySell extends Component<Props, State> {
     };
   }
 
-  handleMarketOrder = () => this.setState({ additionalOrderType: AdditionalOrderType.Market });
-  handleLimitOrder = () => this.setState({ additionalOrderType: AdditionalOrderType.Limit });
+  handleMarketOrder = () => this.setState({
+    ...this.state,
+    additionalOrderType: AdditionalOrderType.Market,
+  });
+  handleLimitOrder = () => this.setState({
+    ...this.state,
+    additionalOrderType: AdditionalOrderType.Limit,
+  });
 
   handleBuySell = async () => {
     const sendPrice = this.state.additionalOrderType == 'Limit' ? this.state.price : 0;
     const payload = {
-      symbol: this.props.stock,
-      orderType: this.props.orderType,
+      symbol: 'TSLA',//this.props.selectedStock,
+      orderType: this.props.selectedOrderType,
       additionalOrderType: this.state.additionalOrderType,
       price: sendPrice,
       quantity: this.state.quantity,
@@ -52,27 +56,23 @@ class BuySell extends Component<Props, State> {
       const response = await apiCall('/v1/order/place', 'POST', payload);
       const error = getErrorMessage(response);
       if (error) {
-        console.log('Error');
-        console.log(error);
-        console.log(payload);
-        console.log(response);
-      } else {
-        console.log('Placed');
-        console.log(payload);
-        console.log(response);
+        this.props.showMessagePopup('error', response.errors.join(' , '));
       }
-    } catch (error) {
-      console.error(error);
+      else {
+        this.props.showMessagePopup('success', response.data.status);
+        this.props.fetchUserDetails();
+      }
+    } catch (ex) {
+      this.props.showMessagePopup('error', ex.message);
     }
   };
 
   render() {
-    const stock = this.props.stock;
-    const orderType = this.props.orderType;
+    const { selectedStock, selectedOrderType } = this.props;
     return (
       <Grid container direction="column" style={{ height: '100%' }} className={this.props.classes.root}>
         <Typography variant="subtitle2">
-          {orderType == OrderType.Buy ? 'BUY' : 'SELL'} {stock}
+          {selectedOrderType == OrderType.Buy ? 'BUY' : 'SELL'} {selectedStock}
         </Typography>
 
         <Divider variant="middle" />
@@ -126,7 +126,7 @@ class BuySell extends Component<Props, State> {
 
         <Box>
           <Typography display="inline">
-            {orderType == OrderType.Buy ? 'Buy' : 'Sell'} {stock} × {this.state.quantity} Qty
+            {selectedOrderType == OrderType.Buy ? 'Buy' : 'Sell'} {selectedStock} × {this.state.quantity} Qty
           </Typography>
           {this.state.additionalOrderType == 'Limit' && (
             <Typography display="inline"> at ₹{this.state.price}</Typography>
@@ -135,7 +135,7 @@ class BuySell extends Component<Props, State> {
 
         <Box>
           <Button fullWidth color="primary" variant="contained" onClick={this.handleBuySell}>
-            {orderType == OrderType.Buy ? 'Buy' : 'Sell'}
+            {selectedOrderType == OrderType.Buy ? 'Buy' : 'Sell'}
           </Button>
         </Box>
       </Grid>

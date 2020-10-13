@@ -6,7 +6,7 @@ import { DetailViewProps } from '../DetailView';
 
 const styles = (theme: Theme) => createStyles({});
 
-interface Props extends WithStyles<typeof styles>, Pick<DetailViewProps, 'user'> {}
+interface Props extends WithStyles<typeof styles>, Omit<DetailViewProps, 'classes'> {}
 
 interface State {
   buySellVisible: boolean;

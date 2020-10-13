@@ -6,6 +6,7 @@ import ListOfStocks from './ListOfStocks/ListOfStocks';
 import DetailView from './DetailView/DetailView';
 import { UserStoreItemDetails } from '@se/api';
 import { apiCall, getErrorMessage } from '../utils/Util';
+import { Stock, OrderType } from '@se/core';
 
 const styles = (theme: Theme) => createStyles({});
 
@@ -15,6 +16,8 @@ interface DashboardProps extends WithStyles<typeof styles>, AppProps {
 
 interface State {
   user: UserStoreItemDetails;
+  selectedStock?: Stock;
+  selectedOrderType: OrderType;
 }
 
 class Dashboard extends Component<DashboardProps, State> {
@@ -28,6 +31,7 @@ class Dashboard extends Component<DashboardProps, State> {
         username: '',
         wallet: { margin: 0 },
       },
+      selectedOrderType: OrderType.Buy,
     };
   }
 
@@ -49,6 +53,14 @@ class Dashboard extends Component<DashboardProps, State> {
     }
   };
 
+  updateSelectedStock = (selectedStock: Stock) => {
+    this.setState({...this.state, selectedStock })
+  }
+
+  updateSelectedOrderType = (selectedOrderType: OrderType) => {
+    this.setState({...this.state, selectedOrderType })
+  }
+
   async componentDidUpdate(prevProps: DashboardProps) {
     if (this.props.hidden !== prevProps.hidden) {
       this.fetchUserDetails();
@@ -57,7 +69,8 @@ class Dashboard extends Component<DashboardProps, State> {
 
   render() {
     const { hidden } = this.props;
-    const { user } = this.state;
+    const { user, selectedOrderType, selectedStock } = this.state;
+    const { updateSelectedStock, updateSelectedOrderType , fetchUserDetails } = this;
     return (
       <Zoom in={!hidden} style={{ height: '100vh' }}>
         <Grid container direction="column">
@@ -70,11 +83,11 @@ class Dashboard extends Component<DashboardProps, State> {
                 <Divider orientation="vertical" />
               </Grid>
               <Grid item style={{ width: '30%' }}>
-                <ListOfStocks {...this.props} />
+                <ListOfStocks {...{ updateSelectedStock, updateSelectedOrderType, ...this.props }} />
               </Grid>
               <Divider orientation="vertical" />
               <Grid item style={{ width: '69%' }}>
-                <DetailView {...{ user }} />
+                <DetailView {...{ user, selectedOrderType, selectedStock, fetchUserDetails, ...this.props}} />
               </Grid>
               <Grid item>
                 <Divider orientation="vertical" />

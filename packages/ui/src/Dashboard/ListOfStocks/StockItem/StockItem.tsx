@@ -10,6 +10,7 @@ import {
   WithStyles,
 } from '@material-ui/core';
 import { Amount, Stock } from '@se/core';
+import { ListStockProps } from '../ListOfStocks';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -17,7 +18,7 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-interface StockItemProps extends WithStyles<typeof styles> {
+interface StockItemProps extends WithStyles<typeof styles>, Omit<ListStockProps, 'classes'> {
   stock: Stock;
   ltp: Amount;
 }
