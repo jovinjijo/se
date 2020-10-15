@@ -13,6 +13,8 @@ export interface DetailViewProps extends WithStyles<typeof styles>, AppProps {
   selectedStock?: Stock;
   selectedOrderType: OrderType;
   fetchUserDetails: () => void;
+  updateSelectedStock : (selectedStock: Stock) => void;
+  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
 }
 
 interface State {}

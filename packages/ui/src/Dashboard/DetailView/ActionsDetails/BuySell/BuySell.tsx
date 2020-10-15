@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Typography, Button, ButtonGroup, TextField, Box } from '@material-ui/core';
 import { createStyles, Grid, Theme, withStyles, WithStyles, Divider } from '@material-ui/core';
-import { AdditionalOrderType, Amount, OrderType, Quantity, Stock } from '@se/core';
+import { AdditionalOrderType, Amount, OrderType, Quantity } from '@se/core';
 import { apiCall, getErrorMessage } from '../../../../utils/Util';
 import { DetailViewProps } from '../../DetailView';
 
@@ -46,7 +46,7 @@ class BuySell extends Component<Props, State> {
   handleBuySell = async () => {
     const sendPrice = this.state.additionalOrderType == 'Limit' ? this.state.price : 0;
     const payload = {
-      symbol: 'TSLA',//this.props.selectedStock,
+      symbol: this.props.selectedStock,
       orderType: this.props.selectedOrderType,
       additionalOrderType: this.state.additionalOrderType,
       price: sendPrice,
@@ -56,10 +56,10 @@ class BuySell extends Component<Props, State> {
       const response = await apiCall('/v1/order/place', 'POST', payload);
       const error = getErrorMessage(response);
       if (error) {
-        this.props.showMessagePopup('error', response.errors.join(' , '));
+        this.props.showMessagePopup('error', response.errors[0]);
       }
       else {
-        this.props.showMessagePopup('success', response.data.status);
+        this.props.showMessagePopup('success', 'Order Placed');
         this.props.fetchUserDetails();
       }
     } catch (ex) {

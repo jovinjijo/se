@@ -54,11 +54,11 @@ class Dashboard extends Component<DashboardProps, State> {
   };
 
   updateSelectedStock = (selectedStock: Stock) => {
-    this.setState({...this.state, selectedStock })
+    setTimeout(() => { this.setState({...this.state, selectedStock }); }, 10);
   }
 
   updateSelectedOrderType = (selectedOrderType: OrderType) => {
-    this.setState({...this.state, selectedOrderType })
+    this.setState({...this.state, selectedOrderType });
   }
 
   async componentDidUpdate(prevProps: DashboardProps) {
@@ -87,7 +87,7 @@ class Dashboard extends Component<DashboardProps, State> {
               </Grid>
               <Divider orientation="vertical" />
               <Grid item style={{ width: '69%' }}>
-                <DetailView {...{ user, selectedOrderType, selectedStock, fetchUserDetails, ...this.props}} />
+                <DetailView {...{ user, selectedOrderType, selectedStock, updateSelectedStock, updateSelectedOrderType, fetchUserDetails, ...this.props}} />
               </Grid>
               <Grid item>
                 <Divider orientation="vertical" />
