@@ -34,14 +34,16 @@ class BuySell extends Component<Props, State> {
     };
   }
 
-  handleMarketOrder = () => this.setState({
-    ...this.state,
-    additionalOrderType: AdditionalOrderType.Market,
-  });
-  handleLimitOrder = () => this.setState({
-    ...this.state,
-    additionalOrderType: AdditionalOrderType.Limit,
-  });
+  handleMarketOrder = () =>
+    this.setState({
+      ...this.state,
+      additionalOrderType: AdditionalOrderType.Market,
+    });
+  handleLimitOrder = () =>
+    this.setState({
+      ...this.state,
+      additionalOrderType: AdditionalOrderType.Limit,
+    });
 
   handleBuySell = async () => {
     const sendPrice = this.state.additionalOrderType == 'Limit' ? this.state.price : 0;
@@ -56,9 +58,8 @@ class BuySell extends Component<Props, State> {
       const response = await apiCall('/v1/order/place', 'POST', payload);
       const error = getErrorMessage(response);
       if (error) {
-        this.props.showMessagePopup('error', response.errors[0]);
-      }
-      else {
+        this.props.showMessagePopup('error', error);
+      } else {
         this.props.showMessagePopup('success', 'Order Placed');
         this.props.fetchUserDetails();
       }
