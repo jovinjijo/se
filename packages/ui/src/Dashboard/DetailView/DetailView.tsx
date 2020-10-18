@@ -3,11 +3,18 @@ import { createStyles, Divider, Grid, Theme, withStyles, WithStyles } from '@mat
 import ActionsDetails from './ActionsDetails/ActionsDetails';
 import Graphs from './Graphs/Graphs';
 import { UserStoreItemDetails } from '@se/api';
+import { AppProps } from '../../App';
+import { OrderType, Stock } from '@se/core';
 
 const styles = (theme: Theme) => createStyles({});
 
-export interface DetailViewProps extends WithStyles<typeof styles> {
+export interface DetailViewProps extends WithStyles<typeof styles>, AppProps {
   user: UserStoreItemDetails;
+  selectedStock?: Stock;
+  selectedOrderType: OrderType;
+  fetchUserDetails: () => void;
+  updateSelectedStock : (selectedStock: Stock) => void;
+  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
 }
 
 interface State {}

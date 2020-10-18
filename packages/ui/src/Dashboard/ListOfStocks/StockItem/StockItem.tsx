@@ -9,7 +9,8 @@ import {
   withStyles,
   WithStyles,
 } from '@material-ui/core';
-import { Amount, Stock } from '@se/core';
+import { Amount, OrderType, Stock } from '@se/core';
+import { ListStockProps } from '../ListOfStocks';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -17,7 +18,7 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-interface StockItemProps extends WithStyles<typeof styles> {
+interface StockItemProps extends WithStyles<typeof styles>, Omit<ListStockProps, 'classes'> {
   stock: Stock;
   ltp: Amount;
 }
@@ -29,14 +30,19 @@ class StockItem extends Component<StockItemProps, State> {
     super(props);
     this.state = {};
   }
-
+  
+  handleSelect = (orderType: OrderType) => () => {
+    this.props.updateSelectedStock(this.props.stock);
+    this.props.updateSelectedOrderType(orderType);
+  }
+  
   render() {
     return (
       <ListItem button>
         <ListItemText primary={this.props.stock} />
         <ButtonGroup size="small" variant="contained" color="primary" className={this.props.classes.root}>
-          <Button color="primary">B</Button>
-          <Button color="secondary">S</Button>
+          <Button onClick={this.handleSelect(OrderType.Buy)} color="primary">B</Button>
+          <Button onClick={this.handleSelect(OrderType.Sell)} color="secondary">S</Button>
         </ButtonGroup>
         <span className={'MuiLabel-amount'}>{this.props.ltp}</span>
         

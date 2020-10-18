@@ -11,7 +11,7 @@ import {
   WithStyles,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Stock } from '@se/core';
+import { OrderType, Stock } from '@se/core';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -23,6 +23,8 @@ const styles = (theme: Theme) =>
 interface HoldingItemProps extends WithStyles<typeof styles> {
   stock: Stock;
   quantity: number;
+  updateSelectedStock : (selectedStock: Stock) => void;
+  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
 }
 
 interface State {}
@@ -33,6 +35,11 @@ class HoldingItem extends Component<HoldingItemProps, State> {
     this.state = {};
   }
 
+  handleSelect = (orderType: OrderType) => () => {
+    this.props.updateSelectedStock(this.props.stock);
+    this.props.updateSelectedOrderType(orderType);
+  }
+
   render() {
     return (
       <Accordion>
@@ -41,10 +48,10 @@ class HoldingItem extends Component<HoldingItemProps, State> {
           <Typography>{this.props.quantity}</Typography>
         </AccordionSummary>
         <AccordionActions>
-          <Button color="primary" variant="contained">
+          <Button onClick={this.handleSelect(OrderType.Buy)} color="primary" variant="contained">
             Add
           </Button>
-          <Button color="secondary" variant="contained">
+          <Button onClick={this.handleSelect(OrderType.Sell)} color="secondary" variant="contained">
             Exit
           </Button>
         </AccordionActions>

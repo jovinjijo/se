@@ -31,14 +31,14 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-interface Props extends WithStyles<typeof styles>, Pick<DetailViewProps, 'user'> {}
+interface AdditionalDetailsProps extends WithStyles<typeof styles>, Pick<DetailViewProps, 'user' | 'updateSelectedStock' | 'updateSelectedOrderType'> {}
 
 interface State {
   selectedScreen: number;
 }
 
-class AdditionalDetails extends Component<Props, State> {
-  constructor(props: Props) {
+class AdditionalDetails extends Component<AdditionalDetailsProps, State> {
+  constructor(props: AdditionalDetailsProps) {
     super(props);
     this.state = {
       selectedScreen: 0,
@@ -55,6 +55,7 @@ class AdditionalDetails extends Component<Props, State> {
   render() {
     const { wallet, holdings, orders } = this.props.user;
     const { selectedScreen } = this.state;
+    const { updateSelectedStock, updateSelectedOrderType } = this.props;
     return (
       <div className={this.props.classes.root}>
         <Tabs value={selectedScreen} onChange={this.handleChange} indicatorColor="primary" variant="fullWidth">
@@ -66,7 +67,7 @@ class AdditionalDetails extends Component<Props, State> {
           <Orders {...{ orders }} />
         </TabPanel>
         <TabPanel value={selectedScreen} index={1}>
-          <Holdings {...{ holdings }} />
+          <Holdings {...{ holdings, updateSelectedStock, updateSelectedOrderType }} />
         </TabPanel>
         <TabPanel value={selectedScreen} index={2}>
           <Funds {...{ wallet }} />
