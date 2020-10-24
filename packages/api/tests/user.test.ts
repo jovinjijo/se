@@ -9,7 +9,7 @@ import { SocketService } from '../src/services/SocketService';
 let server: Server;
 
 beforeAll((done) => {
-    const server = createServer(app);
+    server = createServer(app);
     const socketService = new SocketService(server);
 
     initMarket(socketService);
