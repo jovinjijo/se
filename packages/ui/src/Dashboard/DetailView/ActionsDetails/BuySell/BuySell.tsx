@@ -61,7 +61,6 @@ class BuySell extends Component<Props, State> {
         this.props.showMessagePopup('error', error);
       } else {
         this.props.showMessagePopup('success', 'Order Placed');
-        this.props.fetchUserDetails();
       }
     } catch (ex) {
       this.props.showMessagePopup('error', ex.message);

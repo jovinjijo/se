@@ -4,9 +4,10 @@ import { AppProps } from '../App';
 import Bar from '../Bar/Bar';
 import ListOfStocks from './ListOfStocks/ListOfStocks';
 import DetailView from './DetailView/DetailView';
-import { UserStoreItemDetails } from '@se/api';
+import { UserDetails, UserStoreItemDetails } from '@se/api';
 import { apiCall, getErrorMessage } from '../utils/Util';
-import { Stock, OrderType } from '@se/core';
+import { Stock, OrderType, LtpMap, Amount } from '@se/core';
+import { SocketClient } from '../utils/SocketClient';
 
 const styles = (theme: Theme) => createStyles({});
 
@@ -18,6 +19,7 @@ interface State {
   user: UserStoreItemDetails;
   selectedStock?: Stock;
   selectedOrderType: OrderType;
+  ltpMap: Partial<Record<Stock, Amount>>;
 }
 
 class Dashboard extends Component<DashboardProps, State> {
@@ -31,6 +33,7 @@ class Dashboard extends Component<DashboardProps, State> {
         username: '',
         wallet: { margin: 0 },
       },
+      ltpMap: {},
       selectedOrderType: OrderType.Buy,
     };
   }
@@ -61,15 +64,24 @@ class Dashboard extends Component<DashboardProps, State> {
     this.setState({...this.state, selectedOrderType });
   }
 
+  updateLtp(ltpMap: LtpMap): void {
+    this.setState({ ...this.state, ltpMap: { ...this.state.ltpMap, ...ltpMap } });
+  }
+
+  updateUserDetails(user: Partial<UserDetails>): void {
+    this.setState({ ...this.state, user: { ...this.state.user, ...user } });
+  }
+
   async componentDidUpdate(prevProps: DashboardProps) {
     if (this.props.hidden !== prevProps.hidden) {
-      this.fetchUserDetails();
+      await this.fetchUserDetails();
+      new SocketClient(this.updateUserDetails.bind(this), this.updateLtp.bind(this));
     }
   }
 
   render() {
     const { hidden } = this.props;
-    const { user, selectedOrderType, selectedStock } = this.state;
+    const { user, selectedOrderType, selectedStock, ltpMap } = this.state;
     const { updateSelectedStock, updateSelectedOrderType , fetchUserDetails } = this;
     return (
       <Zoom in={!hidden} style={{ height: '100vh' }}>
@@ -83,7 +95,7 @@ class Dashboard extends Component<DashboardProps, State> {
                 <Divider orientation="vertical" />
               </Grid>
               <Grid item style={{ width: '30%' }}>
-                <ListOfStocks {...{ updateSelectedStock, updateSelectedOrderType, ...this.props }} />
+                <ListOfStocks {...{ updateSelectedStock, updateSelectedOrderType, ltpMap, ...this.props }} />
               </Grid>
               <Divider orientation="vertical" />
               <Grid item style={{ width: '69%' }}>

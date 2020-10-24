@@ -2,6 +2,7 @@ import { Order, OrderType, OrderStatus, OrderInput, AdditionalOrderType } from '
 import { Amount, SortOrder } from '../util/Datatypes';
 import { OrderStore } from './OrderStore';
 import { OrderMatcher } from './OrderMatcher';
+import { Market } from '../Market/Market';
 
 export class StockOrderStore extends OrderStore {
     lastTradePrice: Amount;
@@ -115,7 +116,16 @@ export class StockOrderStore extends OrderStore {
             this.confirmOrder(buy);
             this.confirmOrder(sell);
         }
-        this.lastTradePrice = sell.getLatestSettlement().price;
+
+        const sellLatestSettlement = sell.getLatestSettlement();
+        if (this.lastTradePrice !== sellLatestSettlement.price) {
+            this.lastTradePrice = sellLatestSettlement.price;
+            Market.getInstance().notification?.notifyLtpUpdate(
+                sell.getSymbol(),
+                this.lastTradePrice,
+                sellLatestSettlement.time,
+            );
+        }
 
         if (buyQuantity > sellQuantity) {
             this.findMatchingOrdersAndSettle(buy);

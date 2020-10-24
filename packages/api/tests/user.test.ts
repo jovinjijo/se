@@ -1,15 +1,19 @@
 import * as newman from 'newman';
 import collection from '../docs/se_api.postman_collection.json';
-import { Server } from 'http';
+import { Server, createServer } from 'http';
 
 import app from '../src/app';
 import { initMarket } from '../src/util/Methods';
+import { SocketService } from '../src/services/SocketService';
 
 let server: Server;
 
 beforeAll((done) => {
-    initMarket();
-    server = app.listen(app.get('port'), () => {
+    const server = createServer(app);
+    const socketService = new SocketService(server);
+
+    initMarket(socketService);
+    server.listen(app.get('port'), () => {
         done();
     });
 });

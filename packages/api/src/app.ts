@@ -1,7 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 import bodyParser from 'body-parser';
-import session from 'express-session';
+import expressSession from 'express-session';
 import path from 'path';
 import methodOverride from 'method-override';
 
@@ -20,13 +20,12 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-    session({
-        resave: true,
-        saveUninitialized: true,
-        secret: process.env['SESSION_SECRET'] || '12345678',
-    }),
-);
+const session = expressSession({
+    resave: true,
+    saveUninitialized: true,
+    secret: process.env['SESSION_SECRET'] || '12345678',
+});
+app.use(session);
 
 // If a user is logged in, fill up req.user with user details
 app.use(fillUserData);
@@ -52,3 +51,4 @@ app.use(methodOverride());
 app.use(errorHandler);
 
 export default app;
+export { session };
