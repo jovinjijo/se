@@ -16,13 +16,13 @@ class ActionsDetails extends Component<Props, State> {
   render() {
     return (
       <Grid container direction="row" style={{ justifyContent: 'space-around', height: '100%' }}>
-        <Grid item style={{ width: '40%' }}>
+        <Grid item style={{ width: '35%' }}>
           <BuySell {...this.props} />
         </Grid>
         <Grid item>
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item style={{ width: '59%' }}>
+        <Grid item style={{ width: '64%' }}>
           <AdditionalDetails {...this.props} />
         </Grid>
       </Grid>
