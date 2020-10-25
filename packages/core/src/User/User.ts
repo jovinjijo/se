@@ -124,6 +124,7 @@ export class User implements IUser {
             this.holdings.releaseHolding({ stock: order.getSymbol(), quantity: settlement.quantity });
             this.wallet.updateMargin(settlement.quantity * settlement.price);
         }
+        Market.getInstance().notification?.notifyOrderUpdate(this, order);
     }
 
     /**
@@ -135,5 +136,6 @@ export class User implements IUser {
         if (order.getOrderType() === OrderType.Buy) {
             this.wallet.updateMargin(-order.getQuantity() * order.getPrice());
         }
+        Market.getInstance().notification?.notifyOrderUpdate(this, order);
     }
 }

@@ -88,7 +88,7 @@ class OrderMatcher {
             });
             if (order2Quantity === order1Quantity) {
                 order2.setStatus(OrderStatus.Confirmed);
-            } else {
+            } else if (order2.getStatus() === OrderStatus.Placed) {
                 order2.setStatus(OrderStatus.PartiallyFilled);
             }
             order2.user.notifyOrderUpdate(order2);

@@ -1,13 +1,16 @@
 import { Stock, OperationResponse, ID, OperationResponseStatus, Amount } from '../util/Datatypes';
 import { StockOrderStore } from '../Order/StockOrderStore';
 import { OrderInput, Order } from '../Order/Order';
+import { Notification } from '../util/Notification';
 
+export type LtpMap = Partial<Record<Stock, Amount>>;
 export type MarketResponse = OperationResponse<StockOrderStore>;
 
 export class Market {
     static nextOrderId: ID = 1;
     orderStore: Map<Stock, StockOrderStore>;
     static instance: Market;
+    notification?: Notification;
 
     private constructor() {
         this.orderStore = new Map<Stock, StockOrderStore>();
@@ -61,7 +64,19 @@ export class Market {
         return this.getOrderStoreForStock(order.symbol).getMarginRequired(order);
     }
 
+    attachNotification(notification: Notification): void {
+        this.notification = notification;
+    }
+
     static getNextOrderId(): ID {
         return this.nextOrderId++;
+    }
+
+    getLtpForOrderStores(): LtpMap {
+        const ltpMap: LtpMap = {};
+        this.orderStore.forEach((orderStore, stock) => {
+            ltpMap[stock] = orderStore.lastTradePrice;
+        });
+        return ltpMap;
     }
 }

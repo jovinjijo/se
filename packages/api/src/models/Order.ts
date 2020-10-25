@@ -14,33 +14,25 @@ import {
     ID,
 } from '@se/core';
 
-type TruncatedOrderDetails =
-    | OrderInput
-    | {
-          id: ID;
-          time: Date;
-      };
+type TruncatedOrderDetails = Omit<OrderInput, 'user'> & {
+    id: ID;
+    time: Date;
+};
 
-type ConfirmedOrderDetails =
-    | TruncatedOrderDetails
-    | {
-          status: OrderStatus.Confirmed;
-          avgSettledPrice: Amount;
-          settledTime: Date;
-      };
+type ConfirmedOrderDetails = TruncatedOrderDetails & {
+    status: OrderStatus.Confirmed;
+    avgSettledPrice: Amount;
+    settledTime: Date;
+};
 
-type PlacedOrderDetails =
-    | TruncatedOrderDetails
-    | {
-          status: OrderStatus.Placed;
-      };
+type PlacedOrderDetails = TruncatedOrderDetails & {
+    status: OrderStatus.Placed;
+};
 
-type PartiallyFilledOrderDetails =
-    | TruncatedOrderDetails
-    | {
-          status: OrderStatus.PartiallyFilled;
-          quantityFilled: Quantity;
-      };
+type PartiallyFilledOrderDetails = TruncatedOrderDetails & {
+    status: OrderStatus.PartiallyFilled;
+    quantityFilled: Quantity;
+};
 
 export type OrderDetails = ConfirmedOrderDetails | PlacedOrderDetails | PartiallyFilledOrderDetails;
 
@@ -81,12 +73,20 @@ export class OrderRepository {
     }
 
     public static getOrderDetails(order: Order): OrderDetails {
+        const orderInput: OrderInput = {
+            ...{
+                quantity: order.quantity,
+                symbol: order.symbol,
+                type: order.type,
+                user: order.user,
+            },
+            ...(order.additionalType === AdditionalOrderType.Market
+                ? { additionalType: AdditionalOrderType.Market }
+                : { additionalType: AdditionalOrderType.Limit, price: order.price }),
+        };
         const orderDetails: TruncatedOrderDetails = {
+            ...{ ...orderInput, user: undefined },
             id: order.id,
-            price: order.price,
-            quantity: order.quantity,
-            symbol: order.symbol,
-            type: order.type,
             time: order.time,
         };
         if (order.status === OrderStatus.Confirmed) {

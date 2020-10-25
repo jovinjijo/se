@@ -13,7 +13,7 @@ export function getErrorMessage(response: any): string | null {
 type Method = 'GET' | 'POST';
 
 interface Body {
-  [key: string]: string | number | undefined | Body;
+  [key: string]: string | number | undefined | Date | Body | Body[];
 }
 
 export function apiCall(endpoint: string, method: Method, body?: Body) {
