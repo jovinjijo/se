@@ -2,11 +2,12 @@ import { HoldingsData } from '@se/core';
 import { ResponseBody, ErrorResponse } from '@se/api';
 
 export function getErrorMessage(response: ResponseBody): string | null {
-  if (response instanceof ErrorResponse && Array.isArray(response.errors) && response.errors.length > 0) {
-    return `${response.errors[0]}`;
+  const errorResponse = response as ErrorResponse;
+  if (errorResponse && Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
+    return `${errorResponse.errors[0]}`;
   }
-  if (response instanceof ErrorResponse && response.message) {
-    return response.message as string;
+  if (errorResponse && errorResponse.message) {
+    return errorResponse.message;
   }
   return null;
 }
