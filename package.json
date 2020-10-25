@@ -12,8 +12,10 @@
     "lerna": "^3.22.1"
   },
   "private": true,
+  "workspaces": [	
+    "packages/*"
+  ],
   "scripts": {
-    "install": "lerna bootstrap",
     "build": "lerna run build --parallel",
     "tscw": "lerna run --parallel tscw",
     "lint": "lerna run lint --parallel",
