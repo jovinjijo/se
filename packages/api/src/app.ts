@@ -33,7 +33,7 @@ app.use(fillUserData);
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
     // Compute the build path and index.html path
-    const buildPath = path.resolve(__dirname, '../../../ui/build');
+    const buildPath = path.resolve(__dirname, '../../../ui/dist');
     const indexHtml = path.join(buildPath, 'index.html');
 
     // Setup build path as a static assets path
