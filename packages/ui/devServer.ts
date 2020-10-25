@@ -7,7 +7,7 @@ const bundler = new Bundler('public/index.html', {
 });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(
   ['/v1/**', '/socket.io/**'],
