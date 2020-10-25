@@ -136,6 +136,6 @@ export class User implements IUser {
         if (order.getOrderType() === OrderType.Buy) {
             this.wallet.updateMargin(-order.getQuantity() * order.getPrice());
         }
-        Market.getInstance().notification?.notifyWalletUpdate(this, this.wallet);
+        Market.getInstance().notification?.notifyOrderUpdate(this, order);
     }
 }

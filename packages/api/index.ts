@@ -18,4 +18,4 @@ server.listen(app.get('port'), () => {
 
 export { UserStoreItemDetails, UserDetails } from './src/models/User';
 export { OrderStoreDetails } from './src/models/Order';
-export { LtpUpdate, OrderUpdate, WalletUpdate } from './src/services/NotificationService';
+export { LtpUpdate, OrderUpdate } from './src/services/NotificationService';

@@ -1,6 +1,6 @@
-import { Amount, Notification, Order, Stock, User, Wallet } from '@se/core';
+import { Amount, Notification, Order, Stock, User } from '@se/core';
 import { OrderDetails, OrderRepository } from '../models/Order';
-import { UserDetails, UserStore, WalletDetails } from '../models/User';
+import { UserDetails, UserStore } from '../models/User';
 import { SocketService } from './SocketService';
 
 export interface LtpUpdate {
@@ -12,10 +12,6 @@ export interface LtpUpdate {
 export interface OrderUpdate {
     user: UserDetails;
     order: OrderDetails;
-}
-
-export interface WalletUpdate {
-    wallet: WalletDetails;
 }
 
 export class NotificationService implements Notification {
@@ -35,13 +31,6 @@ export class NotificationService implements Notification {
                 user: UserStore.getUserDetails(user),
                 order: OrderRepository.getOrderDetails(order),
             });
-        }
-    }
-
-    notifyWalletUpdate(user: User, wallet: Wallet): void {
-        const socket = UserStore.findUserByUsername(user.name)?.socket;
-        if (socket) {
-            this.socketService.send(socket, 'walletUpdate', { wallet: { margin: wallet.getMargin() } });
         }
     }
 }
