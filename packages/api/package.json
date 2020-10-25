@@ -10,7 +10,7 @@
     "test": "jest --collectCoverage --testTimeout 20000",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "precommit": "lint-staged && yarn test",
-    "start": "nodemon build/index.js"
+    "start": "nodemon build/server.js"
   },
   "keywords": [
     "stockexchange",
