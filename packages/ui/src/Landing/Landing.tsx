@@ -22,7 +22,7 @@ class Landing extends Component<LandingProps, State> {
     this.checkLogin();
   }
 
-  checkLogin = async () => {
+  checkLogin = async (): Promise<void> => {
     this.props.showBusyIndicator(true);
     try {
       const response = await apiCall('/v1/user/check', 'GET');
@@ -37,13 +37,13 @@ class Landing extends Component<LandingProps, State> {
     }
   };
 
-  toggleLoginSignup = () => {
+  toggleLoginSignup = (): void => {
     this.setState({
       loginVisible: !this.state.loginVisible,
     });
   };
 
-  render() {
+  render(): JSX.Element {
     const { loginVisible } = this.state;
     const { toggleLoginSignup } = this;
     const { hidden } = this.props;

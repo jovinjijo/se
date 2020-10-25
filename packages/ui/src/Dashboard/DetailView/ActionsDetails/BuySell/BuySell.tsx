@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
-import { Typography, Button, ButtonGroup, TextField, Box } from '@material-ui/core';
-import { createStyles, Grid, Theme, withStyles, WithStyles, Divider } from '@material-ui/core';
+import {
+  Typography,
+  Button,
+  ButtonGroup,
+  TextField,
+  Box,
+  createStyles,
+  Grid,
+  Theme,
+  withStyles,
+  WithStyles,
+  Divider,
+} from '@material-ui/core';
 import { AdditionalOrderType, Amount, OrderType, Quantity } from '@se/core';
 import { apiCall, getErrorMessage } from '../../../../utils/Util';
 import { DetailViewProps } from '../../DetailView';

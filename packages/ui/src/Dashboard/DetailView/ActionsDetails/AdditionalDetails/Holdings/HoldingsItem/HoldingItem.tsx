@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Button,
   createStyles,
-  Theme,
   Typography,
   withStyles,
   WithStyles,
@@ -13,7 +12,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { OrderType, Stock } from '@se/core';
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     heading: {
       flexBasis: '100%',
@@ -23,13 +22,11 @@ const styles = (theme: Theme) =>
 interface HoldingItemProps extends WithStyles<typeof styles> {
   stock: Stock;
   quantity: number;
-  updateSelectedStock : (selectedStock: Stock) => void;
-  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
+  updateSelectedStock: (selectedStock: Stock) => void;
+  updateSelectedOrderType: (selectedOrderType: OrderType) => void;
 }
 
-interface State {}
-
-class HoldingItem extends Component<HoldingItemProps, State> {
+class HoldingItem extends Component<HoldingItemProps> {
   constructor(props: HoldingItemProps) {
     super(props);
     this.state = {};
@@ -38,7 +35,7 @@ class HoldingItem extends Component<HoldingItemProps, State> {
   handleSelect = (orderType: OrderType) => () => {
     this.props.updateSelectedStock(this.props.stock);
     this.props.updateSelectedOrderType(orderType);
-  }
+  };
 
   render() {
     return (

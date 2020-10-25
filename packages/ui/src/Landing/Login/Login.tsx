@@ -35,7 +35,7 @@ class Login extends Component<Props, State> {
     this.props.showBusyIndicator(true);
     const payload = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
     };
     try {
       const response = await apiCall('/v1/user/login', 'POST', payload);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStyles, Divider, Grid, Theme, withStyles, WithStyles, Zoom } from '@material-ui/core';
+import { createStyles, Divider, Grid, withStyles, WithStyles, Zoom } from '@material-ui/core';
 import { AppProps } from '../App';
 import Bar from '../Bar/Bar';
 import ListOfStocks from './ListOfStocks/ListOfStocks';
@@ -8,8 +8,9 @@ import { UserDetails, UserStoreItemDetails } from '@se/api';
 import { apiCall, getErrorMessage } from '../utils/Util';
 import { Stock, OrderType, LtpMap, Amount } from '@se/core';
 import { SocketClient } from '../utils/SocketClient';
+import { UserResponse } from '@se/api';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = () => createStyles({});
 
 interface DashboardProps extends WithStyles<typeof styles>, AppProps {
   hidden: boolean;
@@ -43,10 +44,11 @@ class Dashboard extends Component<DashboardProps, State> {
     try {
       const response = await apiCall('/v1/user/check', 'GET');
       const error = getErrorMessage(response);
+      const userResponse = response as UserResponse;
       if (!error) {
         this.setState({
           ...this.state,
-          user: response.data,
+          user: userResponse.data,
         });
       }
     } catch (ex) {

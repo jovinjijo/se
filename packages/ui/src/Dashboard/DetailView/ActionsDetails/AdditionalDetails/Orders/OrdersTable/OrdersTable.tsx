@@ -8,7 +8,7 @@ interface Props {
   selectedView: OrderView;
 }
 
-export default function OrdersTable(props: Props) {
+export default function OrdersTable(props: Props): JSX.Element {
   const { selectedView, orders } = props;
   const columns: ColDef[] = [
     { field: 'id', headerName: 'ID', sortable: false, width: 47, headerAlign: 'left', align: 'left' },

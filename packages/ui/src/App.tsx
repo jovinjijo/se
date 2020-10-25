@@ -11,7 +11,7 @@ export interface AppProps {
   login: (loggedIn: boolean) => void;
 }
 
-function App() {
+function App(): JSX.Element {
   const [busyIndicatorActive, setBusyIndicator] = React.useState(false);
   const [messagePopup, setMessagePopup] = React.useState<MessagePopupProps>({ open: false });
   const [loggedIn, setLoggedIn] = React.useState(false);

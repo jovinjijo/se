@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { createStyles, Divider, Grid, Theme, WithStyles, withStyles } from '@material-ui/core';
+import { createStyles, Divider, Grid, WithStyles, withStyles } from '@material-ui/core';
 import BuySell from './BuySell/BuySell';
 import AdditionalDetails from './AdditionalDetails/AdditionalDetails';
 import { DetailViewProps } from '../DetailView';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = () => createStyles({});
 
 interface Props extends WithStyles<typeof styles>, Omit<DetailViewProps, 'classes'> {}
 

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Bar() {
+export default function Bar(): JSX.Element {
   const classes = useStyles();
 
   return (
