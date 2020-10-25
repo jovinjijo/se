@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import { createStyles, Tab, Tabs, Theme, WithStyles, withStyles } from '@material-ui/core';
 import Orders from './Orders/Orders';
 import Holdings from './Holdings/Holdings';
@@ -18,7 +18,7 @@ interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
-  style?: any;
+  style?: CSSProperties;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -31,7 +31,9 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-interface AdditionalDetailsProps extends WithStyles<typeof styles>, Pick<DetailViewProps, 'user' | 'updateSelectedStock' | 'updateSelectedOrderType'> {}
+interface AdditionalDetailsProps
+  extends WithStyles<typeof styles>,
+    Pick<DetailViewProps, 'user' | 'updateSelectedStock' | 'updateSelectedOrderType'> {}
 
 interface State {
   selectedScreen: number;
@@ -45,7 +47,7 @@ class AdditionalDetails extends Component<AdditionalDetailsProps, State> {
     };
   }
 
-  handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  handleChange = (event: React.ChangeEvent<unknown>, newValue: number) => {
     this.setState({
       ...this.state,
       selectedScreen: newValue,
@@ -63,7 +65,7 @@ class AdditionalDetails extends Component<AdditionalDetailsProps, State> {
           <Tab label="Holdings" />
           <Tab label="Funds" />
         </Tabs>
-        <TabPanel value={selectedScreen} index={0} style={{ }}>
+        <TabPanel value={selectedScreen} index={0} style={{}}>
           <Orders {...{ orders }} />
         </TabPanel>
         <TabPanel value={selectedScreen} index={1}>

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { createStyles, Divider, Grid, Theme, WithStyles, withStyles } from '@material-ui/core';
+import { createStyles, Divider, Grid, WithStyles, withStyles } from '@material-ui/core';
 import { HoldingsData, Stock, Quantity, OrderType } from '@se/core';
 import HoldingItem from './HoldingsItem/HoldingItem';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = () => createStyles({});
 
 interface HoldingsProps extends WithStyles<typeof styles> {
   holdings: HoldingsData;
-  updateSelectedStock : (selectedStock: Stock) => void;
-  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
+  updateSelectedStock: (selectedStock: Stock) => void;
+  updateSelectedOrderType: (selectedOrderType: OrderType) => void;
 }
 
 class Holdings extends Component<HoldingsProps> {
@@ -23,7 +23,7 @@ class Holdings extends Component<HoldingsProps> {
           .map((item) => {
             return (
               <Grid item key={item.stock}>
-                <HoldingItem {...{updateSelectedStock, updateSelectedOrderType, ...item}} />
+                <HoldingItem {...{ updateSelectedStock, updateSelectedOrderType, ...item }} />
                 <Divider />
               </Grid>
             );

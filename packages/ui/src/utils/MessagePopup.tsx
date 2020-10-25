@@ -26,7 +26,7 @@ export interface MessagePopupProps {
 
 type HideMessagePopup = { hideMessagePopup: () => void };
 
-export default function MessagePopup(props: MessagePopupProps & HideMessagePopup) {
+export default function MessagePopup(props: MessagePopupProps & HideMessagePopup): JSX.Element {
   const classes = useStyles();
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {

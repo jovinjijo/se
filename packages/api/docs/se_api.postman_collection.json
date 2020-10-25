@@ -1,752 +1,611 @@
 {
-	"info": {
-		"_postman_id": "8bc89bf0-c210-4731-8df6-3738d58db13e",
-		"name": "se",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "Place order without signing in",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "487b62e1-55b5-42b2-a840-230e7539ac75",
-								"exec": [
-									"pm.test(\"Place Order without signing in test\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 100\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Login - Wrong username",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5a5777eb-a3aa-4f73-8f36-0ee0ffb8e0ac",
-								"exec": [
-									"pm.test(\"Login - Wrong username\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "45db4351-9da7-4522-a2be-332a5cd7c5d1",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo123\",\r\n    \"password\": \"foobarfoo\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/login",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Signup - Validation Errors",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "fac5c8e2-07b2-4498-bbec-1b79a9039222",
-								"exec": [
-									"pm.test(\"Signup - Validation Errors\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo$%\",\r\n    \"balance\": -1000,\r\n    \"password\": \"foo\",\r\n    \"holdings\": \"abc\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/signup",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"signup"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Signup - Validation Errors 2",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "16d22a08-a746-4482-bf59-42a52a5a8065",
-								"exec": [
-									"pm.test(\"Signup - Validation Errors 2\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo$%\",\r\n    \"balance\": -1000,\r\n    \"password\": \"foo\",\r\n    \"holdings\": {\r\n        \"TSLA\": -100,\r\n        \"TESLA\": 1000\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/signup",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"signup"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Signup",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "7fd8250f-62d0-4125-9476-8f95852e9e24",
-								"exec": [
-									"pm.test(\"Signup\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 10000,\r\n    \"password\": \"foobarfoo\",\r\n    \"holdings\": {\r\n        \"TSLA\": \"100\",\r\n        \"AMZN\": \"1000\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/signup",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"signup"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Check login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "1d660698-b66b-45b9-b180-99cfe1392477",
-								"exec": [
-									"pm.test(\"Check login\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/check",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"check"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login - Wrong password",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "0ad1aca4-b69e-4563-bd61-9596850a2cd5",
-								"exec": [
-									"pm.test(\"Login - Wrong password\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "74fa6743-d55d-4e67-bc2e-ce80aa0d42bc",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foobarfoo123\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/login",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Signup - Username already exists",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "53a0b773-8104-445e-ae32-4b2f35b065b5",
-								"exec": [
-									"pm.test(\"Signup - Username already exists\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 10,\r\n    \"password\": \"foobarfoo1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/signup",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"signup"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Order",
-			"item": [
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9b64f897-85d5-4f08-8028-afd86e2c29fd",
-								"exec": [
-									"pm.test(\"Login\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "223467d8-d157-4fb3-9113-1f54a02a5ea8",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foobarfoo\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/login",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Place Buy Order",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ad3c4a91-d4cb-4f42-886a-f08f1c904e01",
-								"exec": [
-									"pm.test(\"Place Buy Order test\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.data.price).to.eql(10);\r",
-									"    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
-									"    pm.expect(jsonData.data.type).to.eql(\"Buy\");\r",
-									"    pm.expect(jsonData.data.status).to.eql(\"Placed\");\r",
-									"    pm.expect(jsonData.data.quantity).to.eql(100);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 100\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Place Sell Order(Buy order partially filled)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "c86ad570-943c-433b-b064-0bdb7c1fe8e5",
-								"exec": [
-									"pm.test(\"Place Sell Order Partial test\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.data.price).to.eql(10);\r",
-									"    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
-									"    pm.expect(jsonData.data.type).to.eql(\"Sell\");\r",
-									"    pm.expect(jsonData.data.status).to.eql(\"Confirmed\");\r",
-									"    pm.expect(jsonData.data.quantity).to.eql(50);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Sell\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 50\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Check Order details",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "891a8a6a-9362-4673-964e-d6e1f9126074",
-								"exec": [
-									"pm.test(\"Check Order details test\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.data.orders.confirmedOrders.length).to.eql(1);\r",
-									"    pm.expect(jsonData.data.orders.placedBuyOrders.length).to.eql(1);\r",
-									"    pm.expect(jsonData.data.orders.placedBuyOrders[0].status).to.eql(\"PartiallyFilled\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "127.0.0.1:3001/v1/user/check",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"user",
-								"check"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Place Sell Order",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2ac00407-85a7-462a-8be4-88eabe9fa98f",
-								"exec": [
-									"pm.test(\"Place Sell Order test\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.data.price).to.eql(10);\r",
-									"    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
-									"    pm.expect(jsonData.data.type).to.eql(\"Sell\");\r",
-									"    pm.expect(jsonData.data.status).to.eql(\"Confirmed\");\r",
-									"    pm.expect(jsonData.data.quantity).to.eql(50);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Sell\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 50\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Invalid Order",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6e323a31-da84-49fa-a121-eb2a7312c20b",
-								"exec": [
-									"pm.test(\"Invalid Order test\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TESLA\",\r\n    \"orderType\": \"Buyy\",\r\n    \"additionalOrderType\": \"Limitt\",\r\n    \"price\": -10,\r\n    \"quantity\": -100\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				},
-				{
-					"name": "Place Order - Not enough margin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "75120765-9496-4618-a399-77ddee13d8a5",
-								"exec": [
-									"pm.test(\"Place Order - Not enough margin\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10000,\r\n    \"quantity\": 100\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "127.0.0.1:3001/v1/order/place",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "3001",
-							"path": [
-								"v1",
-								"order",
-								"place"
-							]
-						},
-						"description": "Signup"
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		}
-	],
-	"protocolProfileBehavior": {}
+    "info": {
+        "_postman_id": "8bc89bf0-c210-4731-8df6-3738d58db13e",
+        "name": "se",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "Place order without signing in",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "487b62e1-55b5-42b2-a840-230e7539ac75",
+                                "exec": [
+                                    "pm.test(\"Place Order without signing in test\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 100\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Wrong username",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "5a5777eb-a3aa-4f73-8f36-0ee0ffb8e0ac",
+                                "exec": [
+                                    "pm.test(\"Login - Wrong username\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "id": "45db4351-9da7-4522-a2be-332a5cd7c5d1",
+                                "exec": [""],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo123\",\r\n    \"password\": \"foobarfoo\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/login",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "login"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signup - Validation Errors",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "fac5c8e2-07b2-4498-bbec-1b79a9039222",
+                                "exec": [
+                                    "pm.test(\"Signup - Validation Errors\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo$%\",\r\n    \"balance\": -1000,\r\n    \"password\": \"foo\",\r\n    \"holdings\": \"abc\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/signup",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "signup"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signup - Validation Errors 2",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "16d22a08-a746-4482-bf59-42a52a5a8065",
+                                "exec": [
+                                    "pm.test(\"Signup - Validation Errors 2\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo$%\",\r\n    \"balance\": -1000,\r\n    \"password\": \"foo\",\r\n    \"holdings\": {\r\n        \"TSLA\": -100,\r\n        \"TESLA\": 1000\r\n    }\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/signup",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "signup"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signup",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "7fd8250f-62d0-4125-9476-8f95852e9e24",
+                                "exec": [
+                                    "pm.test(\"Signup\", function () {\r",
+                                    "    pm.response.to.have.status(200);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 10000,\r\n    \"password\": \"foobarfoo\",\r\n    \"holdings\": {\r\n        \"TSLA\": \"100\",\r\n        \"AMZN\": \"1000\"\r\n    }\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/signup",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "signup"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Check login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "1d660698-b66b-45b9-b180-99cfe1392477",
+                                "exec": [
+                                    "pm.test(\"Check login\", function () {\r",
+                                    "    pm.response.to.have.status(200);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/check",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "check"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Wrong password",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "0ad1aca4-b69e-4563-bd61-9596850a2cd5",
+                                "exec": [
+                                    "pm.test(\"Login - Wrong password\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "id": "74fa6743-d55d-4e67-bc2e-ce80aa0d42bc",
+                                "exec": [""],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foobarfoo123\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/login",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "login"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signup - Username already exists",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "53a0b773-8104-445e-ae32-4b2f35b065b5",
+                                "exec": [
+                                    "pm.test(\"Signup - Username already exists\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo\",\r\n    \"balance\": 10,\r\n    \"password\": \"foobarfoo1\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/signup",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "signup"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                }
+            ],
+            "protocolProfileBehavior": {}
+        },
+        {
+            "name": "Order",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "9b64f897-85d5-4f08-8028-afd86e2c29fd",
+                                "exec": [
+                                    "pm.test(\"Login\", function () {\r",
+                                    "    pm.response.to.have.status(200);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "id": "223467d8-d157-4fb3-9113-1f54a02a5ea8",
+                                "exec": [""],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foobarfoo\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/login",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "login"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Place Buy Order",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "ad3c4a91-d4cb-4f42-886a-f08f1c904e01",
+                                "exec": [
+                                    "pm.test(\"Place Buy Order test\", function () {\r",
+                                    "    var jsonData = pm.response.json();\r",
+                                    "    pm.expect(jsonData.data.price).to.eql(10);\r",
+                                    "    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
+                                    "    pm.expect(jsonData.data.type).to.eql(\"Buy\");\r",
+                                    "    pm.expect(jsonData.data.status).to.eql(\"Placed\");\r",
+                                    "    pm.expect(jsonData.data.quantity).to.eql(100);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 100\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Place Sell Order(Buy order partially filled)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "c86ad570-943c-433b-b064-0bdb7c1fe8e5",
+                                "exec": [
+                                    "pm.test(\"Place Sell Order Partial test\", function () {\r",
+                                    "    var jsonData = pm.response.json();\r",
+                                    "    pm.expect(jsonData.data.price).to.eql(10);\r",
+                                    "    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
+                                    "    pm.expect(jsonData.data.type).to.eql(\"Sell\");\r",
+                                    "    pm.expect(jsonData.data.status).to.eql(\"Confirmed\");\r",
+                                    "    pm.expect(jsonData.data.quantity).to.eql(50);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Sell\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 50\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Check Order details",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "891a8a6a-9362-4673-964e-d6e1f9126074",
+                                "exec": [
+                                    "pm.test(\"Check Order details test\", function () {\r",
+                                    "    var jsonData = pm.response.json();\r",
+                                    "    pm.expect(jsonData.data.orders.confirmedOrders.length).to.eql(1);\r",
+                                    "    pm.expect(jsonData.data.orders.placedBuyOrders.length).to.eql(1);\r",
+                                    "    pm.expect(jsonData.data.orders.placedBuyOrders[0].status).to.eql(\"PartiallyFilled\");\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/user/check",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "user", "check"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Place Sell Order",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "2ac00407-85a7-462a-8be4-88eabe9fa98f",
+                                "exec": [
+                                    "pm.test(\"Place Sell Order test\", function () {\r",
+                                    "    var jsonData = pm.response.json();\r",
+                                    "    pm.expect(jsonData.data.price).to.eql(10);\r",
+                                    "    pm.expect(jsonData.data.symbol).to.eql(\"TSLA\");\r",
+                                    "    pm.expect(jsonData.data.type).to.eql(\"Sell\");\r",
+                                    "    pm.expect(jsonData.data.status).to.eql(\"Confirmed\");\r",
+                                    "    pm.expect(jsonData.data.quantity).to.eql(50);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Sell\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10,\r\n    \"quantity\": 50\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Invalid Order",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "6e323a31-da84-49fa-a121-eb2a7312c20b",
+                                "exec": [
+                                    "pm.test(\"Invalid Order test\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TESLA\",\r\n    \"orderType\": \"Buyy\",\r\n    \"additionalOrderType\": \"Limitt\",\r\n    \"price\": -10,\r\n    \"quantity\": -100\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Place Order - Not enough margin",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "75120765-9496-4618-a399-77ddee13d8a5",
+                                "exec": [
+                                    "pm.test(\"Place Order - Not enough margin\", function () {\r",
+                                    "    pm.response.to.have.status(400);\r",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"symbol\": \"TSLA\",\r\n    \"orderType\": \"Buy\",\r\n    \"additionalOrderType\": \"Limit\",\r\n    \"price\": 10000,\r\n    \"quantity\": 100\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "127.0.0.1:3001/v1/order/place",
+                            "host": ["127", "0", "0", "1"],
+                            "port": "3001",
+                            "path": ["v1", "order", "place"]
+                        },
+                        "description": "Signup"
+                    },
+                    "response": []
+                }
+            ],
+            "protocolProfileBehavior": {}
+        }
+    ],
+    "protocolProfileBehavior": {}
 }

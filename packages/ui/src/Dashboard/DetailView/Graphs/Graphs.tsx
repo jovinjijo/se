@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { createStyles, Grid, Theme, withStyles } from '@material-ui/core';
+import { createStyles, Grid, withStyles } from '@material-ui/core';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = () => createStyles({});
 
 class Graphs extends Component {
   render() {

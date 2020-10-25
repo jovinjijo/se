@@ -14,7 +14,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 export class BusyIndicator extends Component<Props> {
-  render() {
+  render(): JSX.Element {
     return (
       <Backdrop className={this.props.classes.backdrop} open={this.props.active}>
         <CircularProgress color="inherit" />

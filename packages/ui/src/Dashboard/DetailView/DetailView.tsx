@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import { createStyles, Divider, Grid, Theme, withStyles, WithStyles } from '@material-ui/core';
+import { createStyles, Divider, Grid, withStyles, WithStyles } from '@material-ui/core';
 import ActionsDetails from './ActionsDetails/ActionsDetails';
 import Graphs from './Graphs/Graphs';
 import { UserStoreItemDetails } from '@se/api';
 import { AppProps } from '../../App';
 import { OrderType, Stock } from '@se/core';
 
-const styles = (theme: Theme) => createStyles({});
+const styles = () => createStyles({});
 
 export interface DetailViewProps extends WithStyles<typeof styles>, AppProps {
   user: UserStoreItemDetails;
   selectedStock?: Stock;
   selectedOrderType: OrderType;
   fetchUserDetails: () => void;
-  updateSelectedStock : (selectedStock: Stock) => void;
-  updateSelectedOrderType : (selectedOrderType: OrderType) => void;
+  updateSelectedStock: (selectedStock: Stock) => void;
+  updateSelectedOrderType: (selectedOrderType: OrderType) => void;
 }
 
-interface State {}
-
-class DetailView extends Component<DetailViewProps, State> {
+class DetailView extends Component<DetailViewProps> {
   constructor(props: DetailViewProps) {
     super(props);
     this.state = {};

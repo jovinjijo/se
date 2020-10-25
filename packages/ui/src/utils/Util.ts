@@ -1,11 +1,13 @@
 import { HoldingsData } from '@se/core';
+import { ResponseBody, ErrorResponse } from '@se/api';
 
-export function getErrorMessage(response: any): string | null {
-  if (response.errors && response.errors.length > 0) {
-    return `${response.errors[0]}`;
+export function getErrorMessage(response: ResponseBody): string | null {
+  const errorResponse = response as ErrorResponse;
+  if (errorResponse && Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
+    return `${errorResponse.errors[0]}`;
   }
-  if (response.message) {
-    return response.message;
+  if (errorResponse && errorResponse.message) {
+    return errorResponse.message;
   }
   return null;
 }
@@ -16,7 +18,7 @@ interface Body {
   [key: string]: string | number | undefined | Date | Body | Body[];
 }
 
-export function apiCall(endpoint: string, method: Method, body?: Body) {
+export function apiCall(endpoint: string, method: Method, body?: Body): Promise<ResponseBody> {
   return fetch(endpoint, {
     method: method,
     headers: { 'Content-Type': 'application/json' },
