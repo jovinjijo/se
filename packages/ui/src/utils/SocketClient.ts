@@ -1,5 +1,4 @@
-import { UserDetails, OrderUpdate } from '@se/api';
-import { LtpUpdate } from '@se/api/src/services/NotificationService';
+import { UserDetails, OrderUpdate, LtpUpdate } from '@se/api';
 import { LtpMap } from '@se/core';
 import io from 'socket.io-client';
 

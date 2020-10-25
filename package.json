@@ -5,10 +5,10 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "^9.1.1",
-    "@commitlint/config-conventional": "^9.1.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "cross-env": "^7.0.2",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "lerna": "^3.22.1"
   },
   "private": true,
@@ -17,7 +17,7 @@
     "build": "lerna run build --parallel",
     "tscw": "lerna run --parallel tscw",
     "lint": "lerna run lint --parallel",
-    "start": "lerna run start",
+    "start": "lerna run start --parallel",
     "build-watch": "yarn run build && yarn run tscw",
     "test": "lerna run test --parallel",
     "release": "cross-env HUSKY_BYPASS=true lerna publish"
