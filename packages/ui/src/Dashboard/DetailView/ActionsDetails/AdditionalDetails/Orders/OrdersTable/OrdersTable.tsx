@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, ColDef } from '@material-ui/data-grid';
+import { DataGrid, ColDef, RowsProp } from '@material-ui/data-grid';
 import { OrderStoreDetails } from '@se/api';
 import { OrderView } from '../Orders';
 
@@ -30,5 +30,5 @@ export default function OrdersTable(props: Props) {
     rows = [...orders.placedBuyOrders, ...orders.placedSellOrders];
   }
 
-  return <DataGrid rows={rows} columns={columns} rowHeight={30} pageSize={10} />;
+  return <DataGrid rows={rows as RowsProp} columns={columns} rowHeight={30} pageSize={10} />;
 }
