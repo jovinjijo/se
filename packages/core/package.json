@@ -1,41 +1,41 @@
 {
-  "name": "@se/core",
-  "version": "1.0.0",
-  "description": "Stock Exchange Core",
-  "main": "build/index.js",
-  "private": true,
-  "scripts": {
-    "build": "tsc",
-    "tscw": "tsc --watch",
-    "test": "jest --collectCoverage",
-    "lint": "eslint '**/*.{js,ts}' --fix",
-    "precommit": "lint-staged && yarn test"
-  },
-  "keywords": [
-    "stockexchange",
-    "stocks",
-    "equity",
-    "sharemarket",
-    "stockmarket"
-  ],
-  "author": "Jovin Jijo (jovin96@gmail.com)",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/jest": "^26.0.15",
-    "@typescript-eslint/eslint-plugin": "^4.5.0",
-    "@typescript-eslint/parser": "^4.5.0",
-    "eslint": "^7.12.0",
-    "eslint-config-prettier": "^6.14.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.1",
-    "prettier": "^2.1.2",
-    "typescript": "^4.0.3",
-    "lint-staged": "^10.4.2"
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --fix"
-    ]
-  }
+    "name": "@se/core",
+    "version": "1.0.0",
+    "description": "Stock Exchange Core",
+    "main": "build/index.js",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "tscw": "tsc --watch",
+        "test": "jest --collectCoverage",
+        "lint": "eslint '**/*.{js,ts}' --fix",
+        "precommit": "lint-staged && yarn test"
+    },
+    "keywords": [
+        "stockexchange",
+        "stocks",
+        "equity",
+        "sharemarket",
+        "stockmarket"
+    ],
+    "author": "Jovin Jijo (jovin96@gmail.com)",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/jest": "^26.0.15",
+        "@typescript-eslint/eslint-plugin": "^4.5.0",
+        "@typescript-eslint/parser": "^4.5.0",
+        "eslint": "^7.12.0",
+        "eslint-config-prettier": "^6.14.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-prettier": "^3.1.4",
+        "jest": "^26.6.1",
+        "prettier": "^2.1.2",
+        "typescript": "^4.0.3",
+        "lint-staged": "^10.4.2"
+    },
+    "lint-staged": {
+        "*.{js,ts}": [
+            "eslint --fix"
+        ]
+    }
 }
