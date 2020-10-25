@@ -46,7 +46,7 @@ class BuySell extends Component<Props, State> {
     });
 
   handleBuySell = async () => {
-    const sendPrice = this.state.additionalOrderType == 'Limit' ? this.state.price : 0;
+    const sendPrice = this.state.additionalOrderType === AdditionalOrderType.Limit ? this.state.price : 0;
     const payload = {
       symbol: this.props.selectedStock,
       orderType: this.props.selectedOrderType,
@@ -69,10 +69,11 @@ class BuySell extends Component<Props, State> {
 
   render() {
     const { selectedStock, selectedOrderType } = this.props;
+    const { additionalOrderType, price, quantity } = this.state;
     return (
       <Grid container direction="column" style={{ height: '100%' }} className={this.props.classes.root}>
         <Typography variant="subtitle2">
-          {selectedOrderType == OrderType.Buy ? 'BUY' : 'SELL'} {selectedStock}
+          {selectedOrderType === OrderType.Buy ? 'BUY' : 'SELL'} {selectedStock}
         </Typography>
 
         <Divider variant="middle" />
@@ -80,13 +81,13 @@ class BuySell extends Component<Props, State> {
         <Box pt={1}>
           <ButtonGroup fullWidth color="primary" aria-label="additional order type button group">
             <Button
-              variant={this.state.additionalOrderType == 'Market' ? 'contained' : 'outlined'}
+              variant={additionalOrderType === AdditionalOrderType.Market ? 'contained' : 'outlined'}
               onClick={this.handleMarketOrder}
             >
               Market
             </Button>
             <Button
-              variant={this.state.additionalOrderType == 'Limit' ? 'contained' : 'outlined'}
+              variant={additionalOrderType === AdditionalOrderType.Limit ? 'contained' : 'outlined'}
               onClick={this.handleLimitOrder}
             >
               Limit
@@ -110,7 +111,7 @@ class BuySell extends Component<Props, State> {
           </Box>
           <Box my={2}>
             <TextField
-              disabled={this.state.additionalOrderType == 'Market' ? true : false}
+              disabled={additionalOrderType === AdditionalOrderType.Market ? true : false}
               fullWidth
               id="price"
               label="Price"
@@ -126,16 +127,14 @@ class BuySell extends Component<Props, State> {
 
         <Box>
           <Typography display="inline">
-            {selectedOrderType == OrderType.Buy ? 'Buy' : 'Sell'} {selectedStock} × {this.state.quantity} Qty
+            {selectedOrderType === OrderType.Buy ? 'Buy' : 'Sell'} {selectedStock} × {quantity} Qty
           </Typography>
-          {this.state.additionalOrderType == 'Limit' && (
-            <Typography display="inline"> at ₹{this.state.price}</Typography>
-          )}
+          {additionalOrderType === AdditionalOrderType.Limit && <Typography display="inline"> at ₹{price}</Typography>}
         </Box>
 
         <Box>
           <Button fullWidth color="primary" variant="contained" onClick={this.handleBuySell}>
-            {selectedOrderType == OrderType.Buy ? 'Buy' : 'Sell'}
+            {selectedOrderType === OrderType.Buy ? 'Buy' : 'Sell'}
           </Button>
         </Box>
       </Grid>

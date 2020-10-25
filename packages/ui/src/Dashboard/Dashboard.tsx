@@ -57,12 +57,14 @@ class Dashboard extends Component<DashboardProps, State> {
   };
 
   updateSelectedStock = (selectedStock: Stock) => {
-    setTimeout(() => { this.setState({...this.state, selectedStock }); }, 10);
-  }
+    setTimeout(() => {
+      this.setState({ ...this.state, selectedStock });
+    }, 10);
+  };
 
   updateSelectedOrderType = (selectedOrderType: OrderType) => {
-    this.setState({...this.state, selectedOrderType });
-  }
+    this.setState({ ...this.state, selectedOrderType });
+  };
 
   updateLtp(ltpMap: LtpMap): void {
     this.setState({ ...this.state, ltpMap: { ...this.state.ltpMap, ...ltpMap } });
@@ -82,7 +84,7 @@ class Dashboard extends Component<DashboardProps, State> {
   render() {
     const { hidden } = this.props;
     const { user, selectedOrderType, selectedStock, ltpMap } = this.state;
-    const { updateSelectedStock, updateSelectedOrderType , fetchUserDetails } = this;
+    const { updateSelectedStock, updateSelectedOrderType, fetchUserDetails } = this;
     return (
       <Zoom in={!hidden} style={{ height: '100vh' }}>
         <Grid container direction="column">
@@ -94,12 +96,22 @@ class Dashboard extends Component<DashboardProps, State> {
               <Grid item>
                 <Divider orientation="vertical" />
               </Grid>
-              <Grid item style={{ width: '30%' }}>
+              <Grid item style={{ width: '27%' }}>
                 <ListOfStocks {...{ updateSelectedStock, updateSelectedOrderType, ltpMap, ...this.props }} />
               </Grid>
               <Divider orientation="vertical" />
-              <Grid item style={{ width: '69%' }}>
-                <DetailView {...{ user, selectedOrderType, selectedStock, updateSelectedStock, updateSelectedOrderType, fetchUserDetails, ...this.props}} />
+              <Grid item style={{ width: '72%' }}>
+                <DetailView
+                  {...{
+                    user,
+                    selectedOrderType,
+                    selectedStock,
+                    updateSelectedStock,
+                    updateSelectedOrderType,
+                    fetchUserDetails,
+                    ...this.props,
+                  }}
+                />
               </Grid>
               <Grid item>
                 <Divider orientation="vertical" />
