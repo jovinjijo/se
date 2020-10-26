@@ -30,6 +30,8 @@ app.use(session);
 // If a user is logged in, fill up req.user with user details
 app.use(fillUserData);
 
+app.use('/v1/', routes);
+
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
     // Compute the build path and index.html path
@@ -41,8 +43,6 @@ if (isProd) {
     // Serve index.html on unmatched routes
     app.get('*', (req, res) => res.sendFile(indexHtml));
 }
-
-app.use('/v1/', routes);
 
 /**
  * Error Handler to respond in JSON
