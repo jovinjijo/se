@@ -25,7 +25,7 @@ const placeOrderValidations: ValidationChain[] = [
         return true;
     }),
     body('quantity').isInt({ gt: 0 }).toInt(),
-    body('price').isFloat({ gt: 0 }).toFloat(),
+    body('price').if(body('additionalOrderType').equals(AdditionalOrderType.Limit)).isFloat({ gt: 0 }).toFloat(),
 ];
 
 function placeOrder(req: Req, res: Res, next: NextFn): void {
