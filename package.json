@@ -22,6 +22,8 @@
         "start": "lerna run start --parallel",
         "build-watch": "yarn run build && yarn run tscw",
         "test": "lerna run test --parallel",
+        "prod:build": "yarn run build && lerna run prod:build --stream",
+        "prod:start": "cross-env NODE_ENV=production lerna run start --scope=@se/api",
         "release": "cross-env HUSKY_BYPASS=true lerna publish"
     },
     "husky": {
