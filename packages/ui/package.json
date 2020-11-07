@@ -10,7 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "socket.io-client": "^2.3.1"
+    "socket.io-client": "^3.0.0"
   },
   "devDependencies": {
     "@se/api": "^1.0.0",

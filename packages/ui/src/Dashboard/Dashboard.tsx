@@ -6,7 +6,7 @@ import ListOfStocks from './ListOfStocks/ListOfStocks';
 import DetailView from './DetailView/DetailView';
 import { UserDetails, UserStoreItemDetails } from '@se/api';
 import { apiCall, getErrorMessage } from '../utils/Util';
-import { Stock, OrderType, LtpMap, Amount } from '@se/core';
+import { Stock, OrderType, LtpMap, Amount, TradeTick } from '@se/core';
 import { SocketClient } from '../utils/SocketClient';
 import { UserResponse } from '@se/api';
 
@@ -19,7 +19,9 @@ interface DashboardProps extends WithStyles<typeof styles>, AppProps {
 interface State {
   user: UserStoreItemDetails;
   selectedStock?: Stock;
+  selectedStockTickData?: TradeTick[];
   selectedOrderType: OrderType;
+  socket?: SocketClient;
   ltpMap: Partial<Record<Stock, Amount>>;
 }
 
@@ -58,10 +60,16 @@ class Dashboard extends Component<DashboardProps, State> {
     }
   };
 
-  updateSelectedStock = (selectedStock: Stock) => {
-    setTimeout(() => {
-      this.setState({ ...this.state, selectedStock });
-    }, 10);
+  updateSelectedStock = async (selectedStock: Stock) => {
+    if (this.state.selectedStock !== selectedStock) {
+      setTimeout(() => {
+        this.setState({ ...this.state, selectedStock });
+      }, 10);
+      this.setState({
+        ...this.state,
+        selectedStockTickData: await this.state.socket?.getTickData(selectedStock),
+      });
+    }
   };
 
   updateSelectedOrderType = (selectedOrderType: OrderType) => {
@@ -77,9 +85,21 @@ class Dashboard extends Component<DashboardProps, State> {
   }
 
   async componentDidUpdate(prevProps: DashboardProps) {
-    if (this.props.hidden !== prevProps.hidden) {
+    if (this.props.hidden === prevProps.hidden) {
+      return;
+    }
+    if (!this.props.hidden) {
       await this.fetchUserDetails();
-      new SocketClient(this.updateUserDetails.bind(this), this.updateLtp.bind(this));
+      this.setState({
+        ...this.state,
+        socket: new SocketClient(this.updateUserDetails.bind(this), this.updateLtp.bind(this)),
+      });
+    } else {
+      this.state.socket?.disconnect();
+      this.setState({
+        ...this.state,
+        socket: undefined,
+      });
     }
   }
 
