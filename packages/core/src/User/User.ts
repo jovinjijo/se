@@ -13,13 +13,13 @@ export interface IUser {
     orders: OrderStore;
 }
 
-export class User implements IUser {
-    id: ID;
-    name: string;
+export class User {
+    private id: ID;
+    private name: string;
     wallet: Wallet;
     holdings: Holding;
     orders: OrderStore;
-    static nextId: ID = 1;
+    private static nextId: ID = 1;
 
     constructor(name: string, balance: Amount, holdings?: HoldingsData) {
         this.id = User.nextId++;
@@ -28,6 +28,15 @@ export class User implements IUser {
         this.holdings = new Holding(holdings || {});
         this.orders = new OrderStore();
     }
+
+    getId(): ID {
+        return this.id;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
     public placeOrder(
         symbol: Stock,
         type: OrderType,
@@ -96,10 +105,6 @@ export class User implements IUser {
         return true;
     }
 
-    getOrders(): OrderStore {
-        return this.orders;
-    }
-
     /**
      * When an order is updated(fully/partially filled), update Holdings, Wallet and User's OrderStore.
      * Call confirmorder so that the user can see that order has been updated in their orderstore.
@@ -124,7 +129,7 @@ export class User implements IUser {
             this.holdings.releaseHolding({ stock: order.getSymbol(), quantity: settlement.quantity });
             this.wallet.updateMargin(settlement.quantity * settlement.price);
         }
-        Market.getInstance().notification?.notifyOrderUpdate(this, order);
+        Market.getInstance().getNotification()?.notifyOrderUpdate(this, order);
     }
 
     /**
@@ -136,6 +141,6 @@ export class User implements IUser {
         if (order.getOrderType() === OrderType.Buy) {
             this.wallet.updateMargin(-order.getQuantity() * order.getPrice());
         }
-        Market.getInstance().notification?.notifyOrderUpdate(this, order);
+        Market.getInstance().getNotification()?.notifyOrderUpdate(this, order);
     }
 }

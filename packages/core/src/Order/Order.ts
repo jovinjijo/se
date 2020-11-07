@@ -44,16 +44,16 @@ export interface SettlementDetails {
 }
 
 export class Order {
-    id: ID;
-    time: Date;
-    type: OrderType;
-    quantity: Quantity;
-    additionalType: AdditionalOrderType;
-    price: Amount;
-    status: OrderStatus;
-    symbol: Stock;
+    private id: ID;
+    private time: Date;
+    private type: OrderType;
+    private quantity: Quantity;
+    private additionalType: AdditionalOrderType;
+    private price: Amount;
+    private status: OrderStatus;
+    private symbol: Stock;
     user: User;
-    settledBy: SettlementDetails[];
+    private settledBy: SettlementDetails[];
 
     constructor(order: OrderInput) {
         if (order.quantity <= 0) {
@@ -96,6 +96,10 @@ export class Order {
 
     getOrderType(): OrderType {
         return this.type;
+    }
+
+    getAdditionalOrderType(): AdditionalOrderType {
+        return this.additionalType;
     }
 
     getId(): ID {
@@ -163,5 +167,13 @@ export class Order {
         ) {
             this.status = status;
         } else throw new Error(`Status Change from ${this.status} to ${status} not allowed.`);
+    }
+
+    addSettledBy(order: Order, quantity: Quantity, time: Date, price: Amount): void {
+        if (this.status === OrderStatus.Confirmed) {
+            throw new Error("Can't add settledBy to confirmed order");
+        } else {
+            this.settledBy.push({ order, price, quantity, time });
+        }
     }
 }

@@ -1,7 +1,7 @@
 import { Amount } from '../util/Datatypes';
 
 export class Wallet {
-    margin: Amount;
+    private margin: Amount;
 
     constructor(margin: Amount) {
         if (margin >= 0) {

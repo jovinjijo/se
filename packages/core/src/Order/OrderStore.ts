@@ -9,10 +9,10 @@ export interface IOrderStore {
     confirmedOrders: Order[];
 }
 
-export class OrderStore implements IOrderStore {
-    placedBuyOrders: Order[];
-    placedSellOrders: Order[];
-    confirmedOrders: Order[];
+export class OrderStore {
+    protected placedBuyOrders: Order[];
+    protected placedSellOrders: Order[];
+    protected confirmedOrders: Order[];
 
     constructor() {
         this.placedBuyOrders = [];
@@ -53,7 +53,7 @@ export class OrderStore implements IOrderStore {
         ) {
             throw new Error('Order already exists in store');
         }
-        if (order.status === OrderStatus.Confirmed) {
+        if (order.getStatus() === OrderStatus.Confirmed) {
             // For confirmed orders, move to confirmedOrders buffer.
             this.confirmedOrders.push(order);
         } else if (order.getOrderType() === OrderType.Buy) {
@@ -67,5 +67,13 @@ export class OrderStore implements IOrderStore {
         return this.placedSellOrders
             .filter((item) => item.getSymbol() === stock)
             .reduce((acc, item) => acc + item.getQuantityToSettle(), 0);
+    }
+
+    getData(): IOrderStore {
+        return {
+            placedBuyOrders: this.placedBuyOrders,
+            placedSellOrders: this.placedSellOrders,
+            confirmedOrders: this.confirmedOrders,
+        };
     }
 }

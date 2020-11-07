@@ -7,10 +7,10 @@ export type LtpMap = Partial<Record<Stock, Amount>>;
 export type MarketResponse = OperationResponse<StockOrderStore>;
 
 export class Market {
-    static nextOrderId: ID = 1;
-    orderStore: Map<Stock, StockOrderStore>;
-    static instance: Market;
-    notification?: Notification;
+    private static nextOrderId: ID = 1;
+    private orderStore: Map<Stock, StockOrderStore>;
+    private static instance: Market;
+    private notification?: Notification;
 
     private constructor() {
         this.orderStore = new Map<Stock, StockOrderStore>();
@@ -64,6 +64,10 @@ export class Market {
         return this.getOrderStoreForStock(order.symbol).getMarginRequired(order);
     }
 
+    getNotification(): Notification | undefined {
+        return this.notification;
+    }
+
     attachNotification(notification: Notification): void {
         this.notification = notification;
     }
@@ -75,7 +79,7 @@ export class Market {
     getLtpForOrderStores(): LtpMap {
         const ltpMap: LtpMap = {};
         this.orderStore.forEach((orderStore, stock) => {
-            ltpMap[stock] = orderStore.lastTradePrice;
+            ltpMap[stock] = orderStore.getLtp();
         });
         return ltpMap;
     }

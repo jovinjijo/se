@@ -25,7 +25,7 @@ export class NotificationService implements Notification {
     }
 
     notifyOrderUpdate(user: User, order: Order): void {
-        const socket = UserStore.findUserByUsername(user.name)?.socket;
+        const socket = UserStore.findUserByUsername(user.getName())?.socket;
         if (socket) {
             this.socketService.send(socket, 'orderUpdate', {
                 user: UserStore.getUserDetails(user),

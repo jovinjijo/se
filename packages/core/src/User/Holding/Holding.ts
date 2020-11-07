@@ -8,7 +8,7 @@ export interface HoldingItem {
 }
 
 export class Holding {
-    holdings: HoldingsData;
+    private holdings: HoldingsData;
 
     constructor(holdings: HoldingsData) {
         this.holdings = holdings;
