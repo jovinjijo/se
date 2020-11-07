@@ -75,38 +75,40 @@ export class OrderRepository {
     public static getOrderDetails(order: Order): OrderDetails {
         const orderInput: OrderInput = {
             ...{
-                quantity: order.quantity,
-                symbol: order.symbol,
-                type: order.type,
+                quantity: order.getQuantity(),
+                symbol: order.getSymbol(),
+                type: order.getOrderType(),
                 user: order.user,
             },
-            ...(order.additionalType === AdditionalOrderType.Market
+            ...(order.getAdditionalOrderType() === AdditionalOrderType.Market
                 ? { additionalType: AdditionalOrderType.Market }
-                : { additionalType: AdditionalOrderType.Limit, price: order.price }),
+                : { additionalType: AdditionalOrderType.Limit, price: order.getPrice() }),
         };
         const orderDetails: TruncatedOrderDetails = {
             ...{ ...orderInput, user: undefined },
-            id: order.id,
-            time: order.time,
+            id: order.getId(),
+            time: order.getTime(),
         };
-        if (order.status === OrderStatus.Confirmed) {
+        if (order.getStatus() === OrderStatus.Confirmed) {
             return {
                 ...orderDetails,
-                status: order.status,
+                status: OrderStatus.Confirmed,
                 avgSettledPrice: order.getAvgSettledPrice(),
                 settledTime: order.getSettledTime(),
             };
-        } else if (order.status === OrderStatus.PartiallyFilled) {
+        } else if (order.getStatus() === OrderStatus.PartiallyFilled) {
             return {
                 ...orderDetails,
-                status: order.status,
+                status: OrderStatus.PartiallyFilled,
                 quantityFilled: order.getQuantitySettled(),
             };
-        } else {
+        } else if (order.getStatus() === OrderStatus.Placed) {
             return {
                 ...orderDetails,
-                status: order.status,
+                status: OrderStatus.Placed,
             };
+        } else {
+            throw new Error('Invalid Order Status');
         }
     }
 

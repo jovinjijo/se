@@ -74,9 +74,9 @@ export class UserStore {
 
     public static getUserDetails(user: User): UserDetails {
         return {
-            id: user.id,
-            wallet: user.wallet,
-            orders: OrderRepository.getOrderStoreDetails(user.orders),
+            id: user.getId(),
+            wallet: { margin: user.wallet.getMargin() },
+            orders: OrderRepository.getOrderStoreDetails(user.orders.getData()),
             holdings: user.holdings.getHoldings(),
         };
     }

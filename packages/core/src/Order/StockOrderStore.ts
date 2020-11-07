@@ -5,7 +5,7 @@ import { OrderMatcher } from './OrderMatcher';
 import { Market } from '../Market/Market';
 
 export class StockOrderStore extends OrderStore {
-    lastTradePrice: Amount;
+    private lastTradePrice: Amount;
 
     constructor(lastTradePrice?: Amount) {
         super();
@@ -60,10 +60,16 @@ export class StockOrderStore extends OrderStore {
      */
     private static sortOrders(orders: Order[], priceSortOrder: SortOrder): Order[] {
         orders.sort((a, b) => {
-            if (a.additionalType === AdditionalOrderType.Market && b.additionalType === AdditionalOrderType.Limit) {
+            if (
+                a.getAdditionalOrderType() === AdditionalOrderType.Market &&
+                b.getAdditionalOrderType() === AdditionalOrderType.Limit
+            ) {
                 return -1;
             }
-            if (a.additionalType === AdditionalOrderType.Limit && b.additionalType === AdditionalOrderType.Market) {
+            if (
+                a.getAdditionalOrderType() === AdditionalOrderType.Limit &&
+                b.getAdditionalOrderType() === AdditionalOrderType.Market
+            ) {
                 return 1;
             }
             return 0;
@@ -120,11 +126,9 @@ export class StockOrderStore extends OrderStore {
         const sellLatestSettlement = sell.getLatestSettlement();
         if (this.lastTradePrice !== sellLatestSettlement.price) {
             this.lastTradePrice = sellLatestSettlement.price;
-            Market.getInstance().notification?.notifyLtpUpdate(
-                sell.getSymbol(),
-                this.lastTradePrice,
-                sellLatestSettlement.time,
-            );
+            Market.getInstance()
+                .getNotification()
+                ?.notifyLtpUpdate(sell.getSymbol(), this.lastTradePrice, sellLatestSettlement.time);
         }
 
         if (buyQuantity > sellQuantity) {
@@ -147,5 +151,9 @@ export class StockOrderStore extends OrderStore {
             // TODO : Better algorithm return the price required to settle order.quantity quantity using this.placedSellOrders
             return this.lastTradePrice * order.quantity;
         }
+    }
+
+    getLtp(): Amount {
+        return this.lastTradePrice;
     }
 }
