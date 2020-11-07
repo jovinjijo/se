@@ -14,13 +14,22 @@ I started out just to try out a TypeScript project and implemented the core logi
 
 ### @se/api
 
-After that I started making the API(@se/api), which is still WIP. I'm using Express.js for the API and Socket.io for live updates for users.
+@se/api uses the core library and provides the API which is used by the @se/ui for fetching data. This is build on Express.js and Socket.io.
+
+> Check the [docs folder](packages/api/docs/se_api.postman_collection.json) for the postman collection.
+
+### @se/ui
+
+This is created on React with Socket.io for sockets, Material-UI for UI components and ApexCharts.js for charting.
+
+> Check the GitPod link for a working demo.
 
 ## What's in Scope
 
 - Order matching
 - Order placing
-- Tracking users' orders
+- Tracking users' orders, holdings and funds
+- Charting prices
 
 ## What's not in Scope
 
@@ -46,7 +55,6 @@ yarn start
 
 ## To-do
 
-- UI
 - Persistence
 - Different types of orders (Limit and Market are supported as of now; support for Stop loss, Cover Orders, Bracket Orders)
 - Cancelling orders
