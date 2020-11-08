@@ -7,3 +7,4 @@ export { OperationResponseStatus, OperationResponse } from './src/util/Datatypes
 export { Market, LtpMap } from './src/Market/Market';
 export { IOrderStore } from './src/Order/OrderStore';
 export { Wallet } from './src/User/Wallet';
+export { TradeTick } from './src/Order/TickDataStore';

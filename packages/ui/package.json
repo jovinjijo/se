@@ -8,9 +8,10 @@
     "@material-ui/data-grid": "^4.0.0-alpha.6",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
+    "lightweight-charts": "^3.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "socket.io-client": "^2.3.1"
+    "socket.io-client": "^3.0.0"
   },
   "devDependencies": {
     "@se/api": "^1.0.0",

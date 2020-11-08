@@ -2,7 +2,8 @@ import { SocketServer } from '../util/SocketServer';
 import { Server } from 'http';
 import { Socket } from 'socket.io';
 import { UserStore } from '../models/User';
-import { Market } from '@se/core';
+import { Market, Stock, TradeTick } from '@se/core';
+import { TickData } from '../models/TickData';
 
 export class SocketService extends SocketServer {
     constructor(server: Server) {
@@ -16,6 +17,14 @@ export class SocketService extends SocketServer {
             } else {
                 const username = socket.handshake.session.userId;
                 if (username) {
+                    socket.on('message', (type: string, stock: Stock, send: (tickData: TradeTick[]) => void) => {
+                        switch (type) {
+                            case 'tickData':
+                                send(TickData.getTickDataForSymbol(stock));
+                                break;
+                        }
+                    });
+
                     UserStore.setSocketForUser(username, socket);
                     socket.emit('ltpMap', Market.getInstance().getLtpForOrderStores());
                 }

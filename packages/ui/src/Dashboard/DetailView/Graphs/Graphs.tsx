@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { createStyles, Grid, withStyles } from '@material-ui/core';
+import { Stock, TradeTick } from '@se/core';
+import Chart from './Chart';
 
 const styles = () => createStyles({});
 
-class Graphs extends Component {
+export interface GraphProps {
+  selectedStockTickData?: TradeTick[];
+  selectedStock?: Stock;
+}
+class Graphs extends Component<GraphProps> {
   render() {
     return (
       <Grid container direction="column" style={{ height: '100%' }}>
-        <Grid item style={{ height: '60%' }}>
-          <div>Graphs</div>
+        <Grid item>
+          <Chart {...this.props} />
         </Grid>
       </Grid>
     );

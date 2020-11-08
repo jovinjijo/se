@@ -3,13 +3,19 @@ import { Amount, SortOrder } from '../util/Datatypes';
 import { OrderStore } from './OrderStore';
 import { OrderMatcher } from './OrderMatcher';
 import { Market } from '../Market/Market';
+import { TickDataStore } from './TickDataStore';
 
 export class StockOrderStore extends OrderStore {
     private lastTradePrice: Amount;
+    tickStore: TickDataStore;
 
     constructor(lastTradePrice?: Amount) {
         super();
         this.lastTradePrice = lastTradePrice || 0;
+        this.tickStore = new TickDataStore();
+        if (lastTradePrice) {
+            this.tickStore.addTick(new Date(), lastTradePrice, 0);
+        }
     }
 
     /**
@@ -129,6 +135,11 @@ export class StockOrderStore extends OrderStore {
             Market.getInstance()
                 .getNotification()
                 ?.notifyLtpUpdate(sell.getSymbol(), this.lastTradePrice, sellLatestSettlement.time);
+            this.tickStore.addTick(
+                sellLatestSettlement.time,
+                sellLatestSettlement.price,
+                sellLatestSettlement.quantity,
+            );
         }
 
         if (buyQuantity > sellQuantity) {
