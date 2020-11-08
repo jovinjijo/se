@@ -4,14 +4,15 @@ import ActionsDetails from './ActionsDetails/ActionsDetails';
 import Graphs from './Graphs/Graphs';
 import { UserStoreItemDetails } from '@se/api';
 import { AppProps } from '../../App';
-import { OrderType, Stock } from '@se/core';
+import { OrderType, Stock, TradeTick } from '@se/core';
 
 const styles = () => createStyles({});
 
-export interface DetailViewProps extends WithStyles<typeof styles>, AppProps {
+interface DetailViewProps extends WithStyles<typeof styles>, AppProps {
   user: UserStoreItemDetails;
   selectedStock?: Stock;
   selectedOrderType: OrderType;
+  selectedStockTickData?: TradeTick[];
   fetchUserDetails: () => void;
   updateSelectedStock: (selectedStock: Stock) => void;
   updateSelectedOrderType: (selectedOrderType: OrderType) => void;
@@ -27,7 +28,7 @@ class DetailView extends Component<DetailViewProps> {
     return (
       <Grid container direction="column" style={{ height: '100%' }}>
         <Grid item style={{ height: '50%' }}>
-          <Graphs />
+          <Graphs {...this.props} />
         </Grid>
         <Grid item>
           <Divider />

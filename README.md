@@ -20,7 +20,7 @@ I started out just to try out a TypeScript project and implemented the core logi
 
 ### @se/ui
 
-This is created on React with Socket.io for sockets, Material-UI for UI components and ApexCharts.js for charting.
+This is created on React with [Socket.io](https://socket.io/) for sockets, [Material-UI](https://material-ui.com/) for UI components and [Lightweight Charts](https://www.tradingview.com/lightweight-charts/) by TradingView for charting.
 
 > Check the GitPod link for a working demo.
 

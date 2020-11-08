@@ -16,8 +16,17 @@ interface DashboardProps extends WithStyles<typeof styles>, AppProps {
   hidden: boolean;
 }
 
+// interface SelectedStockInfo {
+//   stock?: Stock;
+//   orderType: OrderType;
+//   quantity?: Quantity;
+//   tickData?: TradeTick[];
+// }
+
 interface State {
   user: UserStoreItemDetails;
+  // TODO : Too many items for maintaining 'selected' things. use another object for this.
+  // selectedStock: SelectedStockInfo;
   selectedStock?: Stock;
   selectedStockTickData?: TradeTick[];
   selectedOrderType: OrderType;
@@ -105,7 +114,7 @@ class Dashboard extends Component<DashboardProps, State> {
 
   render() {
     const { hidden } = this.props;
-    const { user, selectedOrderType, selectedStock, ltpMap } = this.state;
+    const { user, selectedOrderType, selectedStock, ltpMap, selectedStockTickData } = this.state;
     const { updateSelectedStock, updateSelectedOrderType, fetchUserDetails } = this;
     return (
       <Zoom in={!hidden} style={{ height: '100vh' }}>
@@ -130,6 +139,7 @@ class Dashboard extends Component<DashboardProps, State> {
                     selectedStock,
                     updateSelectedStock,
                     updateSelectedOrderType,
+                    selectedStockTickData,
                     fetchUserDetails,
                     ...this.props,
                   }}
