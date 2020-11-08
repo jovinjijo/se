@@ -1,14 +1,17 @@
 import { UserDetails, OrderUpdate, LtpUpdate } from '@se/api';
-import { LtpMap, Stock, TradeTick } from '@se/core';
+import { LtpMap, Quantity, Stock, TradeTick } from '@se/core';
 import io from 'socket.io-client';
 
 export class SocketClient {
   private socket: SocketIOClient.Socket;
 
-  constructor(updateUserDetails: (user: Partial<UserDetails>) => void, updateLtp: (ltpMap: LtpMap) => void) {
+  constructor(
+    updateUserDetails: (user: Partial<UserDetails>) => void,
+    updateLtp: (ltpMap: LtpMap, time?: Date, quantity?: Quantity) => void,
+  ) {
     this.socket = io();
     this.socket.on('ltpUpdate', (ltpUpdate: LtpUpdate) => {
-      updateLtp({ [ltpUpdate.stock]: ltpUpdate.lastTradePrice });
+      updateLtp({ [ltpUpdate.stock]: ltpUpdate.lastTradePrice }, ltpUpdate.time, ltpUpdate.quantity);
     });
     this.socket.on('orderUpdate', (orderUpdate: OrderUpdate) => {
       updateUserDetails(orderUpdate.user);

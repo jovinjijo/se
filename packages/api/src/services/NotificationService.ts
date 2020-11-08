@@ -1,4 +1,4 @@
-import { Amount, Notification, Order, Stock, User } from '@se/core';
+import { Amount, Notification, Order, Quantity, Stock, User } from '@se/core';
 import { OrderDetails, OrderRepository } from '../models/Order';
 import { UserDetails, UserStore } from '../models/User';
 import { SocketService } from './SocketService';
@@ -7,6 +7,7 @@ export interface LtpUpdate {
     stock: Stock;
     lastTradePrice: Amount;
     time: Date;
+    quantity: Quantity;
 }
 
 export interface OrderUpdate {
@@ -20,8 +21,8 @@ export class NotificationService implements Notification {
         this.socketService = socketService;
     }
 
-    notifyLtpUpdate(stock: Stock, lastTradePrice: Amount, time: Date): void {
-        this.socketService.broadcast('ltpUpdate', { stock, lastTradePrice, time });
+    notifyLtpUpdate(stock: Stock, lastTradePrice: Amount, time: Date, quantity: Quantity): void {
+        this.socketService.broadcast('ltpUpdate', { stock, lastTradePrice, time, quantity });
     }
 
     notifyOrderUpdate(user: User, order: Order): void {
