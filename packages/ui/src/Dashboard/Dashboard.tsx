@@ -6,7 +6,7 @@ import ListOfStocks from './ListOfStocks/ListOfStocks';
 import DetailView from './DetailView/DetailView';
 import { UserDetails, UserStoreItemDetails } from '@se/api';
 import { apiCall, getErrorMessage } from '../utils/Util';
-import { Stock, OrderType, LtpMap, Amount, TradeTick } from '@se/core';
+import { Stock, OrderType, LtpMap, Amount, TradeTick, Quantity } from '@se/core';
 import { SocketClient } from '../utils/SocketClient';
 import { UserResponse } from '@se/api';
 
@@ -85,8 +85,25 @@ class Dashboard extends Component<DashboardProps, State> {
     this.setState({ ...this.state, selectedOrderType });
   };
 
-  updateLtp(ltpMap: LtpMap): void {
+  updateLtp(ltpMap: LtpMap, time?: Date, quantity?: Quantity): void {
     this.setState({ ...this.state, ltpMap: { ...this.state.ltpMap, ...ltpMap } });
+
+    if (time && quantity && this.state.selectedStock && ltpMap[this.state.selectedStock]) {
+      const tickData = this.state.selectedStockTickData;
+      if (
+        this.state.selectedStockTickData &&
+        tickData &&
+        (tickData.length === 0 || (tickData.length > 0 && tickData[tickData.length - 1].time <= time))
+      ) {
+        this.setState({
+          ...this.state,
+          selectedStockTickData: [
+            ...this.state.selectedStockTickData,
+            { time, price: ltpMap[this.state.selectedStock] as Amount, quantity },
+          ],
+        });
+      }
+    }
   }
 
   updateUserDetails(user: Partial<UserDetails>): void {

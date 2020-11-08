@@ -130,11 +130,19 @@ export class StockOrderStore extends OrderStore {
         }
 
         const sellLatestSettlement = sell.getLatestSettlement();
+        //TODO : Issue -> For same LTP if multiple orders are settled, notifyLtpUpdate and addTick will be done only for the time when LTP changed.
+        // Problem with that is, quantity/volume which is notified in notifyLtpUpdate and addTick would be inaccurate and would be only for the order when LTP changed.
+        // notifyLtpUpdate and addTick won't be called for subsequent orders, where LTP remains the same.
         if (this.lastTradePrice !== sellLatestSettlement.price) {
             this.lastTradePrice = sellLatestSettlement.price;
             Market.getInstance()
                 .getNotification()
-                ?.notifyLtpUpdate(sell.getSymbol(), this.lastTradePrice, sellLatestSettlement.time);
+                ?.notifyLtpUpdate(
+                    sell.getSymbol(),
+                    this.lastTradePrice,
+                    sellLatestSettlement.time,
+                    sellLatestSettlement.quantity,
+                );
             this.tickStore.addTick(
                 sellLatestSettlement.time,
                 sellLatestSettlement.price,
