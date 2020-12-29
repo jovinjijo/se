@@ -2584,7 +2584,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/core@npm:^4.11.2":
+"@material-ui/core@npm:^4.11.0":
   version: 4.11.2
   resolution: "@material-ui/core@npm:4.11.2"
   dependencies:
@@ -2611,7 +2611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/data-grid@npm:^4.0.0-alpha.13":
+"@material-ui/data-grid@npm:^4.0.0-alpha.6":
   version: 4.0.0-alpha.13
   resolution: "@material-ui/data-grid@npm:4.0.0-alpha.13"
   dependencies:
@@ -2626,7 +2626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/icons@npm:^4.11.2":
+"@material-ui/icons@npm:^4.9.1":
   version: 4.11.2
   resolution: "@material-ui/icons@npm:4.11.2"
   dependencies:
@@ -2643,7 +2643,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/lab@npm:^4.0.0-alpha.57":
+"@material-ui/lab@npm:^4.0.0-alpha.56":
   version: 4.0.0-alpha.57
   resolution: "@material-ui/lab@npm:4.0.0-alpha.57"
   dependencies:
@@ -3012,35 +3012,36 @@ __metadata:
   dependencies:
     "@se/core": ^1.0.0
     "@types/bcrypt": ^3.0.0
+    "@types/body-parser": ^1.19.0
     "@types/compression": ^1.7.0
-    "@types/express": ^4.17.9
-    "@types/express-session": ^1.17.3
-    "@types/express-socket.io-session": ^1.3.4
-    "@types/jest": ^26.0.19
+    "@types/express": ^4.17.8
+    "@types/express-session": ^1.17.0
+    "@types/express-socket.io-session": ^1.3.2
+    "@types/jest": ^26.0.15
     "@types/method-override": ^0.0.31
     "@types/newman": ^5.1.1
-    "@types/socket.io": ^2.1.12
-    "@typescript-eslint/eslint-plugin": ^4.11.1
-    "@typescript-eslint/parser": ^4.11.1
+    "@types/socket.io": ^2.1.11
+    "@typescript-eslint/eslint-plugin": ^4.5.0
+    "@typescript-eslint/parser": ^4.5.0
     bcrypt: ^5.0.0
     body-parser: ^1.19.0
     compression: ^1.7.4
-    eslint: ^7.16.0
-    eslint-config-prettier: ^7.1.0
+    eslint: ^7.12.0
+    eslint-config-prettier: ^6.14.0
     eslint-plugin-import: ^2.22.1
-    eslint-plugin-prettier: ^3.3.0
+    eslint-plugin-prettier: ^3.1.4
     express: ^4.17.1
     express-session: ^1.17.1
     express-socket.io-session: ^1.3.5
-    express-validator: ^6.9.0
-    jest: ^26.6.3
-    lint-staged: ^10.5.3
+    express-validator: ^6.6.1
+    jest: ^26.6.1
+    lint-staged: ^10.4.2
     method-override: ^3.0.0
-    newman: ^5.2.1
+    newman: ^5.2.0
     nodemon: ^2.0.6
-    prettier: ^2.2.1
-    socket.io: ^3.0.4
-    typescript: ^4.1.3
+    prettier: ^2.1.2
+    socket.io: ^3.0.0
+    typescript: ^4.0.3
   languageName: unknown
   linkType: soft
 
@@ -3048,17 +3049,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@se/core@workspace:packages/core"
   dependencies:
-    "@types/jest": ^26.0.19
-    "@typescript-eslint/eslint-plugin": ^4.11.1
-    "@typescript-eslint/parser": ^4.11.1
-    eslint: ^7.16.0
-    eslint-config-prettier: ^7.1.0
+    "@types/jest": ^26.0.15
+    "@typescript-eslint/eslint-plugin": ^4.5.0
+    "@typescript-eslint/parser": ^4.5.0
+    eslint: ^7.12.0
+    eslint-config-prettier: ^6.14.0
     eslint-plugin-import: ^2.22.1
-    eslint-plugin-prettier: ^3.3.0
-    jest: ^26.6.3
-    lint-staged: ^10.5.3
-    prettier: ^2.2.1
-    typescript: ^4.1.3
+    eslint-plugin-prettier: ^3.1.4
+    jest: ^26.6.1
+    lint-staged: ^10.4.2
+    prettier: ^2.1.2
+    typescript: ^4.0.3
   languageName: unknown
   linkType: soft
 
@@ -3066,39 +3067,39 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@se/ui@workspace:packages/ui"
   dependencies:
-    "@material-ui/core": ^4.11.2
-    "@material-ui/data-grid": ^4.0.0-alpha.13
-    "@material-ui/icons": ^4.11.2
-    "@material-ui/lab": ^4.0.0-alpha.57
+    "@material-ui/core": ^4.11.0
+    "@material-ui/data-grid": ^4.0.0-alpha.6
+    "@material-ui/icons": ^4.9.1
+    "@material-ui/lab": ^4.0.0-alpha.56
     "@se/api": ^1.0.0
     "@se/core": ^1.0.0
-    "@types/express": ^4.17.9
+    "@types/express": ^4.17.8
     "@types/http-proxy-middleware": ^0.19.3
-    "@types/node": ^14.14.16
+    "@types/node": ^12.0.0
     "@types/parcel-bundler": ^1.12.1
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
+    "@types/react": ^16.9.53
+    "@types/react-dom": ^16.9.8
     "@types/socket.io-client": ^1.4.34
-    "@typescript-eslint/eslint-plugin": ^4.11.1
-    "@typescript-eslint/parser": ^4.11.1
-    cross-env: ^7.0.3
-    eslint: ^7.16.0
-    eslint-config-prettier: ^7.1.0
-    eslint-plugin-prettier: ^3.3.0
+    "@typescript-eslint/eslint-plugin": ^4.5.0
+    "@typescript-eslint/parser": ^4.5.0
+    cross-env: ^7.0.2
+    eslint: ^7.12.0
+    eslint-config-prettier: ^6.14.0
+    eslint-plugin-prettier: ^3.1.4
     eslint-plugin-react: ^7.21.5
     express: ^4.17.1
     http-proxy-middleware: ^1.0.6
-    lightweight-charts: ^3.2.0
-    lint-staged: ^10.5.3
+    lightweight-charts: ^3.1.5
+    lint-staged: ^10.4.2
     parcel-bundler: ^1.12.4
-    prettier: ^2.2.1
+    prettier: ^2.1.2
     react: ^17.0.1
     react-dom: ^17.0.1
     rimraf: ^3.0.2
-    socket.io-client: ^3.0.4
-    ts-node: ^9.1.1
-    typescript: ^4.1.3
-    web-vitals: ^1.0.1
+    socket.io-client: ^3.0.0
+    ts-node: ^9.0.0
+    typescript: ^4.0.3
+    web-vitals: ^0.2.4
   languageName: unknown
   linkType: soft
 
@@ -3184,7 +3185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/body-parser@npm:*":
+"@types/body-parser@npm:*, @types/body-parser@npm:^1.19.0":
   version: 1.19.0
   resolution: "@types/body-parser@npm:1.19.0"
   dependencies:
@@ -3253,7 +3254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-session@npm:*, @types/express-session@npm:^1.17.3":
+"@types/express-session@npm:*, @types/express-session@npm:^1.17.0":
   version: 1.17.3
   resolution: "@types/express-session@npm:1.17.3"
   dependencies:
@@ -3262,7 +3263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-socket.io-session@npm:^1.3.4":
+"@types/express-socket.io-session@npm:^1.3.2":
   version: 1.3.4
   resolution: "@types/express-socket.io-session@npm:1.3.4"
   dependencies:
@@ -3285,7 +3286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:^4.17.9":
+"@types/express@npm:^4.17.8":
   version: 4.17.9
   resolution: "@types/express@npm:4.17.9"
   dependencies:
@@ -3361,7 +3362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.19":
+"@types/jest@npm:^26.0.15":
   version: 26.0.19
   resolution: "@types/jest@npm:26.0.19"
   dependencies:
@@ -3440,7 +3441,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.14.16, @types/node@npm:^14.14.7":
+"@types/node@npm:^12.0.0":
+  version: 12.19.11
+  resolution: "@types/node@npm:12.19.11"
+  checksum: 2c42159419adafb03179f89ac22770b74350b0e904a6e52ac9a3d4734fcc81c6b7d183573fbffe10f450c8926837b7fd66951ae1ddfda2d6c25669511e7785c8
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.7":
   version: 14.14.16
   resolution: "@types/node@npm:14.14.16"
   checksum: 220a7496ec73861ad7fb4ae762618bb46ac9d5d5f92f3a2fcebfd1a81a509ff558eface7bcd1d632598a8a28f856a74b324e7165918e8334a59c221cb06d15e3
@@ -3514,12 +3522,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@types/react-dom@npm:17.0.0"
+"@types/react-dom@npm:^16.9.8":
+  version: 16.9.10
+  resolution: "@types/react-dom@npm:16.9.10"
   dependencies:
-    "@types/react": "*"
-  checksum: 7ca9351b6c2523327cd7afe40082a37034898f65e9d86700236682efed910ba7c9cec10e9a3b829aa7b804b18791a28743ce468fcb42e9a788bfc33b84137e45
+    "@types/react": ^16
+  checksum: 910dd9894ba67438f8c80e71dc4f2ef1c15e2d62145309679dc3b2c0a6f2c4e5a611566a15174e4a7891f9fb6149f21a0a393488716665ff20f10b1181745964
   languageName: node
   linkType: hard
 
@@ -3551,13 +3559,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@types/react@npm:17.0.0"
+"@types/react@npm:^16, @types/react@npm:^16.9.53":
+  version: 16.14.2
+  resolution: "@types/react@npm:16.14.2"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: dcef2034b822a949c5528fa8fa3c64da654fdbb822bd8f0488c0084d84cadb8b90af68813a6c95153d4754079f50b1cab206552c7c20f6b67a26c3641383fe31
+  checksum: 41d227d4e9a45b1ad6d80c9b0fe9af003d95d03a0f2f2495a537c36d69541439fcff67edcef241e88c8ab7257377dbe8737d013d3f9b9503b76174165083f7b6
   languageName: node
   linkType: hard
 
@@ -3606,7 +3614,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/socket.io@npm:^2.1.12":
+"@types/socket.io@npm:^2.1.11":
   version: 2.1.12
   resolution: "@types/socket.io@npm:2.1.12"
   dependencies:
@@ -3640,7 +3648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.11.1":
+"@typescript-eslint/eslint-plugin@npm:^4.5.0":
   version: 4.11.1
   resolution: "@typescript-eslint/eslint-plugin@npm:4.11.1"
   dependencies:
@@ -3677,7 +3685,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.11.1":
+"@typescript-eslint/parser@npm:^4.5.0":
   version: 4.11.1
   resolution: "@typescript-eslint/parser@npm:4.11.1"
   dependencies:
@@ -4421,7 +4429,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-types@npm:^6.15.0":
+"babel-types@npm:*, babel-types@npm:^6.15.0":
   version: 6.26.0
   resolution: "babel-types@npm:6.26.0"
   dependencies:
@@ -5979,7 +5987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.3":
+"cross-env@npm:^7.0.2":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -7191,14 +7199,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "eslint-config-prettier@npm:7.1.0"
+"eslint-config-prettier@npm:^6.14.0":
+  version: 6.15.0
+  resolution: "eslint-config-prettier@npm:6.15.0"
+  dependencies:
+    get-stdin: ^6.0.0
   peerDependencies:
-    eslint: ">=7.0.0"
+    eslint: ">=3.14.1"
   bin:
-    eslint-config-prettier: bin/cli.js
-  checksum: 968a1166c3c14ac769b5bd30192dfc81f02319e565a907f1299ae1322eccf836ebaab5a7ebdb5ceefc35b65f5c9d781e5bb92a72bf299d2dde4353b5a828a0f3
+    eslint-config-prettier-check: bin/cli.js
+  checksum: a790bc61699e43a2edc5453488576cd977fad3b3cf99c129c10760ce6970d422923fddf80b65b2b10a93c00af0180a854e4b7824cc268e5957826cbe5b969e90
   languageName: node
   linkType: hard
 
@@ -7245,7 +7255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.3.0":
+"eslint-plugin-prettier@npm:^3.1.4":
   version: 3.3.0
   resolution: "eslint-plugin-prettier@npm:3.3.0"
   dependencies:
@@ -7314,7 +7324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.16.0":
+"eslint@npm:^7.12.0":
   version: 7.16.0
   resolution: "eslint@npm:7.16.0"
   dependencies:
@@ -7600,7 +7610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-validator@npm:^6.9.0":
+"express-validator@npm:^6.6.1":
   version: 6.9.0
   resolution: "express-validator@npm:6.9.0"
   dependencies:
@@ -8279,6 +8289,13 @@ fsevents@^1.2.7:
   version: 4.0.1
   resolution: "get-stdin@npm:4.0.1"
   checksum: ba122b05691e29aa1c93f9dfe76671c23b311e5f299c4205c030c00a656045fcf56d2bb5a924b6cd576f278563643b6689b50aa54fc87abcdc2e6e8eda09920e
+  languageName: node
+  linkType: hard
+
+"get-stdin@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "get-stdin@npm:6.0.0"
+  checksum: b51d664838aef7f8353dc57371ce59cea54d8d584fec015a9d89d24561e95b97806d5b5ba120bc81574c9ed63cb3e210176ffa0ff9263c7e7ba4d56d0fe54913
   languageName: node
   linkType: hard
 
@@ -8982,7 +8999,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"husky@npm:^4.3.6":
+"husky@npm:^4.3.0":
   version: 4.3.6
   resolution: "husky@npm:4.3.6"
   dependencies:
@@ -10327,7 +10344,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jest@npm:^26.6.3":
+"jest@npm:^26.6.1":
   version: 26.6.3
   resolution: "jest@npm:26.6.3"
   dependencies:
@@ -10787,7 +10804,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lightweight-charts@npm:^3.2.0":
+"lightweight-charts@npm:^3.1.5":
   version: 3.2.0
   resolution: "lightweight-charts@npm:3.2.0"
   dependencies:
@@ -10803,7 +10820,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^10.5.3":
+"lint-staged@npm:^10.4.2":
   version: 10.5.3
   resolution: "lint-staged@npm:10.5.3"
   dependencies:
@@ -11798,7 +11815,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"newman@npm:^5.2.1":
+"newman@npm:^5.2.0":
   version: 5.2.1
   resolution: "newman@npm:5.2.1"
   dependencies:
@@ -13766,7 +13783,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.2.1":
+"prettier@npm:^2.1.2":
   version: 2.2.1
   resolution: "prettier@npm:2.2.1"
   bin:
@@ -14958,8 +14975,8 @@ fsevents@^1.2.7:
   dependencies:
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
-    cross-env: ^7.0.3
-    husky: ^4.3.6
+    cross-env: ^7.0.2
+    husky: ^4.3.0
     lerna: ^3.22.1
   languageName: unknown
   linkType: soft
@@ -15300,7 +15317,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"socket.io-client@npm:^3.0.4":
+"socket.io-client@npm:^3.0.0":
   version: 3.0.4
   resolution: "socket.io-client@npm:3.0.4"
   dependencies:
@@ -15326,7 +15343,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"socket.io@npm:^3.0.4":
+"socket.io@npm:^3.0.0":
   version: 3.0.4
   resolution: "socket.io@npm:3.0.4"
   dependencies:
@@ -16411,7 +16428,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^9.1.1":
+"ts-node@npm:^9.0.0":
   version: 9.1.1
   resolution: "ts-node@npm:9.1.1"
   dependencies:
@@ -16578,7 +16595,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-typescript@^4.1.3:
+typescript@^4.0.3:
   version: 4.1.3
   resolution: "typescript@npm:4.1.3"
   bin:
@@ -16588,7 +16605,7 @@ typescript@^4.1.3:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.1.3#builtin<compat/typescript>":
+"typescript@patch:typescript@^4.0.3#builtin<compat/typescript>":
   version: 4.1.3
   resolution: "typescript@patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=cc6730"
   bin:
@@ -17100,10 +17117,10 @@ typescript@^4.1.3:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "web-vitals@npm:1.0.1"
-  checksum: 2c6de484c233b45f267b75ae81daab614e61ea1d8ece57c4bde373d71be919993248f4d203d9f49618971c48857ba4988e7a37cc5337708c6329e5651fc2aaa8
+"web-vitals@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "web-vitals@npm:0.2.4"
+  checksum: f7565075a9a57428656d848ba48fd85dfebe6af1a82c77f947b5112838b6e14d0d76768f438e6b25cef3fb57f8d5b3595b0bbc20e2c9bdf9761fd0a2c138ca61
   languageName: node
   linkType: hard
 

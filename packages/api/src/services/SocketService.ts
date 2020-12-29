@@ -12,10 +12,11 @@ export class SocketService extends SocketServer {
 
     static onNewConnection(socket: Socket): void {
         try {
-            if (!socket.handshake.session) {
+            const session = (socket.handshake as any).session;
+            if (!session) {
                 throw new Error('User not logged in');
             } else {
-                const username = socket.handshake.session.userId;
+                const username = session.userId;
                 if (username) {
                     socket.on('message', (type: string, stock: Stock, send: (tickData: TradeTick[]) => void) => {
                         switch (type) {

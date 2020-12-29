@@ -6,8 +6,9 @@ import { Req, Res, NextFn } from '../util/Datatypes';
  * Used to fill req.user filled everytime a request is made.
  */
 function fillUserData(req: Req, res: Response, next: NextFn): void {
-    if (req.session?.userId) {
-        const user = UserStore.findUserByUsername(req.session.userId);
+    const userId = (req.session as any).userId;
+    if (userId) {
+        const user = UserStore.findUserByUsername(userId);
         if (user) {
             req.user = user;
         }
@@ -34,7 +35,7 @@ async function authenticate(req: Req, res: Res, next: NextFn): Promise<void> {
     try {
         const user = await UserStore.findUserByUsernameAndAuthenticate(username, password);
         if (req.session) {
-            req.session.userId = user.username;
+            (req.session as any).userId = user.username;
         }
         return next();
     } catch (ex) {

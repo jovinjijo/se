@@ -7,7 +7,7 @@ export class SocketServer {
     private socket: SocketIO.Server;
 
     constructor(server: Server, onNewConnection?: (socket: Socket) => void) {
-        this.socket = io(server);
+        this.socket = (io as any)(server);
         this.socket.use(sharedSession(session, { autoSave: true }));
         this.socket.on('connection', (socket: Socket) => {
             if (onNewConnection) onNewConnection(socket);

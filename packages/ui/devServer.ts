@@ -11,7 +11,7 @@ const PORT = 3000;
 
 app.use(
   ['/v1/**', '/socket.io/**'],
-  createProxyMiddleware({
+  (createProxyMiddleware as any)({
     target: 'http://localhost:3001',
   }),
 );
