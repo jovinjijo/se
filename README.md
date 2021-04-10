@@ -2,6 +2,8 @@
 
 # Stock Exchange
 
+![Demo](./assets/se_buy_sell.gif)
+
 This is a very simplified implementation of how a stock exchange works. I have no financial background, so I'm open to suggestions on logic used, variable/class names. Feel free to point out any mistakes.
 
 I started out just to try out a TypeScript project and implemented the core logic which is now contained in the @se/core package (yes, this is a monorepo).
@@ -51,7 +53,7 @@ yarn run build-watch
 yarn start
 ```
 
-> Open [this](packages/api/docs/se_api.postman_collection.json) in [Postman](https://www.postman.com/)
+> Open [this](packages/api/docs/se_api.postman_collection.json) in [Postman](https://www.postman.com/) for APIs
 
 ## To-do
 
